@@ -154,7 +154,7 @@ bot.on("messageCreate", msg => {
     else {
         prefix = settings.get("prefix");
     }
-    if (msg.mentions.length > 0 && msg.mentions[0].id === bot.user.id) {
+    if (settings.get("mentionAsPrefix") && msg.mentions.length > 0 && msg.mentions[0].id === bot.user.id) {
         let firstContent = msg.content.split(" ")[0];
         if ([`<@${bot.user.id}>`, `<@!${bot.user.id}>`].includes(firstContent)) {
             prefix = `${firstContent} `;
