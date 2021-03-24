@@ -174,3 +174,5 @@ bot.on("messageCreate", msg => {
         msg.channel.createMessage(`Prefix: \`${prefix}\` | Command: \`${cmd}\` | Body: \`${body}\``)
     }
 });
+
+bot.connect();
