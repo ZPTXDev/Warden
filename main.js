@@ -170,7 +170,7 @@ bot.on("messageCreate", msg => {
             }
         }
         let cmd = content.split(" ")[0];
-        let body = content.split(" ").slice(1);
+        let body = content.split(" ").slice(1).join(" ");
         msg.channel.createMessage(`Prefix: \`${prefix}\` | Command: \`${cmd}\` | Body: \`${body}\``)
     }
 });
