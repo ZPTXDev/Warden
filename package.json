@@ -1,0 +1,9 @@
+{
+  "name": "warden",
+  "version": "1.0.0",
+  "dependencies": {
+    "data-store": "^4.0.3",
+    "eris": "^0.14.0",
+    "mysql2": "^2.2.5"
+  }
+}
