@@ -123,11 +123,9 @@ fs.readdir("modules", {withFileTypes: true}, (err, files) => {
         }
         console.log(`[^] Loading module '${f.name}' (${i+1}/${files.length})`);
         modules[f.name] = {};
-        fs.readdir(`modules/${f.name}`, {withFileTypes: true}, (err, subfiles) => {
-            if (err) {
-                console.log(`[!] Unable to read module '${f.name}'`);
-            }
-            else if (subfiles.length === 0) {
+        try {
+            let subfiles = fs.readdirSync(`modules/${f.name}`, {withFileTypes: true});
+            if (subfiles.length === 0) {
                 console.log(`[!] No actions found in '${f.name}'`);
             }
             else {
@@ -150,7 +148,11 @@ fs.readdir("modules", {withFileTypes: true}, (err, files) => {
                     console.log(`[✓] Loaded action '${sf.name}'`);
                 });
             }
-        });
+            subfiles = null;
+        }
+        catch (err) {
+            console.log(`[!] Unable to read module '${f.name}'`);
+        }
         console.log(`[✓] Loaded module '${f.name}'`);
     });
 });
