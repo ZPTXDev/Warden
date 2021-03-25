@@ -178,12 +178,16 @@ bot.on("connect", id => {
 
 bot.on("error", (err, id) => {
     console.log(`[^] Shard ${id} encountered an error (detailed error below)`);
-    console.log(err);
+    if (err) {
+        console.log(err);
+    }
 });
 
 bot.on("shardDisconnect", (err, id) => {
     console.log(`[^] Shard ${id} disconnected${err ? " (detailed error below)" : ""}`);
-    console.log(err);
+    if (err) {
+        console.log(err);
+    }
 });
 
 bot.on("shardPreReady", id => {
