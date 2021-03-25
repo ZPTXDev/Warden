@@ -163,6 +163,7 @@ bot.on("ready", () => {
     if (!ready) {
         let timeTaken = (new Date().getTime() - initialTime) / 1000;
         console.log(`[✓] Warden started successfully (took ${timeTaken}s)`);
+        console.log(`[>] Running version ${fs.readFileSync(".git/refs/heads/master").toString().slice(0, 7)}`);
         console.log(`[>] Logged in to Discord as ${bot.user.username}#${bot.user.discriminator} (${bot.user.id})`);
         console.log(`[>] Connected to ${bot.guilds.size} guilds`);
         console.log(`[>] Invite link: https://discord.com/oauth2/authorize?client_id=${bot.user.id}&scope=bot&permissions=8`);
