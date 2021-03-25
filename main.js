@@ -1,9 +1,12 @@
 const Eris = require("eris");
 const settings = require("data-store")({path: "settings.json"});
 const mysql = require("mysql2");
+const reload = require('require-reload')(require);
+const fs = require('fs');
 let ready = false;
 let pool;
 let promisePool;
+let modules = {};
 let memberships = {};
 let guildMemberships = {};
 let guildSettings = {};
@@ -59,7 +62,7 @@ else {
             console.log("[✓] Successfully established connection to database");
         })
         .catch(err => {
-            console.log(`[!] Unable to start Warden: Invalid database provided (detailed error below)`);
+            console.log("[!] Unable to start Warden: Invalid database provided (detailed error below)");
             console.log(err);
             process.exit(1);
         });
@@ -102,6 +105,56 @@ if (!settings.get("mentionAsPrefix") || typeof settings.get("mentionAsPrefix") !
     console.log("[!] Enabled Mention As Prefix by default");
 }
 
+console.log("[^] Loading modules...");
+fs.readdir("modules", {withFileTypes: true}, (err, files) => {
+    if (err) {
+        console.log("[!] Unable to start Warden: Could not read modules folder (detailed error below)");
+        console.log(err);
+        process.exit(1);
+    }
+    files.forEach((f, i) => {
+        if (!f.isDirectory()) {
+            console.log(`[!] Unable to start Warden: Non-folder (${f.name}) in modules folder`);
+            process.exit(1);
+        }
+        if (f.name.includes(" ")) {
+            console.log(`[!] Unable to start Warden: Module name contains space (${f.name})`);
+            process.exit(1);
+        }
+        console.log(`[^] Loading module '${f.name}' (${i+1}/${files.length})`);
+        modules[f.name] = {};
+        fs.readdir(`modules/${f.name}`, {withFileTypes: true}, (err, subfiles) => {
+            if (err) {
+                console.log(`[!] Unable to read module '${f.name}'`);
+            }
+            else if (subfiles.length === 0) {
+                console.log(`[!] No actions found in '${f.name}'`);
+            }
+            else {
+                subfiles.forEach((sf, idx) => {
+                    if (!sf.isFile()) {
+                        console.log(`[!] Unable to start Warden: Non-file (${sf.name}) in '${f.name}' folder`);
+                        process.exit(1);
+                    }
+                    let split = sf.name.split(".");
+                    if (split[split.length - 1] !== "js") {
+                        console.log(`[!] Unable to start Warden: Non-JS file (${sf.name}) in '${f.name}' folder`);
+                        process.exit(1);
+                    }
+                    if (sf.name.includes(" ")) {
+                        console.log(`[!] Unable to start Warden: Action name contains space (${sf.name})`);
+                        process.exit(1);
+                    }
+                    console.log(`[^] Loading action '${sf.name}' (${idx+1}/${subfiles.length})`);
+                    modules[f.name][sf.name.slice(0, -3)] = reload(`./modules/${f.name}/${sf.name}`);
+                    console.log(`[✓] Loaded action '${sf.name}'`);
+                });
+            }
+        });
+        console.log(`[✓] Loaded module '${f.name}'`);
+    });
+});
+
 const bot = new Eris(settings.get("token"));
 
 bot.on("ready", () => {
@@ -109,7 +162,7 @@ bot.on("ready", () => {
         let timeTaken = (new Date().getTime() - initialTime) / 1000;
         console.log(`[✓] Warden started successfully (took ${timeTaken}s)`);
         console.log(`[>] Logged in to Discord as ${bot.user.username}#${bot.user.discriminator} (${bot.user.id})`);
-        console.log(`[>] Connected to ${bot.guilds.size} guilds`)
+        console.log(`[>] Connected to ${bot.guilds.size} guilds`);
         console.log(`[>] Invite link: https://discord.com/oauth2/authorize?client_id=${bot.user.id}&scope=bot&permissions=8`);
         initialTime = null;
         timeTaken = null;
@@ -138,11 +191,11 @@ bot.on("shardPreReady", id => {
 });
 
 bot.on("shardReady", id => {
-    console.log(`[^] Shard ${id} ready`);
+    console.log(`[✓] Shard ${id} ready`);
 });
 
 bot.on("shardResume", id => {
-    console.log(`[^] Shard ${id} resumed`);
+    console.log(`[✓] Shard ${id} resumed`);
 });
 
 bot.on("messageCreate", msg => {
@@ -171,7 +224,6 @@ bot.on("messageCreate", msg => {
         }
         let cmd = content.split(" ")[0];
         let body = content.split(" ").slice(1).join(" ");
-        msg.channel.createMessage(`Prefix: \`${prefix}\` | Command: \`${cmd}\` | Body: \`${body}\``)
     }
 });
 
