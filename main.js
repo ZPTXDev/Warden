@@ -165,7 +165,7 @@ bot.on("ready", () => {
         console.log(`[✓] Warden started successfully (took ${timeTaken}s)`);
         console.log(`[>] Running build ${fs.readFileSync(".git/refs/heads/master").toString()}`);
         console.log(`[>] Logged in to Discord as ${bot.user.username}#${bot.user.discriminator} (${bot.user.id})`);
-        console.log(`[>] Connected to ${bot.guilds.size} guilds`);
+        console.log(`[>] Connected to ${bot.guilds.size} guild${bot.guilds.size === 1 ? "" : "s"}`);
         console.log(`[>] Invite link: https://discord.com/oauth2/authorize?client_id=${bot.user.id}&scope=bot&permissions=8`);
         initialTime = null;
         timeTaken = null;
