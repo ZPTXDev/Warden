@@ -140,10 +140,10 @@ fs.readdir("modules", {withFileTypes: true}, (err, files) => {
                         process.exit(1);
                     }
                     if (sf.name.includes(" ")) {
-                        console.log(`[!] Unable to start Warden: Action name contains space (${sf.name})`);
+                        console.log(`[!] Unable to start Warden: Action name contains space (${sf.name.slice(0, -3)})`);
                         process.exit(1);
                     }
-                    console.log(`[^] Loading action '${sf.name}' (${idx+1}/${subfiles.length})`);
+                    console.log(`[^] Loading action '${sf.name.slice(0, -3)}' (${idx+1}/${subfiles.length})`);
                     modules[f.name][sf.name.slice(0, -3)] = reload(`./modules/${f.name}/${sf.name}`);
                     console.log(`[✓] Loaded action '${sf.name}'`);
                 });
