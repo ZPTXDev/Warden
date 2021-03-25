@@ -178,9 +178,7 @@ bot.on("connect", id => {
 
 bot.on("error", (err, id) => {
     console.log(`[^] Shard ${id} encountered an error (detailed error below)`);
-    if (err) {
-        console.log(err);
-    }
+    console.log(err);
 });
 
 bot.on("shardDisconnect", (err, id) => {
