@@ -7,7 +7,8 @@ module.exports.action = function (details) {
             embed: {
                 footer: {
                     text: `${details["cmd"] === "ping" ? "Pong" : "Ping"}! ${details["message"].member.guild.shard.latency.toString()}ms`
-                }
+                },
+                color: 0x2518a0
             }
         });
     }
