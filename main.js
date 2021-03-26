@@ -229,6 +229,15 @@ bot.on("messageCreate", msg => {
         }
         let cmd = content.split(" ")[0];
         let body = content.split(" ").slice(1).join(" ");
+        Object.keys(modules).forEach(module => {
+            Object.keys(modules[module]).forEach(action => {
+                if ("commands" in modules[module][action] && modules[module][action]["commands"].includes(cmd) && "action" in modules[module][action] && typeof modules[module][action]["action"] === "function") {
+                    let actionFunction = modules[module][action]["action"];
+                    actionFunction({prefix: prefix, cmd: cmd, body: body, message: msg});
+                    console.log(`[C] ${msg.author.username}#${msg.author.discriminator} (${msg.author.id}): ${msg.content}`);
+                }
+            });
+        });
     }
 });
 
