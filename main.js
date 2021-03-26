@@ -159,6 +159,10 @@ fs.readdir("modules", {withFileTypes: true}, (err, files) => {
 
 const bot = new Eris(settings.get("token"));
 
+module.exports.settings = settings;
+module.exports.reload = reload;
+module.exports.bot = bot;
+
 bot.on("ready", () => {
     if (!ready) {
         let timeTaken = (new Date().getTime() - initialTime) / 1000;
@@ -236,31 +240,33 @@ bot.on("messageCreate", msg => {
                     let actionFunction = modules[module][action]["action"];
                     let result = actionFunction({prefix: prefix, cmd: cmd, body: body, guild: guild, message: msg});
                     console.log(`[C] ${guild ? `${msg.channel.guild.name} (${msg.channel.guild.id}) | ` : ""}${msg.author.username}#${msg.author.discriminator} (${msg.author.id}): ${msg.content}`);
-                    if (result === "usage") {
-                        let resultMessage;
-                        if ("usage" in modules[module][action]) {
-                            let usage = modules[module][action]["usage"].replace(/%cmd%/g, cmd);
-                            resultMessage = `Usage: ${prefix}${usage}`;
-                        }
-                        else {
-                            resultMessage = "Command execution failed with no reason specified.";
-                        }
-                        msg.channel.createMessage({
-                            messageReferenceID: msg.id,
-                            embed: {
-                                description: resultMessage,
-                                color: 0x2518a0
+                    switch (result) {
+                        case "usage":
+                            let resultMessage;
+                            if ("usage" in modules[module][action]) {
+                                let usage = modules[module][action]["usage"].replace(/%cmd%/g, cmd);
+                                resultMessage = `Usage: ${prefix}${usage}`;
                             }
-                        });
-                    }
-                    else if (result === "manager") {
-                        msg.channel.createMessage({
-                            messageReferenceID: msg.id,
-                            embed: {
-                                description: "You need to be a **Manager** to use that.",
-                                color: 0x2518a0
+                            else {
+                                resultMessage = "Command execution failed with no reason specified.";
                             }
-                        });
+                            msg.channel.createMessage({
+                                messageReferenceID: msg.id,
+                                embed: {
+                                    description: resultMessage,
+                                    color: 0x2518a0
+                                }
+                            });
+                            break;
+                        case "manager":
+                            msg.channel.createMessage({
+                                messageReferenceID: msg.id,
+                                embed: {
+                                    description: "You need to be a **Manager** to use that.",
+                                    color: 0x2518a0
+                                }
+                            });
+                            break;
                     }
                 }
             });

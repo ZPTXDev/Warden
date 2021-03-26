@@ -1,0 +1,19 @@
+module.exports.commands = ["stop"];
+module.exports.usage = "%cmd%";
+module.exports.action = function (details) {
+    let settings = require("../../main.js").settings;
+    let managers = settings.get("managers");
+    if (!managers.includes(details["message"].author.id)) {
+        return "manager";
+    }
+    console.log("[!] Gracefully stopping Warden")
+    details["message"].channel.createMessage({
+        messageReferenceID: details["message"].id,
+        embed: {
+            description: "Gracefully stopping Warden",
+            color: 0x2518a0
+        }
+    });
+    process.exit(0);
+    return true;
+}
