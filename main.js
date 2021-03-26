@@ -180,6 +180,7 @@ bot.on("ready", () => {
         let startupLogs = [];
         startupLogs.push(`[✓] Warden started successfully (took ${timeTaken}s)`);
         startupLogs.push(`[>] Running build ${build}`);
+        startupLogs.push(`[>] Loaded modules: ${Object.keys(modules).length > 0 ? Object.keys(modules).map(moduleName => `${moduleName} (${Object.keys(modules[moduleName]).length})`).join(", ") : "None"}`);
         startupLogs.push(`[>] Logged in to Discord as ${bot.user.username}#${bot.user.discriminator} (${bot.user.id})`);
         startupLogs.push(`[>] Connected to ${bot.guilds.size} guild${bot.guilds.size === 1 ? "" : "s"}`);
         startupLogs.push(`[>] Invite link: https://discord.com/oauth2/authorize?client_id=${bot.user.id}&scope=bot&permissions=8`);
