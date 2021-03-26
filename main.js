@@ -5,6 +5,7 @@ const reload = require('require-reload')(require);
 const fs = require('fs');
 let ready = false;
 let build = fs.readFileSync(".git/refs/heads/master").toString().replace("\n", "");
+let botLogChannelId = "";
 let pool;
 let promisePool;
 let modules = {};
@@ -19,6 +20,7 @@ if (Object.keys(settings.get()).length === 0) {
     settings.set("managers", ["Paste manager ID here"]);
     settings.set("prefix", "w!");
     settings.set("mentionAsPrefix", true);
+    settings.set("botLogChannelId", "Paste channel ID here");
     settings.set("database", {
         host: "",
         user: "",
@@ -41,6 +43,14 @@ if (!settings.get("managers") || typeof settings.get("managers") !== "object" ||
     settings.set("managers", ["Paste manager ID here"]);
     console.log("[!] Unable to start Warden: No manager ID provided");
     process.exit(1);
+}
+
+if (!settings.get("botLogChannelId") || typeof settings.get("botLogChannelId") !== "string" || settings.get("botLogChannelId") === "Paste channel ID here") {
+    settings.set("botLogChannelId", "Paste channel ID here");
+    console.log("[!] Invalid bot log channel ID provided, messages won't be sent");
+}
+else {
+    botLogChannelId = settings.get("botLogChannelId");
 }
 
 if (!settings.get("database")) {
@@ -167,11 +177,24 @@ module.exports.bot = bot;
 bot.on("ready", () => {
     if (!ready) {
         let timeTaken = (new Date().getTime() - initialTime) / 1000;
-        console.log(`[✓] Warden started successfully (took ${timeTaken}s)`);
-        console.log(`[>] Running build ${build}`);
-        console.log(`[>] Logged in to Discord as ${bot.user.username}#${bot.user.discriminator} (${bot.user.id})`);
-        console.log(`[>] Connected to ${bot.guilds.size} guild${bot.guilds.size === 1 ? "" : "s"}`);
-        console.log(`[>] Invite link: https://discord.com/oauth2/authorize?client_id=${bot.user.id}&scope=bot&permissions=8`);
+        let startupLogs = [];
+        startupLogs.push(`[✓] Warden started successfully (took ${timeTaken}s)`);
+        startupLogs.push(`[>] Running build ${build}`);
+        startupLogs.push(`[>] Logged in to Discord as ${bot.user.username}#${bot.user.discriminator} (${bot.user.id})`);
+        startupLogs.push(`[>] Connected to ${bot.guilds.size} guild${bot.guilds.size === 1 ? "" : "s"}`);
+        startupLogs.push(`[>] Invite link: https://discord.com/oauth2/authorize?client_id=${bot.user.id}&scope=bot&permissions=8`);
+        console.log(startupLogs.join("\n"));
+        if (botLogChannelId !== "") {
+            bot.createMessage(botLogChannelId, {
+                embed: {
+                    description: "```" + startupLogs.join("\n") + "```",
+                    color: 0x2518a0
+                }
+            }).catch(() => {
+                botLogChannelId = "";
+                console.log("[!] Invalid bot log channel ID provided, messages won't be sent");
+            });
+        }
         initialTime = null;
         timeTaken = null;
         ready = true;
