@@ -8,9 +8,7 @@ module.exports.action = function (details) {
         details["message"].channel.createMessage({
             messageReferenceID: details["message"].id,
             embed: {
-                footer: {
-                    text: `${details["cmd"] === "ping" ? "Pong" : "Ping"}! | ${details["message"].member.guild.shard.latency.toString()}ms`
-                },
+                description: `${details["cmd"] === "ping" ? "Pong" : "Ping"}! | ${details["message"].member.guild.shard.latency.toString()}ms`,
                 color: 0x2518a0
             }
         });
