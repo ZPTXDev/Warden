@@ -2,7 +2,7 @@ module.exports.commands = ["ping", "pong"];
 module.exports.usage = "%cmd%";
 module.exports.action = function (details) {
     if (details["body"] !== "") {
-        return false;
+        return "usage";
     }
     if ("guild" in details["message"].channel) {
         details["message"].channel.createMessage({

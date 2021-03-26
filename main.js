@@ -236,7 +236,7 @@ bot.on("messageCreate", msg => {
                     let actionFunction = modules[module][action]["action"];
                     let result = actionFunction({prefix: prefix, cmd: cmd, body: body, guild: guild, message: msg});
                     console.log(`[C] ${guild ? `${msg.channel.guild.name} (${msg.channel.guild.id}) | ` : ""}${msg.author.username}#${msg.author.discriminator} (${msg.author.id}): ${msg.content}`);
-                    if (!result) {
+                    if (result === "usage") {
                         let resultMessage;
                         if ("usage" in modules[module][action]) {
                             let usage = modules[module][action]["usage"].replace(/%cmd%/g, cmd);
@@ -249,6 +249,15 @@ bot.on("messageCreate", msg => {
                             messageReferenceID: msg.id,
                             embed: {
                                 description: resultMessage,
+                                color: 0x2518a0
+                            }
+                        });
+                    }
+                    else if (result === "manager") {
+                        msg.channel.createMessage({
+                            messageReferenceID: msg.id,
+                            embed: {
+                                description: "You need to be a **Manager** to use that.",
                                 color: 0x2518a0
                             }
                         });
