@@ -13,7 +13,8 @@ module.exports.action = function (details) {
             description: "Gracefully stopping Warden",
             color: 0x2518a0
         }
+    }).then(() => {
+        process.exit(0);
     });
-    process.exit(0);
     return true;
 }
