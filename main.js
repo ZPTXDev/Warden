@@ -234,7 +234,7 @@ bot.on("messageCreate", msg => {
                 if ("commands" in modules[module][action] && modules[module][action]["commands"].includes(cmd) && "action" in modules[module][action] && typeof modules[module][action]["action"] === "function") {
                     let actionFunction = modules[module][action]["action"];
                     actionFunction({prefix: prefix, cmd: cmd, body: body, message: msg});
-                    console.log(`[C] ${msg.author.username}#${msg.author.discriminator} (${msg.author.id}): ${msg.content}`);
+                    console.log(`[C] ${"guild" in msg.channel ? `${msg.channel.guild.name} (${msg.channel.guild.id}) | ` : ""}${msg.author.username}#${msg.author.discriminator} (${msg.author.id}): ${msg.content}`);
                 }
             });
         });
