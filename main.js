@@ -227,7 +227,7 @@ bot.on("messageCreate", msg => {
                 msg.mentions.splice(0, 1);
             }
         }
-        let cmd = content.split(" ")[0];
+        let cmd = content.split(" ")[0].toLowerCase();
         let body = content.split(" ").slice(1).join(" ");
         Object.keys(modules).forEach(module => {
             Object.keys(modules[module]).forEach(action => {
