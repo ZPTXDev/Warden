@@ -12,4 +12,7 @@ module.exports.action = function (details) {
             }
         });
     }
+    else {
+        details["message"].addReaction("cross:621336829601382421");
+    }
 }

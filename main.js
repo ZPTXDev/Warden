@@ -206,7 +206,8 @@ bot.on("shardResume", id => {
 bot.on("messageCreate", msg => {
     let prefix;
     let mention = false;
-    if ("guild" in msg.channel && msg.channel.guild.id in guildSettings) {
+    let guild = "guild" in msg.channel;
+    if (guild && msg.channel.guild.id in guildSettings) {
         prefix = guildSettings[msg.channel.guild.id].prefix;
     }
     else {
@@ -233,8 +234,8 @@ bot.on("messageCreate", msg => {
             Object.keys(modules[module]).forEach(action => {
                 if ("commands" in modules[module][action] && modules[module][action]["commands"].includes(cmd) && "action" in modules[module][action] && typeof modules[module][action]["action"] === "function") {
                     let actionFunction = modules[module][action]["action"];
-                    actionFunction({prefix: prefix, cmd: cmd, body: body, message: msg});
-                    console.log(`[C] ${"guild" in msg.channel ? `${msg.channel.guild.name} (${msg.channel.guild.id}) | ` : ""}${msg.author.username}#${msg.author.discriminator} (${msg.author.id}): ${msg.content}`);
+                    actionFunction({prefix: prefix, cmd: cmd, body: body, guild: guild, message: msg});
+                    console.log(`[C] ${guild ? `${msg.channel.guild.name} (${msg.channel.guild.id}) | ` : ""}${msg.author.username}#${msg.author.discriminator} (${msg.author.id}): ${msg.content}`);
                 }
             });
         });
