@@ -4,6 +4,7 @@ const mysql = require("mysql2");
 const reload = require('require-reload')(require);
 const fs = require('fs');
 let ready = false;
+let build = fs.readFileSync(".git/refs/heads/master").toString().replace("\n", "");
 let pool;
 let promisePool;
 let modules = {};
@@ -167,7 +168,7 @@ bot.on("ready", () => {
     if (!ready) {
         let timeTaken = (new Date().getTime() - initialTime) / 1000;
         console.log(`[✓] Warden started successfully (took ${timeTaken}s)`);
-        console.log(`[>] Running build ${fs.readFileSync(".git/refs/heads/master").toString().replace("\n", "")}`);
+        console.log(`[>] Running build ${build}`);
         console.log(`[>] Logged in to Discord as ${bot.user.username}#${bot.user.discriminator} (${bot.user.id})`);
         console.log(`[>] Connected to ${bot.guilds.size} guild${bot.guilds.size === 1 ? "" : "s"}`);
         console.log(`[>] Invite link: https://discord.com/oauth2/authorize?client_id=${bot.user.id}&scope=bot&permissions=8`);
