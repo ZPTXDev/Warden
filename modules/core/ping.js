@@ -1,6 +1,9 @@
 module.exports.commands = ["ping", "pong"];
 module.exports.usage = "%cmd%";
 module.exports.action = function (details) {
+    if (details["body"] !== "") {
+        return false;
+    }
     if ("guild" in details["message"].channel) {
         details["message"].channel.createMessage({
             messageReferenceID: details["message"].id,
@@ -15,4 +18,5 @@ module.exports.action = function (details) {
     else {
         details["message"].addReaction("cross:621336829601382421");
     }
+    return true;
 }

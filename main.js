@@ -234,8 +234,18 @@ bot.on("messageCreate", msg => {
             Object.keys(modules[module]).forEach(action => {
                 if ("commands" in modules[module][action] && modules[module][action]["commands"].includes(cmd) && "action" in modules[module][action] && typeof modules[module][action]["action"] === "function") {
                     let actionFunction = modules[module][action]["action"];
-                    actionFunction({prefix: prefix, cmd: cmd, body: body, guild: guild, message: msg});
+                    let result = actionFunction({prefix: prefix, cmd: cmd, body: body, guild: guild, message: msg});
                     console.log(`[C] ${guild ? `${msg.channel.guild.name} (${msg.channel.guild.id}) | ` : ""}${msg.author.username}#${msg.author.discriminator} (${msg.author.id}): ${msg.content}`);
+                    if (!result) {
+                        let usage = modules[module][action]["usage"].replace(/%cmd%/g, "");
+                        msg.channel.createMessage({
+                            messageReferenceID: msg.id,
+                            embed: {
+                                description: `Usage: ${prefix}${usage}`
+                            },
+                            color: 0x2518a0
+                        });
+                    }
                 }
             });
         });
