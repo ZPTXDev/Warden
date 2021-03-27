@@ -1,4 +1,4 @@
-const {SlashCreator, GatewayServer, SlashCommand} = require("slash-create");
+const {SlashCreator, GatewayServer} = require("slash-create");
 const Eris = require("eris");
 const settings = require("data-store")({path: "settings.json"});
 const mysql = require("mysql2");
@@ -199,9 +199,12 @@ Object.keys(modules).forEach(module => {
         if ("slash" in modules[module][action]) {
             let slash = modules[module][action]["slash"];
             slashCommands.push(slash);
+            slash = null;
         }
     });
 });
+
+console.log(slashCommands);
 
 creator
     .withServer(new GatewayServer(handler => {
