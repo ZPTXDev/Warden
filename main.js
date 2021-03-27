@@ -214,6 +214,7 @@ creator
     }))
     .registerCommands(slashCommands)
     .syncGlobalCommands();
+creator.on('warn', m => console.log('slash-create warn:', m))
 
 // thanks: https://gist.github.com/flangofas/714f401b63a1c3d84aaa
 function msToTime(miliseconds, format) {
