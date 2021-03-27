@@ -132,12 +132,8 @@ if (!settings.get("mentionAsPrefix") || typeof settings.get("mentionAsPrefix") !
 }
 
 console.log("[^] Loading modules...");
-fs.readdir("modules", {withFileTypes: true}, (err, files) => {
-    if (err) {
-        console.log("[!] Unable to start Warden: Could not read modules folder (detailed error below)");
-        console.log(err);
-        process.exit(1);
-    }
+try {
+    let files = fs.readdirSync("modules", {withFileTypes: true});
     files.forEach((f, i) => {
         if (!f.isDirectory()) {
             console.log(`[!] Unable to start Warden: Non-folder (${f.name}) in modules folder`);
@@ -182,7 +178,12 @@ fs.readdir("modules", {withFileTypes: true}, (err, files) => {
         }
         console.log(`[✓] Loaded module '${f.name}' (${i+1}/${files.length})`);
     });
-});
+}
+catch (err) {
+    console.log("[!] Unable to start Warden: Could not read modules folder (detailed error below)");
+    console.log(err);
+    process.exit(1);
+}
 
 const bot = new Eris(settings.get("token"));
 
