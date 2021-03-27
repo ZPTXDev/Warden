@@ -156,7 +156,7 @@ fs.readdir("modules", {withFileTypes: true}, (err, files) => {
                     }
                     console.log(`[^] Loading action '${sf.name.slice(0, -3)}' (${idx+1}/${subfiles.length})`);
                     modules[f.name][sf.name.slice(0, -3)] = reload(`./modules/${f.name}/${sf.name}`);
-                    console.log(`[✓] Loaded action '${sf.name.slice(0, -3)}'`);
+                    console.log(`[✓] Loaded action '${sf.name.slice(0, -3)}' (${idx+1}/${subfiles.length})`);
                 });
             }
             subfiles = null;
@@ -164,7 +164,7 @@ fs.readdir("modules", {withFileTypes: true}, (err, files) => {
         catch (err) {
             console.log(`[!] Unable to read module '${f.name}'`);
         }
-        console.log(`[✓] Loaded module '${f.name}'`);
+        console.log(`[✓] Loaded module '${f.name}' (${i+1}/${files.length})`);
     });
 });
 
