@@ -181,7 +181,9 @@ bot.on("ready", () => {
         startupLogs.push(`[✓] Warden started successfully (took ${timeTaken}s)`);
         startupLogs.push(`[>] Running build: ${build}`);
         if (settings.get("lastBuild") !== build) {
-            startupLogs.push(`[>] Previous build: ${settings.get("lastBuild")}`);
+            if (settings.get("lastBuild")) {
+                startupLogs.push(`[>] Previous build: ${settings.get("lastBuild")}`);
+            }
             settings.set("lastBuild", build);
         }
         startupLogs.push(`[>] Loaded modules: ${Object.keys(modules).length > 0 ? Object.keys(modules).map(moduleName => `${moduleName} (${Object.keys(modules[moduleName]).length})`).join(", ") : "None"}`);
