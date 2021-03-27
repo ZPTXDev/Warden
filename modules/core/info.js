@@ -9,7 +9,7 @@ module.exports.slash = {
             name: "stats",
             description: "Display additional statistics about Warden.",
             required: false,
-            type: require("../../main.js").CommandOptionType.STRING
+            type: require("../../main.js").CommandOptionType.BOOLEAN
         }
     ]
 };
