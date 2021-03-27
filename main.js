@@ -179,7 +179,11 @@ bot.on("ready", () => {
         let timeTaken = (new Date().getTime() - initialTime) / 1000;
         let startupLogs = [];
         startupLogs.push(`[✓] Warden started successfully (took ${timeTaken}s)`);
-        startupLogs.push(`[>] Running build ${build}`);
+        startupLogs.push(`[>] Running build: ${build}`);
+        if (settings.get("lastBuild") !== build) {
+            startupLogs.push(`[>] Previous build: ${settings.get("lastBuild")}`);
+            settings.set("lastBuild", build);
+        }
         startupLogs.push(`[>] Loaded modules: ${Object.keys(modules).length > 0 ? Object.keys(modules).map(moduleName => `${moduleName} (${Object.keys(modules[moduleName]).length})`).join(", ") : "None"}`);
         startupLogs.push(`[>] Logged in to Discord as ${bot.user.username}#${bot.user.discriminator} (${bot.user.id})`);
         startupLogs.push(`[>] Connected to ${bot.guilds.size} guild${bot.guilds.size === 1 ? "" : "s"}`);
