@@ -1,20 +1,33 @@
-const {CommandOptionType} = require("slash-create");
+const {SlashCommand, CommandOptionType} = require("slash-create");
 
+module.exports.slash = class InfoCommand extends SlashCommand {
+    constructor(creator) {
+        super(creator, {
+            name: "info",
+            description: "Display information about Warden.",
+            options: [
+                {
+                    name: "stats",
+                    description: "Display additional statistics about Warden.",
+                    required: false,
+                    type: CommandOptionType.BOOLEAN
+                }
+            ]
+        });
+    }
+    async run(ctx) {
+        console.log(ctx);
+        let details = {
+            prefix: "/",
+            cmd: modules[module][action]["slash"]["name"],
+            body: ctx.options
+        };
+    }
+}
 module.exports.commands = ["info"];
 module.exports.usage = "%cmd% [stats]";
 module.exports.description = "Display information about Warden.";
-module.exports.slash = {
-    name: "info",
-    description: "Display information about Warden.",
-    options: [
-        {
-            name: "stats",
-            description: "Display additional statistics about Warden.",
-            required: false,
-            type: CommandOptionType.BOOLEAN
-        }
-    ]
-};
+module.exports.slash = slash;
 module.exports.action = function (details) {
     const settings = require("../../main.js").settings;
     const managers = settings.get("managers");

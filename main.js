@@ -197,16 +197,7 @@ let slashCommands = [];
 Object.keys(modules).forEach(module => {
     Object.keys(modules[module]).forEach(action => {
         if ("slash" in modules[module][action]) {
-            let slash = new SlashCommand(creator, modules[module][action]["slash"]);
-            slash.run = function (ctx) {
-                // TODO: add this !
-                console.log(ctx);
-                let details = {
-                    prefix: "/",
-                    cmd: modules[module][action]["slash"]["name"],
-                    body: ctx.options
-                };
-            }
+            let slash = modules[module][action]["slash"];
             slashCommands.push(slash);
         }
     });
