@@ -1,8 +1,8 @@
 module.exports.commands = ["stop"];
 module.exports.usage = "%cmd%";
 module.exports.action = function (details) {
-    let settings = require("../../main.js").settings;
-    let managers = settings.get("managers");
+    const settings = require("../../main.js").settings;
+    const managers = settings.get("managers");
     if (!managers.includes(details["message"].author.id)) {
         return "manager";
     }
