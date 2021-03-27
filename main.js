@@ -261,6 +261,16 @@ function roundTo(n, digits) {
     if (digits === 0) {n = parseInt(n, 10);}
     return n;
 }
+async function slashManagerRejection(ctx) {
+    return await ctx.send({
+        embeds: [
+            {
+                description: "You need to be a **Manager** to use that.",
+                color: 0x2518a0
+            }
+        ]
+    });
+}
 
 module.exports.settings = settings;
 module.exports.reload = reload;
@@ -270,6 +280,7 @@ module.exports.bot = bot;
 module.exports.msToTime = msToTime;
 module.exports.msToTimeString = msToTimeString;
 module.exports.roundTo = roundTo;
+module.exports.slashManagerRejection = slashManagerRejection;
 
 bot.on("ready", () => {
     if (!ready) {

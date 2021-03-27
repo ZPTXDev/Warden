@@ -87,14 +87,7 @@ module.exports.slashAction = async function(ctx) {
     let type = "";
     if (ctx.options["stats"]) {
         if (!managers.includes(ctx.user.id)) {
-            await ctx.send({
-                embeds: [
-                    {
-                        description: "You need to be a **Manager** to use that.",
-                        color: 0x2518a0
-                    }
-                ]
-            });
+            await require("../../main.js").slashManagerRejection(ctx);
             return;
         }
         else {
