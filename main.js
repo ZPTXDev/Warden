@@ -1,8 +1,8 @@
 const Eris = require("eris");
 const settings = require("data-store")({path: "settings.json"});
 const mysql = require("mysql2");
-const reload = require('require-reload')(require);
-const fs = require('fs');
+const reload = require("require-reload")(require);
+const fs = require("fs");
 let ready = false;
 let build = fs.readFileSync(".git/refs/heads/master").toString().replace("\n", "");
 let botLogChannelId = "";
