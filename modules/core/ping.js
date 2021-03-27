@@ -1,5 +1,6 @@
 module.exports.commands = ["ping", "pong"];
 module.exports.usage = "%cmd%";
+module.exports.description = "Check if Warden is currently available.";
 module.exports.action = function (details) {
     if (details["body"] !== "") {
         return "usage";

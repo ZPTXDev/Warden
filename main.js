@@ -1,3 +1,4 @@
+const {SlashCreator, GatewayServer, SlashCommand, CommandOptionType, CommandContext} = require("slash-create");
 const Eris = require("eris");
 const settings = require("data-store")({path: "settings.json"});
 const mysql = require("mysql2");
@@ -17,6 +18,7 @@ let initialTime = new Date().getTime();
 
 if (Object.keys(settings.get()).length === 0) {
     settings.set("token", "Paste token here");
+    settings.set("publicKey", "Paste public key here");
     settings.set("managers", ["Paste manager ID here"]);
     settings.set("prefix", "w!");
     settings.set("mentionAsPrefix", true);
@@ -36,6 +38,12 @@ if (Object.keys(settings.get()).length === 0) {
 if (!settings.get("token") || typeof settings.get("token") !== "string" || settings.get("token") === "Paste token here") {
     settings.set("token", "Paste token here");
     console.log("[!] Unable to start Warden: No bot token provided");
+    process.exit(1);
+}
+
+if (!settings.get("publicKey") || typeof settings.get("publicKey") !== "string" || settings.get("publicKey") === "Paste public key here") {
+    settings.set("publicKey", "Paste public key here");
+    console.log("[!] Unable to start Warden: No public key provided");
     process.exit(1);
 }
 
@@ -171,6 +179,42 @@ fs.readdir("modules", {withFileTypes: true}, (err, files) => {
 
 const bot = new Eris(settings.get("token"));
 
+const creator = new SlashCreator({
+    applicationID: bot.user.id,
+    publicKey: settings.get("publicKey"),
+    token: settings.get("token"),
+});
+
+const slashCommands = [];
+Object.keys(modules).forEach(module => {
+    Object.keys(modules[module]).forEach(action => {
+        if ("slash" in modules[module][action]) {
+            let slash = new SlashCommand(creator, modules[module][action]["slash"]);
+            slash.run = function (ctx) {
+                // TODO: add this !
+                console.log(ctx);
+                let details = {
+                    prefix: "/",
+                    cmd: modules[module][action]["slash"]["name"],
+                    body: ctx.options
+                };
+            }
+            slashCommands.push(slash);
+        }
+    });
+});
+
+creator
+    .withServer(new GatewayServer(handler => {
+        bot.on("rawWS", event => {
+            if (event.t === "INTERACTION_CREATE") {
+                handler(event.d);
+            }
+        });
+    }))
+    .registerCommands(slashCommands)
+    .syncCommands();
+
 // thanks: https://gist.github.com/flangofas/714f401b63a1c3d84aaa
 function msToTime(miliseconds, format) {
     let days, hours, minutes, seconds, total_hours, total_minutes, total_seconds;
@@ -213,6 +257,7 @@ function roundTo(n, digits) {
     return n;
 }
 
+module.exports.CommandOptionType = CommandOptionType;
 module.exports.settings = settings;
 module.exports.reload = reload;
 module.exports.build = build;
@@ -317,7 +362,7 @@ bot.on("messageCreate", msg => {
             Object.keys(modules[module]).forEach(action => {
                 if ("commands" in modules[module][action] && modules[module][action]["commands"].includes(cmd) && "action" in modules[module][action] && typeof modules[module][action]["action"] === "function") {
                     let actionFunction = modules[module][action]["action"];
-                    let result = actionFunction({prefix: prefix, cmd: cmd, body: body, guild: guild, message: msg});
+                    let result = actionFunction({prefix: prefix, cmd: cmd, body: body, guild: guild, message: msg, slash: false});
                     console.log(`[C] ${guild ? `${msg.channel.guild.name} (${msg.channel.guild.id}) | ` : ""}${msg.author.username}#${msg.author.discriminator} (${msg.author.id}): ${msg.content}`);
                     switch (result) {
                         case "usage":

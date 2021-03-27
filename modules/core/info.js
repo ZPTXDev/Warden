@@ -1,5 +1,18 @@
 module.exports.commands = ["info"];
 module.exports.usage = "%cmd% [stats]";
+module.exports.description = "Display information about Warden.";
+module.exports.slash = {
+    name: "info",
+    description: "Display information about Warden.",
+    options: [
+        {
+            name: "stats",
+            description: "Display additional statistics about Warden.",
+            required: false,
+            type: require("../../main.js").CommandOptionType.STRING
+        }
+    ]
+};
 module.exports.action = function (details) {
     const settings = require("../../main.js").settings;
     const managers = settings.get("managers");
@@ -32,30 +45,35 @@ module.exports.action = function (details) {
     Object.keys(modules).forEach(module => {
         actionsLoaded += Object.keys(modules[module]).length;
     });
-    details["message"].channel.createMessage({
-        messageReferenceID: details["message"].id,
-        embed: {
-            title: "Warden",
-            description: `A moderation and utility bot, part of the ZapSquared Network.\nSource code available [here](https://github.com/zapteryx/Warden).\nRunning build [\`${build.slice(0, 7)}\`](https://github.com/zapteryx/Warden/commit/${build}).`,
-            color: 0x2518a0,
-            fields: type === "stats" ? [
-                {
-                    name: "Bot Statistics",
-                    value: `**Servers**: ${bot.guilds.size}\n**Users**: ${userTotal} (${bot.users.size} cached)\n**Channels**: ${channelTotal}`
-                },
-                {
-                    name: "Technical Statistics",
-                    value: `**RAM Usage**: ${roundTo(process.memoryUsage().heapUsed / 1024 / 1024, 2).toString()} MB\n**Uptime**: ${uptimeString}\n**Modules Loaded**: ${modulesLoaded} (${actionsLoaded} actions)`
-                },
-                {
-                    name: "Version",
-                    value: `**Warden**: \`${build}\`\n**Eris**: \`${require("eris").VERSION}\`\n**NodeJS**: \`${process.env.NODE_VERSION}\``
+    if (details["slash"]) {
+
+    }
+    else {
+        details["message"].channel.createMessage({
+            messageReferenceID: details["message"].id,
+            embed: {
+                title: "Warden",
+                description: `A moderation and utility bot, part of the ZapSquared Network.\nSource code available [here](https://github.com/zapteryx/Warden).\nRunning build [\`${build.slice(0, 7)}\`](https://github.com/zapteryx/Warden/commit/${build}).`,
+                color: 0x2518a0,
+                fields: type === "stats" ? [
+                    {
+                        name: "Bot Statistics",
+                        value: `**Servers**: ${bot.guilds.size}\n**Users**: ${userTotal} (${bot.users.size} cached)\n**Channels**: ${channelTotal}`
+                    },
+                    {
+                        name: "Technical Statistics",
+                        value: `**RAM Usage**: ${roundTo(process.memoryUsage().heapUsed / 1024 / 1024, 2).toString()} MB\n**Uptime**: ${uptimeString}\n**Modules Loaded**: ${modulesLoaded} (${actionsLoaded} actions)`
+                    },
+                    {
+                        name: "Version",
+                        value: `**Warden**: \`${build}\`\n**Eris**: \`${require("eris").VERSION}\`\n**NodeJS**: \`${process.env.NODE_VERSION}\``
+                    }
+                ] : [],
+                thumbnail: {
+                    url: bot.user.avatarURL
                 }
-            ] : [],
-            thumbnail: {
-                url: bot.user.avatarURL
             }
-        }
-    });
+        });
+    }
     return true;
 }

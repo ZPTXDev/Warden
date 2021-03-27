@@ -1,5 +1,6 @@
 module.exports.commands = ["stop"];
 module.exports.usage = "%cmd%";
+module.exports.description = "Stop Warden gracefully.";
 module.exports.action = function (details) {
     const settings = require("../../main.js").settings;
     const managers = settings.get("managers");
