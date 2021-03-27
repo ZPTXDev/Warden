@@ -192,7 +192,7 @@ const creator = new SlashCreator({
     token: settings.get("token"),
 });
 
-const slashCommands = [];
+let slashCommands = [];
 Object.keys(modules).forEach(module => {
     Object.keys(modules[module]).forEach(action => {
         if ("slash" in modules[module][action]) {
