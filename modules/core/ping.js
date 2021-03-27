@@ -19,3 +19,18 @@ module.exports.action = function (details) {
     }
     return true;
 }
+
+module.exports.slash = {
+    name: "ping",
+    description: "Check if Warden is currently available."
+};
+module.exports.slashAction = async function(ctx) {
+    await ctx.send({
+        embeds: [
+            {
+                description: `Pong!`,
+                color: 0x2518a0
+            }
+        ]
+    });
+}
