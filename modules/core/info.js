@@ -20,6 +20,7 @@ let action = function (details) {
                     }
                 ]
             });
+            return;
         }
         else if (!details["slash"] && !managers.includes(details["message"].author.id)) {
             return "manager";
