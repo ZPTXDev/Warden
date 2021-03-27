@@ -171,9 +171,56 @@ fs.readdir("modules", {withFileTypes: true}, (err, files) => {
 
 const bot = new Eris(settings.get("token"));
 
+// thanks: https://gist.github.com/flangofas/714f401b63a1c3d84aaa
+function msToTime(miliseconds, format) {
+    let days, hours, minutes, seconds, total_hours, total_minutes, total_seconds;
+
+    total_seconds = parseInt(Math.floor(miliseconds / 1000));
+    total_minutes = parseInt(Math.floor(total_seconds / 60));
+    total_hours = parseInt(Math.floor(total_minutes / 60));
+    days = parseInt(Math.floor(total_hours / 24));
+
+    seconds = parseInt(total_seconds % 60);
+    minutes = parseInt(total_minutes % 60);
+    hours = parseInt(total_hours % 24);
+
+    switch(format) {
+        case 's':
+            return total_seconds;
+        case 'm':
+            return total_minutes;
+        case 'h':
+            return total_hours;
+        case 'd':
+            return days;
+        default:
+            return { d: days, h: hours, m: minutes, s: seconds };
+    }
+}
+function msToTimeString(msObject) {
+    return `${msObject["d"] > 0 ? `${msObject["d"]} day${msObject["d"] === 1 ? "" : "s"}, ` : ""}${msObject["h"] > 0 ? `${msObject["h"]} hr${msObject["h"] === 1 ? "" : "s"}, ` : ""}${msObject["m"] > 0 ? `${msObject["m"]} min${msObject["m"] === 1 ? "" : "s"}, ` : ""}${msObject["s"] > 0 ? `${msObject["s"]} sec${msObject["s"] === 1 ? "" : "s"}, ` : ""}`;
+}
+// thanks: https://stackoverflow.com/a/15762794/13293007
+function roundTo(n, digits) {
+    let negative = false;
+    if (digits === undefined) {digits = 0;}
+    if (n < 0) {negative = true; n = n * -1;}
+    let multiplicator = Math.pow(10, digits);
+    n = parseFloat((n * multiplicator).toFixed(11));
+    n = (Math.round(n) / multiplicator).toFixed(digits);
+    if (negative) {n = (n * -1).toFixed(digits);}
+    if (digits === 0) {n = parseInt(n, 10);}
+    return n;
+}
+
 module.exports.settings = settings;
 module.exports.reload = reload;
+module.exports.build = build;
+module.exports.modules = modules;
 module.exports.bot = bot;
+module.exports.msToTime = msToTime;
+module.exports.msToTimeString = msToTimeString;
+module.exports.roundTo = roundTo;
 
 bot.on("ready", () => {
     if (!ready) {
