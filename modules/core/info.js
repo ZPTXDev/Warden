@@ -19,7 +19,7 @@ module.exports.slash = class InfoCommand extends SlashCommand {
         console.log(ctx);
         let details = {
             prefix: "/",
-            cmd: modules[module][action]["slash"]["name"],
+            cmd: "info",
             body: ctx.options
         };
     }
