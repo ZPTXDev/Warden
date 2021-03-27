@@ -27,7 +27,6 @@ module.exports.slash = class InfoCommand extends SlashCommand {
 module.exports.commands = ["info"];
 module.exports.usage = "%cmd% [stats]";
 module.exports.description = "Display information about Warden.";
-module.exports.slash = slash;
 module.exports.action = function (details) {
     const settings = require("../../main.js").settings;
     const managers = settings.get("managers");
