@@ -1,4 +1,4 @@
-const {SlashCreator, GatewayServer, SlashCommand, CommandOptionType, CommandContext} = require("slash-create");
+const {SlashCreator, GatewayServer, SlashCommand} = require("slash-create");
 const Eris = require("eris");
 const settings = require("data-store")({path: "settings.json"});
 const mysql = require("mysql2");
@@ -266,7 +266,6 @@ function roundTo(n, digits) {
     return n;
 }
 
-module.exports.CommandOptionType = CommandOptionType;
 module.exports.settings = settings;
 module.exports.reload = reload;
 module.exports.build = build;

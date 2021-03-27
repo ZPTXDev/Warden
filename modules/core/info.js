@@ -1,3 +1,5 @@
+const {CommandOptionType} = require("slash-create");
+
 module.exports.commands = ["info"];
 module.exports.usage = "%cmd% [stats]";
 module.exports.description = "Display information about Warden.";
@@ -9,7 +11,7 @@ module.exports.slash = {
             name: "stats",
             description: "Display additional statistics about Warden.",
             required: false,
-            type: require("../../main.js").CommandOptionType.BOOLEAN
+            type: CommandOptionType.BOOLEAN
         }
     ]
 };
