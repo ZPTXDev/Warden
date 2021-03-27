@@ -13,10 +13,12 @@ let action = function (details) {
     if ((details["slash"] && details["body"]["stats"]) || (!details["slash"] && details["body"] === "stats")) {
         if (details["slash"] && !managers.includes(details["context"]["user"].id)) {
             details["context"].send({
-                embed: {
-                    description: "You need to be a **Manager** to use that.",
-                    color: 0x2518a0
-                }
+                embeds: [
+                    {
+                        description: "You need to be a **Manager** to use that.",
+                        color: 0x2518a0
+                    }
+                ]
             });
         }
         else if (!details["slash"] && !managers.includes(details["message"].author.id)) {
@@ -64,7 +66,7 @@ let action = function (details) {
     };
     if (details["slash"]) {
         details["context"].send({
-            embed: embed
+            embeds: [embed]
         });
     }
     else {
