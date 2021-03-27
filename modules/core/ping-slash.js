@@ -1,6 +1,6 @@
 const {SlashCommand} = require("slash-create");
 
-module.exports.slash = class PingCommand extends SlashCommand {
+module.exports.slash = class extends SlashCommand {
     constructor(creator) {
         super(creator, {
             name: "ping",
