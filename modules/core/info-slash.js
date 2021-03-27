@@ -1,6 +1,6 @@
 const {SlashCommand, CommandOptionType} = require("slash-create");
 
-module.exports.slash = class extends SlashCommand {
+module.exports.slash = class Command extends SlashCommand {
     constructor(creator) {
         super(creator, {
             name: "info",
