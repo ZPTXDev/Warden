@@ -18,6 +18,7 @@ let initialTime = new Date().getTime();
 
 if (Object.keys(settings.get()).length === 0) {
     settings.set("token", "Paste token here");
+    settings.set("applicationId", "Paste application ID here");
     settings.set("publicKey", "Paste public key here");
     settings.set("managers", ["Paste manager ID here"]);
     settings.set("prefix", "w!");
@@ -38,6 +39,12 @@ if (Object.keys(settings.get()).length === 0) {
 if (!settings.get("token") || typeof settings.get("token") !== "string" || settings.get("token") === "Paste token here") {
     settings.set("token", "Paste token here");
     console.log("[!] Unable to start Warden: No bot token provided");
+    process.exit(1);
+}
+
+if (!settings.get("applicationId") || typeof settings.get("applicationId") !== "string" || settings.get("applicationId") === "Paste application ID here") {
+    settings.set("applicationId", "Paste application ID here");
+    console.log("[!] Unable to start Warden: No application ID provided");
     process.exit(1);
 }
 
@@ -180,7 +187,7 @@ fs.readdir("modules", {withFileTypes: true}, (err, files) => {
 const bot = new Eris(settings.get("token"));
 
 const creator = new SlashCreator({
-    applicationID: bot.user.id,
+    applicationID: settings.get("applicationId"),
     publicKey: settings.get("publicKey"),
     token: settings.get("token"),
 });
