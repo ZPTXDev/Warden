@@ -213,7 +213,7 @@ creator
         });
     }))
     .registerCommands(slashCommands)
-    .syncCommands();
+    .syncGlobalCommands();
 
 // thanks: https://gist.github.com/flangofas/714f401b63a1c3d84aaa
 function msToTime(miliseconds, format) {
