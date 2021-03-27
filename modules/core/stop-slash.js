@@ -32,6 +32,5 @@ module.exports.slash = class StopCommand extends SlashCommand {
         }).finally(() => {
             process.exit(0);
         });
-        return true;
     }
 }

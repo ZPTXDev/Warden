@@ -16,6 +16,5 @@ module.exports.slash = class PingCommand extends SlashCommand {
                 }
             ]
         });
-        return true;
     }
 }

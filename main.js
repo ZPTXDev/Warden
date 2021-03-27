@@ -204,8 +204,6 @@ Object.keys(modules).forEach(module => {
     });
 });
 
-console.log(slashCommands);
-
 creator
     .withServer(new GatewayServer(handler => {
         bot.on("rawWS", event => {
