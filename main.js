@@ -162,7 +162,8 @@ fs.readdir("modules", {withFileTypes: true}, (err, files) => {
             subfiles = null;
         }
         catch (err) {
-            console.log(`[!] Unable to read module '${f.name}'`);
+            console.log(`[!] Unable to read module '${f.name}' (detailed error below)`);
+            console.log(err);
         }
         console.log(`[✓] Loaded module '${f.name}' (${i+1}/${files.length})`);
     });
