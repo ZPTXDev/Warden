@@ -36,7 +36,7 @@ module.exports.action = function (details) {
         messageReferenceID: details["message"].id,
         embed: {
             title: "Warden",
-            description: `A moderation and utility bot, part of the ZapSquared Network.\nSource code available [here](https://github.com/zapteryx/Warden).\nRunning build \`[${build.slice(0, 7)}](https://github.com/zapteryx/Warden/commit/${build})\`.`,
+            description: `A moderation and utility bot, part of the ZapSquared Network.\nSource code available [here](https://github.com/zapteryx/Warden).\nRunning build [\`${build.slice(0, 7)}\`](https://github.com/zapteryx/Warden/commit/${build}).`,
             color: 0x2518a0,
             fields: type === "stats" ? [
                 {
