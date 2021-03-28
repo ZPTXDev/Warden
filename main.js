@@ -273,7 +273,7 @@ function roundTo(n, digits) {
     return n;
 }
 async function slashManagerRejection(ctx) {
-    return await ctx.send({
+    return await ctx.send("", {
         ephemeral: true,
         embeds: [
             {
