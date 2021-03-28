@@ -195,7 +195,7 @@ const creator = new SlashCreator({
 creator.on("commandRun", (cmd, res, ctx) => {
     console.log(`[S] ${!!ctx.guildID ? `${bot.guilds.get(ctx.guildID).name} (${ctx.guildID}) | ` : ""}${ctx.user.username}#${ctx.user.discriminator}: CMD ${ctx.commandName}, OPT ${JSON.stringify(ctx.options)}`);
 });
-creator.on("commandError", (cmd, err, ctx) => {
+creator.on("commandError", (cmd, err) => {
     console.log("[!] An error occurred with Slash Commands (commandError) (detailed error below)");
     console.log(err);
 });
@@ -273,8 +273,9 @@ function roundTo(n, digits) {
     return n;
 }
 async function slashManagerRejection(ctx) {
-    return await ctx.send("", {
+    return await ctx.send({
         ephemeral: true,
+        content: "",
         embeds: [
             {
                 description: "You need to be a **Manager** to use that.",
