@@ -192,6 +192,17 @@ const creator = new SlashCreator({
     publicKey: settings.get("publicKey"),
     token: settings.get("token"),
 });
+creator.on("commandRun", (cmd, res, ctx) => {
+    console.log(`[S] ${!!ctx.guildID ? `${bot.guilds.get(ctx.guildID).name} (${ctx.guildID}) | ` : ""}${ctx.user.username}#${ctx.user.discriminator}: CMD ${ctx.commandName}, OPT ${ctx.options}`);
+});
+creator.on("commandError", err => {
+    console.log("[!] An error occurred with Slash Commands (commandError) (detailed error below)");
+    console.log(err);
+});
+creator.on("error", err => {
+    console.log("[!] An error occurred with Slash Commands (error) (detailed error below)");
+    console.log(err);
+});
 
 let slashCommands = [];
 Object.keys(modules).forEach(module => {
