@@ -263,6 +263,7 @@ function roundTo(n, digits) {
 }
 async function slashManagerRejection(ctx) {
     return await ctx.send({
+        ephemeral: true,
         embeds: [
             {
                 description: "You need to be a **Manager** to use that.",
