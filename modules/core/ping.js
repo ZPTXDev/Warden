@@ -5,18 +5,13 @@ module.exports.action = function (details) {
     if (details["body"] !== "") {
         return "usage";
     }
-    if ("guild" in details["message"].channel) {
-        details["message"].channel.createMessage({
-            messageReferenceID: details["message"].id,
-            embed: {
-                description: `${details["cmd"] === "ping" ? "Pong" : "Ping"}! | ${details["message"].member.guild.shard.latency.toString()}ms`,
-                color: 0x2518a0
-            }
-        });
-    }
-    else {
-        details["message"].addReaction("cross:621336829601382421");
-    }
+    details["message"].channel.createMessage({
+        messageReferenceID: details["message"].id,
+        embed: {
+            description: `${details["cmd"] === "ping" ? "Pong" : "Ping"}!${details["guild"] ? ` | ${details["message"].member.guild.shard.latency.toString()}ms` : ""}`,
+            color: 0x2518a0
+        }
+    });
     return true;
 }
 
@@ -25,10 +20,11 @@ module.exports.slash = {
     description: "Check if Warden is currently available."
 };
 module.exports.slashAction = async function(ctx) {
+    const bot = require("../../main.js").bot;
     await ctx.send({
         embeds: [
             {
-                description: `Pong!`,
+                description: `Pong!${!!ctx.guildID ? ` | ${bot.guilds.get(ctx.guildID).shard.latency.toString()}ms` : ""}`,
                 color: 0x2518a0
             }
         ]
