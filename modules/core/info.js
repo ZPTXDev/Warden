@@ -66,6 +66,7 @@ module.exports.action = function (details) {
 module.exports.slash = {
     name: "info",
     description: "Display information about Warden.",
+    deferEphemeral: false,
     options: [
         {
             name: "stats",

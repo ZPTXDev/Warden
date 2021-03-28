@@ -17,7 +17,8 @@ module.exports.action = function (details) {
 
 module.exports.slash = {
     name: "ping",
-    description: "Check if Warden is currently available."
+    description: "Check if Warden is currently available.",
+    deferEphemeral: false
 };
 module.exports.slashAction = async function(ctx) {
     const bot = require("../../main.js").bot;
