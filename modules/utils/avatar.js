@@ -19,12 +19,13 @@ module.exports.action = function (details) {
     }
     let user = details["message"].channel.guild.members.get(userId).user;
     let animated = user.avatar.startsWith("a_");
-    let sizes = "";
+    let sizes = [];
     let start = 4096;
     while (start >= 16) {
-        sizes += `[${start.toString()}](${user.dynamicAvatarURL(animated ? "gif" : "png", start)})`;
+        sizes.push(`[${start.toString()}](${user.dynamicAvatarURL(animated ? "gif" : "png", start)})`);
         start /= 2;
     }
+    sizes = sizes.join(" | ");
     details["message"].channel.createMessage({
         messageReferenceID: details["message"].id,
         embed: {
