@@ -278,21 +278,18 @@ function getUserId(cont, types=null, guildId) {
     }
     let userId;
     if (types.includes("mention") && cont.startsWith("<@") && cont.endsWith(">")) {
-        console.log("mention");
         userId = cont.replace(/<@!?/, "").replace(/>/, "");
         if (!bot.users.get(userId)) {
             userId = "";
         }
     }
     if (!userId && types.includes("id")) {
-        console.log("id");
         userId = cont;
         if (!bot.users.get(userId)) {
             userId = "";
         }
     }
     if (!userId && types.includes("nickname") && guildId) {
-        console.log("nickname");
         let guildMember = bot.guilds.get(guildId).members.find(u => u.nick && `${u.nick.toLowerCase()}` === `${cont.toLowerCase()}`);
         if (guildMember) {
             userId = guildMember.id;
@@ -300,7 +297,6 @@ function getUserId(cont, types=null, guildId) {
     }
     if (!userId && types.includes("username") && guildId) {
         if (cont.includes("#")) {
-            console.log("username 1");
             let split = cont.split("#");
             let guildMember = bot.guilds.get(guildId).members.find(u => `${u.username}#${u.discriminator}` === `${split[0]}#${split[1]}`);
             if (guildMember) {
@@ -308,8 +304,8 @@ function getUserId(cont, types=null, guildId) {
             }
         }
         else {
-            console.log("username 2");
             let guildMember = bot.guilds.get(guildId).members.find(u => `${u.username.toLowerCase()}` === `${cont.toLowerCase()}`);
+            console.log(guildMember);
             if (guildMember) {
                 userId = guildMember.id;
             }
