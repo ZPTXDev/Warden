@@ -290,8 +290,8 @@ function getUserId(cont, types=null, guildId) {
         }
     }
     if (!userId && types.includes("nickname") && guildId) {
-        let guildMember = bot.guilds.get(guildId).members.find(u => u.nick && `${u.nick}` === `${cont}`)
-        if (!guildMember) {
+        let guildMember = bot.guilds.get(guildId).members.find(u => u.nick && `${u.nick}` === `${cont}`);
+        if (guildMember) {
             userId = guildMember.id;
         }
     }
@@ -299,16 +299,19 @@ function getUserId(cont, types=null, guildId) {
         if (cont.includes("#")) {
             let split = cont.split("#");
             let guildMember = bot.guilds.get(guildId).members.find(u => `${u.username}#${u.discriminator}` === `${split[0]}#${split[1]}`);
-            if (!guildMember) {
+            if (guildMember) {
                 userId = guildMember.id;
             }
         }
         else {
-            let guildMember = bot.guilds.get(guildId).members.find(u => `${u.username}` === `${cont}`)
-            if (!guildMember) {
+            let guildMember = bot.guilds.get(guildId).members.find(u => `${u.username}` === `${cont}`);
+            if (guildMember) {
                 userId = guildMember.id;
             }
         }
+    }
+    if (!userId) {
+        userId = "";
     }
     return userId;
 }
