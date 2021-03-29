@@ -7,8 +7,8 @@ module.exports.action = function (details) {
     const getUserId = require("../../main.js").getUserId;
     let userId;
     let options = false;
-    if (details["body"].endsWith(" options")) {
-        details["body"] = details["body"].slice(0, -8);
+    if (details["body"].endsWith("options")) {
+        details["body"] = details["body"].slice(0, -7).trimEnd();
         options = true;
     }
     if (details["body"]) {
