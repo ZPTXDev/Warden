@@ -290,7 +290,7 @@ function getUserId(cont, types=null, guildId) {
         }
     }
     if (!userId && types.includes("nickname") && guildId) {
-        let guildMember = bot.guilds.get(guildId).members.find(u => u.nick && `${u.nick.toLowerCase()}` === `${cont.toLowerCase()}`);
+        let guildMember = bot.guilds.get(guildId).members.find(u => u.nick && u.nick.toLowerCase() === cont.toLowerCase());
         if (guildMember) {
             userId = guildMember.id;
         }
@@ -304,8 +304,7 @@ function getUserId(cont, types=null, guildId) {
             }
         }
         else {
-            let guildMember = bot.guilds.get(guildId).members.find(u => `${u.username.toLowerCase()}` === `${cont.toLowerCase()}`);
-            console.log(guildMember);
+            let guildMember = bot.guilds.get(guildId).members.find(u => u.username.toLowerCase() === cont.toLowerCase());
             if (guildMember) {
                 userId = guildMember.id;
             }
