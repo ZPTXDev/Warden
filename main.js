@@ -272,6 +272,46 @@ function roundTo(n, digits) {
     if (digits === 0) {n = parseInt(n, 10);}
     return n;
 }
+function getUserId(cont, types=null, guildId) {
+    if (types === null) {
+        types = ["mention", "id", "nickname", "username"];
+    }
+    let userId;
+    if (types.includes("mention") && cont.startsWith("<@") && cont.endsWith(">")) {
+        userId = cont.replace(/<@!?/, "").replace(/>/, "");
+        if (!bot.users.get(userId)) {
+            userId = "";
+        }
+    }
+    if (!userId && types.includes("id")) {
+        userId = cont;
+        if (!bot.users.get(userId)) {
+            userId = "";
+        }
+    }
+    if (!userId && types.includes("nickname") && guildId) {
+        let guildMember = bot.guilds.get(guildId).members.find(u => `${u.nick}` === `${cont}`)
+        if (!guildMember) {
+            userId = guildMember.id;
+        }
+    }
+    if (!userId && types.includes("username") && guildId) {
+        if (cont.includes("#")) {
+            let split = cont.split("#");
+            let guildMember = bot.guilds.get(guildId).members.find(u => `${u.username}#${u.discriminator}` === `${split[0]}#${split[1]}`);
+            if (!guildMember) {
+                userId = guildMember.id;
+            }
+        }
+        else {
+            let guildMember = bot.guilds.get(guildId).members.find(u => `${u.username}` === `${cont}`)
+            if (!guildMember) {
+                userId = guildMember.id;
+            }
+        }
+    }
+    return userId;
+}
 async function slashManagerRejection(ctx) {
     return await ctx.send({
         embeds: [
@@ -291,6 +331,7 @@ module.exports.bot = bot;
 module.exports.msToTime = msToTime;
 module.exports.msToTimeString = msToTimeString;
 module.exports.roundTo = roundTo;
+module.exports.getUserId = getUserId;
 module.exports.slashManagerRejection = slashManagerRejection;
 
 bot.on("ready", () => {
@@ -394,7 +435,7 @@ bot.on("messageCreate", msg => {
                         case "usage":
                             let resultMessage;
                             if ("usage" in modules[module][action]) {
-                                let usage = modules[module][action]["usage"].replace(/%cmd%/g, cmd);
+                                let usage = modules[module][action]["usage"].replace(/%cmd%/g, cmd).replace(/%mention%/g, msg.author.mention);
                                 resultMessage = `Usage: ${prefix}${usage}`;
                             }
                             else {
