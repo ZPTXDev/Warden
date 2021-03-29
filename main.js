@@ -290,7 +290,7 @@ function getUserId(cont, types=null, guildId) {
         }
     }
     if (!userId && types.includes("nickname") && guildId) {
-        let guildMember = bot.guilds.get(guildId).members.find(u => `${u.nick}` === `${cont}`)
+        let guildMember = bot.guilds.get(guildId).members.find(u => u.nick && `${u.nick}` === `${cont}`)
         if (!guildMember) {
             userId = guildMember.id;
         }
