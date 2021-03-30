@@ -471,7 +471,7 @@ bot.on("messageCreate", msg => {
             msg.channel.createMessage({
                 messageReferenceID: msg.id,
                 embed: {
-                    description: `The prefix in this server is \`${guild && msg.channel.guild.id in guildSettings ? guildSettings[msg.channel.guild.id].prefix : settings.get("prefix")}\`.\nYou may also mention me, following it with a command.`
+                    description: `The prefix in this server is \`${guild && msg.channel.guild.id in guildSettings ? guildSettings[msg.channel.guild.id].prefix : settings.get("prefix")}\`.\nYou may also mention me, following it with a command.`,
                     color: 0x2518a0
                 }
             });
