@@ -428,43 +428,45 @@ bot.on("messageCreate", msg => {
         }
         let cmd = content.split(" ")[0].toLowerCase();
         let body = content.split(" ").slice(1).join(" ");
-        Object.keys(modules).forEach(module => {
-            Object.keys(modules[module]).forEach(action => {
-                if ("commands" in modules[module][action] && modules[module][action]["commands"].includes(cmd) && "action" in modules[module][action] && typeof modules[module][action]["action"] === "function") {
-                    let actionFunction = modules[module][action]["action"];
-                    let result = actionFunction({prefix: prefix, cmd: cmd, body: body, guild: guild, message: msg, slash: false});
-                    console.log(`[C] ${guild ? `${msg.channel.guild.name} (${msg.channel.guild.id}) | ` : ""}${msg.author.username}#${msg.author.discriminator} (${msg.author.id}): ${msg.content}`);
-                    switch (result) {
-                        case "usage":
-                            let resultMessage;
-                            if ("usage" in modules[module][action]) {
-                                let usage = modules[module][action]["usage"].replace(/%cmd%/g, cmd).replace(/%mention%/g, msg.author.mention);
-                                resultMessage = `Usage: ${prefix}${usage}`;
-                            }
-                            else {
-                                resultMessage = "Command execution failed with no reason specified.";
-                            }
-                            msg.channel.createMessage({
-                                messageReferenceID: msg.id,
-                                embed: {
-                                    description: resultMessage,
-                                    color: 0x2518a0
+        if (cmd) {
+            Object.keys(modules).forEach(module => {
+                Object.keys(modules[module]).forEach(action => {
+                    if ("commands" in modules[module][action] && modules[module][action]["commands"].includes(cmd) && "action" in modules[module][action] && typeof modules[module][action]["action"] === "function") {
+                        let actionFunction = modules[module][action]["action"];
+                        let result = actionFunction({prefix: prefix, cmd: cmd, body: body, guild: guild, message: msg, slash: false});
+                        console.log(`[C] ${guild ? `${msg.channel.guild.name} (${msg.channel.guild.id}) | ` : ""}${msg.author.username}#${msg.author.discriminator} (${msg.author.id}): ${msg.content}`);
+                        switch (result) {
+                            case "usage":
+                                let resultMessage;
+                                if ("usage" in modules[module][action]) {
+                                    let usage = modules[module][action]["usage"].replace(/%cmd%/g, cmd).replace(/%mention%/g, msg.author.mention);
+                                    resultMessage = `Usage: ${prefix}${usage}`;
                                 }
-                            });
-                            break;
-                        case "manager":
-                            msg.channel.createMessage({
-                                messageReferenceID: msg.id,
-                                embed: {
-                                    description: "You need to be a **Manager** to use that.",
-                                    color: 0x2518a0
+                                else {
+                                    resultMessage = "Command execution failed with no reason specified.";
                                 }
-                            });
-                            break;
+                                msg.channel.createMessage({
+                                    messageReferenceID: msg.id,
+                                    embed: {
+                                        description: resultMessage,
+                                        color: 0x2518a0
+                                    }
+                                });
+                                break;
+                            case "manager":
+                                msg.channel.createMessage({
+                                    messageReferenceID: msg.id,
+                                    embed: {
+                                        description: "You need to be a **Manager** to use that.",
+                                        color: 0x2518a0
+                                    }
+                                });
+                                break;
+                        }
                     }
-                }
+                });
             });
-        });
+        }
     }
 });
 
