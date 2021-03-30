@@ -426,7 +426,7 @@ bot.on("messageCreate", msg => {
                 msg.mentions.splice(0, 1);
             }
         }
-        console.log(content);
+        console.log(`|${content}|`);
         let cmd = content.split(" ")[0].toLowerCase();
         let body = content.split(" ").slice(1).join(" ");
         if (cmd) {
