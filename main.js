@@ -419,9 +419,7 @@ bot.on("messageCreate", msg => {
         }
     }
     if (msg.content.startsWith(prefix)) {
-        console.log(`before replace: |${msg.content}|`);
         let content = msg.content.replace(prefix, "");
-        console.log(`after replace: |${content}|`);
         if (mention) {
             let count = (content.match(/<@!?(\d+)>/g) || []).length;
             if (count === 0)  {
@@ -469,15 +467,15 @@ bot.on("messageCreate", msg => {
                 });
             });
         }
-        else if (!cmd && mention) {
-            msg.channel.createMessage({
-                messageReferenceID: msg.id,
-                embed: {
-                    description: `The prefix in this server is \`${guild && msg.channel.guild.id in guildSettings ? guildSettings[msg.channel.guild.id].prefix : settings.get("prefix")}\`.\nYou may also mention me, following it with a command.`,
-                    color: 0x2518a0
-                }
-            });
-        }
+    }
+    else if (msg.content === prefix.trim() && mention) {
+        msg.channel.createMessage({
+            messageReferenceID: msg.id,
+            embed: {
+                description: `The prefix in this server is \`${guild && msg.channel.guild.id in guildSettings ? guildSettings[msg.channel.guild.id].prefix : settings.get("prefix")}\`.\nYou may also mention me, following it with a command.`,
+                color: 0x2518a0
+            }
+        });
     }
 });
 
