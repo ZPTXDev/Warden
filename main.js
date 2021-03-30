@@ -418,9 +418,10 @@ bot.on("messageCreate", msg => {
             mention = true;
         }
     }
-    console.log(prefix);
     if (msg.content.startsWith(prefix)) {
+        console.log(`before replace: |${content}|`);
         let content = msg.content.replace(prefix, "");
+        console.log(`after replace: |${content}`);
         if (mention) {
             let count = (content.match(/<@!?(\d+)>/g) || []).length;
             if (count === 0)  {
