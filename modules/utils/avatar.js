@@ -72,7 +72,8 @@ module.exports.slashAction = async function(ctx) {
     else {
         userId = ctx.user.id;
     }
-    let user = bot.guilds.get(ctx.guildID).members.get(userId).user;
+    let user = bot.guilds.get(ctx.guildID).members.get(userId);
+    user = user ? user.user : bot.guilds.get(ctx.guildID).members.get(ctx.user.id).user;
     let animated = user.avatar.startsWith("a_");
     let sizes = [];
     let start = 4096;
