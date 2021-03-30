@@ -418,6 +418,7 @@ bot.on("messageCreate", msg => {
             mention = true;
         }
     }
+    console.log(prefix);
     if (msg.content.startsWith(prefix)) {
         let content = msg.content.replace(prefix, "");
         if (mention) {
@@ -426,7 +427,6 @@ bot.on("messageCreate", msg => {
                 msg.mentions.splice(0, 1);
             }
         }
-        console.log(`|${content}|`);
         let cmd = content.split(" ")[0].toLowerCase();
         let body = content.split(" ").slice(1).join(" ");
         if (cmd) {
