@@ -419,7 +419,7 @@ bot.on("messageCreate", msg => {
         }
     }
     if (msg.content.startsWith(prefix)) {
-        console.log(`before replace: |${content}|`);
+        console.log(`before replace: |${msg.content}|`);
         let content = msg.content.replace(prefix, "");
         console.log(`after replace: |${content}`);
         if (mention) {
