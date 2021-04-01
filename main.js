@@ -185,7 +185,7 @@ catch (err) {
     process.exit(1);
 }
 
-const bot = new Eris(settings.get("token"));
+const bot = new Eris(`Bot ${settings.get("token")}`);
 
 const creator = new SlashCreator({
     applicationID: settings.get("applicationId"),
