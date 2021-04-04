@@ -68,6 +68,9 @@ module.exports.slashAction = async function (ctx) {
 
 function common(user, options) {
     let animated = user.avatar && user.avatar.startsWith("a_");
+    if (!user.avatar && options) {
+        options = false;
+    }
     let sizes = [];
     let start = 4096;
     while (start >= 16) {
