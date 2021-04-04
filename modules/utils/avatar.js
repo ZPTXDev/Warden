@@ -18,24 +18,10 @@ module.exports.action = function (details) {
         userId = details["message"].author.id;
     }
     let user = details["message"].channel.guild.members.get(userId).user;
-    let animated = user.avatar.startsWith("a_");
-    let sizes = [];
-    let start = 4096;
-    while (start >= 16) {
-        sizes.push(`[${start.toString()}](${user.dynamicAvatarURL(animated ? "gif" : "png", start)})`);
-        start /= 2;
-    }
-    sizes = sizes.join(" | ");
+    let embed = common(user, options);
     details["message"].channel.createMessage({
         messageReferenceID: details["message"].id,
-        embed: {
-            title: `${user.username}#${user.discriminator}`,
-            description: `${options ? `**Formats**:\n${animated ? `[gif](${user.dynamicAvatarURL("gif", 2048)}) | ` : ""}[png](${user.dynamicAvatarURL("png", 2048)}) | [jpg](${user.dynamicAvatarURL("jpg", 2048)}) | [webp](${user.dynamicAvatarURL("webp", 2048)})\n**Sizes**:\n${sizes}` : `[External Link](${user.avatarURL})`}`,
-            image: {
-                url: `${animated ? user.dynamicAvatarURL("gif", 2048) : user.dynamicAvatarURL("png", 2048)}`
-            },
-            color: 0x2518a0
-        }
+        embed: embed
     });
     return true;
 }
@@ -59,7 +45,7 @@ module.exports.slash = {
         }
     ]
 };
-module.exports.slashAction = async function(ctx) {
+module.exports.slashAction = async function (ctx) {
     const bot = require("../../main.js").bot;
     let userId;
     let options = false;
@@ -74,6 +60,13 @@ module.exports.slashAction = async function(ctx) {
     }
     let user = bot.guilds.get(ctx.guildID).members.get(userId);
     user = user ? user.user : bot.guilds.get(ctx.guildID).members.get(ctx.user.id).user;
+    let embed = common(user, options);
+    await ctx.send({
+        embeds: [embed]
+    });
+}
+
+function common(user, options) {
     let animated = user.avatar.startsWith("a_");
     let sizes = [];
     let start = 4096;
@@ -82,16 +75,12 @@ module.exports.slashAction = async function(ctx) {
         start /= 2;
     }
     sizes = sizes.join(" | ");
-    await ctx.send({
-        embeds: [
-            {
-                title: `${user.username}#${user.discriminator}`,
-                description: `${options ? `**Formats**:\n${animated ? `[gif](${user.dynamicAvatarURL("gif", 2048)}) | ` : ""}[png](${user.dynamicAvatarURL("png", 2048)}) | [jpg](${user.dynamicAvatarURL("jpg", 2048)}) | [webp](${user.dynamicAvatarURL("webp", 2048)})\n**Sizes**:\n${sizes}` : `[External Link](${user.avatarURL})`}`,
-                image: {
-                    url: `${animated ? user.dynamicAvatarURL("gif", 2048) : user.dynamicAvatarURL("png", 2048)}`
-                },
-                color: 0x2518a0
-            }
-        ]
-    });
+    return {
+        title: `${user.username}#${user.discriminator}`,
+        description: `${options ? `**Formats**:\n${animated ? `[gif](${user.dynamicAvatarURL("gif", 2048)}) | ` : ""}[png](${user.dynamicAvatarURL("png", 2048)}) | [jpg](${user.dynamicAvatarURL("jpg", 2048)}) | [webp](${user.dynamicAvatarURL("webp", 2048)})\n**Sizes**:\n${sizes}` : `[External Link](${user.avatarURL})`}`,
+        image: {
+            url: `${animated ? user.dynamicAvatarURL("gif", 2048) : user.dynamicAvatarURL("png", 2048)}`
+        },
+        color: 0x2518a0
+    };
 }
