@@ -20,7 +20,7 @@ module.exports.action = function (details) {
     if (!details["body"]) {
         return "usage";
     }
-    let prefix = details["body"];
+    let prefix = details["body"].toLowerCase();
     if (space) {
         prefix = `${prefix} `;
     }
