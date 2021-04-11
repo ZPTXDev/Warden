@@ -316,7 +316,7 @@ function getUserId(cont, types=null, guildId) {
     return userId;
 }
 async function slashManagerRejection(ctx) {
-    return await ctx.send({
+    return ctx.send({
         embeds: [
             {
                 description: "You need to be a **Manager** to use that.",
