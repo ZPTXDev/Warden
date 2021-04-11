@@ -479,7 +479,7 @@ bot.on("messageCreate", msg => {
                                     msg.channel.createMessage({
                                         messageReferenceID: msg.id,
                                         embed: {
-                                            description: `${target === "self" ? "You are" : "I am"} missing permission${result.length !== 1 ? "s" : ""}: ${result.map(r => `**${_.startCase(r)}**`.join(", "))}`,
+                                            description: `${target === "self" ? "I am" : "You are"} missing permission${result.length !== 1 ? "s" : ""}: ${result.map(r => `**${_.startCase(r)}**`.join(", "))}`,
                                             color: 0x2518a0
                                         }
                                     });
