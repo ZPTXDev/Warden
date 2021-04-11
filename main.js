@@ -477,7 +477,8 @@ bot.on("messageCreate", msg => {
                                 msg.channel.createMessage({
                                     messageReferenceID: msg.id,
                                     embed: {
-                                        description: "You need to be in a server to use that."
+                                        description: "You need to be in a server to use that.",
+                                        color: 0x2518a0
                                     }
                                 });
                                 break;
@@ -485,7 +486,8 @@ bot.on("messageCreate", msg => {
                                 msg.channel.createMessage({
                                     messageReferenceID: msg.id,
                                     embed: {
-                                        description: "You need to be in Direct Messages to use that."
+                                        description: "You need to be in Direct Messages to use that.",
+                                        color: 0x2518a0
                                     }
                                 });
                                 break;
