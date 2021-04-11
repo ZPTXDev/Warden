@@ -315,6 +315,15 @@ function getUserId(cont, types=null, guildId) {
     }
     return userId;
 }
+function getPermsMatch(userPerms, perms) {
+    let permsMissing = [];
+    perms.forEach(p => {
+        if (!userPerms.has(p)) {
+            permsMissing.push(p);
+        }
+    });
+    return permsMissing;
+}
 async function slashManagerRejection(ctx) {
     return ctx.send({
         embeds: [
@@ -335,6 +344,7 @@ module.exports.msToTime = msToTime;
 module.exports.msToTimeString = msToTimeString;
 module.exports.roundTo = roundTo;
 module.exports.getUserId = getUserId;
+module.exports.getPermsMatch = getPermsMatch;
 module.exports.slashManagerRejection = slashManagerRejection;
 
 bot.on("ready", () => {
