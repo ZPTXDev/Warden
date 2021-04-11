@@ -4,6 +4,7 @@ const settings = require("data-store")({path: "settings.json"});
 const mysql = require("mysql2");
 const reload = require("require-reload")(require);
 const fs = require("fs");
+const _ = require("lodash");
 let ready = false;
 let build = fs.readFileSync(".git/refs/heads/master").toString().replace("\n", "");
 let botLogChannelId = "";
@@ -471,6 +472,18 @@ bot.on("messageCreate", msg => {
                                         color: 0x2518a0
                                     }
                                 });
+                                break;
+                            default:
+                                if (Array.isArray(result)) {
+                                    let target = result.shift();
+                                    msg.channel.createMessage({
+                                        messageReferenceID: msg.id,
+                                        embed: {
+                                            description: `${target === "self" ? "You are" : "I am"} missing permission${result.length !== 1 ? "s" : ""}: ${result.map(r => `**${_.startCase(r)}**`.join(", "))}`,
+                                            color: 0x2518a0
+                                        }
+                                    });
+                                }
                                 break;
                         }
                     }
