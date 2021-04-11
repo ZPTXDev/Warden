@@ -24,8 +24,10 @@ module.exports.action = function (details) {
     if (space) {
         prefix = `${prefix} `;
     }
-    promisePool.execute("INSERT INTO `guilds_warden` (`guildid`, `prefix`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `prefix` = VALUES(`prefix`)", [details["message"].channel.guild.id, prefix]);
-    databaseSync();
+    (async () => {
+        await promisePool.execute("INSERT INTO `guilds_warden` (`guildid`, `prefix`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `prefix` = VALUES(`prefix`)", [details["message"].channel.guild.id, prefix]);
+        databaseSync();
+    })();
     details["message"].channel.createMessage({
         messageReferenceID: details["message"].id,
         embed: {
