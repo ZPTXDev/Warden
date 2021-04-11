@@ -93,33 +93,17 @@ else {
             console.log(err);
             process.exit(1);
         });
-    (async () => {
-        let m = await promisePool.query("SELECT * FROM `memberships`");
-        let g = await promisePool.query("SELECT * FROM `guilds`");
-        let s = await promisePool.query("SELECT * FROM `guilds_warden`");
-        m[0].forEach(me => {
-            memberships[me["userid"]] = me;
-        });
-        g[0].forEach(gm => {
-            guildMemberships[gm["guildid"]] = gm;
-        });
-        s[0].forEach(gs => {
-            guildSettings[gs["guildid"]] = gs;
-        });
-        m = null;
-        g = null;
-        s = null;
-        settings.get("managers").forEach(managerId => {
-            if (!(managerId in memberships) || (managerId in memberships && memberships[managerId]["manager"] === 0)) {
-                console.log(`[!] Manager ID '${managerId}' is present in the settings file but not a manager in the database`);
-            }
-        });
-        Object.keys(memberships).filter(memberId => memberships[memberId]["manager"] === 1).forEach(memberId => {
-            if (!settings.get("managers").includes(memberships[memberId]["userid"])) {
-                console.log(`[!] Manager ID '${memberId}' is present in the database but not a manager in the settings file`);
-            }
-        });
-    })();
+    databaseSync();
+    settings.get("managers").forEach(managerId => {
+        if (!(managerId in memberships) || (managerId in memberships && memberships[managerId]["manager"] === 0)) {
+            console.log(`[!] Manager ID '${managerId}' is present in the settings file but not a manager in the database`);
+        }
+    });
+    Object.keys(memberships).filter(memberId => memberships[memberId]["manager"] === 1).forEach(memberId => {
+        if (!settings.get("managers").includes(memberships[memberId]["userid"])) {
+            console.log(`[!] Manager ID '${memberId}' is present in the database but not a manager in the settings file`);
+        }
+    });
 }
 
 if (!settings.get("prefix")) {
@@ -325,6 +309,20 @@ function getPermsMatch(userPerms, perms) {
     });
     return permsMissing;
 }
+async function databaseSync() {
+    let m = await promisePool.query("SELECT * FROM `memberships`");
+    let g = await promisePool.query("SELECT * FROM `guilds`");
+    let s = await promisePool.query("SELECT * FROM `guilds_warden`");
+    m[0].forEach(me => {
+        memberships[me["userid"]] = me;
+    });
+    g[0].forEach(gm => {
+        guildMemberships[gm["guildid"]] = gm;
+    });
+    s[0].forEach(gs => {
+        guildSettings[gs["guildid"]] = gs;
+    });
+}
 async function slashManagerRejection(ctx) {
     return ctx.send({
         embeds: [
@@ -347,6 +345,7 @@ exports.msToTimeString = msToTimeString;
 exports.roundTo = roundTo;
 exports.getUserId = getUserId;
 exports.getPermsMatch = getPermsMatch;
+exports.databaseSync = databaseSync;
 exports.slashManagerRejection = slashManagerRejection;
 
 bot.on("ready", () => {
@@ -471,6 +470,22 @@ bot.on("messageCreate", msg => {
                                     embed: {
                                         description: "You need to be a **Manager** to use that.",
                                         color: 0x2518a0
+                                    }
+                                });
+                                break;
+                            case "guild":
+                                msg.channel.createMessage({
+                                    messageReferenceID: msg.id,
+                                    embed: {
+                                        description: "You need to be in a server to use that."
+                                    }
+                                });
+                                break;
+                            case "user":
+                                msg.channel.createMessage({
+                                    messageReferenceID: msg.id,
+                                    embed: {
+                                        description: "You need to be in Direct Messages to use that."
                                     }
                                 });
                                 break;
