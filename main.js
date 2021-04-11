@@ -336,17 +336,18 @@ async function slashManagerRejection(ctx) {
     });
 }
 
-module.exports.settings = settings;
-module.exports.reload = reload;
-module.exports.build = build;
-module.exports.modules = modules;
-module.exports.bot = bot;
-module.exports.msToTime = msToTime;
-module.exports.msToTimeString = msToTimeString;
-module.exports.roundTo = roundTo;
-module.exports.getUserId = getUserId;
-module.exports.getPermsMatch = getPermsMatch;
-module.exports.slashManagerRejection = slashManagerRejection;
+exports.settings = settings;
+exports.reload = reload;
+exports.build = build;
+exports.promisePool = promisePool;
+exports.modules = modules;
+exports.bot = bot;
+exports.msToTime = msToTime;
+exports.msToTimeString = msToTimeString;
+exports.roundTo = roundTo;
+exports.getUserId = getUserId;
+exports.getPermsMatch = getPermsMatch;
+exports.slashManagerRejection = slashManagerRejection;
 
 bot.on("ready", () => {
     if (!ready) {
