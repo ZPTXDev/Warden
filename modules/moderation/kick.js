@@ -68,12 +68,12 @@ module.exports.slashAction = async function (ctx) {
     const getPermsMatch = require("../../main.js").getPermsMatch;
     let userIds = [ctx.options["user"]];
     let reason = "reason" in ctx.options ? ctx.options["reason"] : "No reason specified.";
-    let permsMissing = getPermsMatch(bot.guilds.get(ctx.guildID).members.get(ctx.user.id), ["kickMembers"]);
+    let permsMissing = getPermsMatch(bot.guilds.get(ctx.guildID).members.get(ctx.user.id).permissions, ["kickMembers"]);
     if (permsMissing.length > 0) {
         await require("../../main.js").slashPermissionRejection(ctx, ["user"].concat(permsMissing));
         return;
     }
-    let botPermsMissing = getPermsMatch(bot.guilds.get(ctx.guildID).members.get(bot.user.id), ["kickMembers"]);
+    let botPermsMissing = getPermsMatch(bot.guilds.get(ctx.guildID).members.get(bot.user.id).permissions, ["kickMembers"]);
     if (botPermsMissing.length > 0) {
         await require("../../main.js").slashPermissionRejection(ctx, ["self"].concat(botPermsMissing));
         return;
