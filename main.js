@@ -429,7 +429,7 @@ bot.on("shardResume", id => {
     console.log(`[✓] Shard ${id} resumed`);
 });
 
-bot.on("messageCreate", msg => {
+bot.on("messageCreate", async msg => {
     let prefix;
     let mention = false;
     let guild = "guild" in msg.channel;
@@ -457,11 +457,11 @@ bot.on("messageCreate", msg => {
         let cmd = content.split(" ")[0].toLowerCase();
         let body = content.split(" ").slice(1).join(" ");
         if (cmd) {
-            Object.keys(modules).forEach(module => {
-                Object.keys(modules[module]).forEach(action => {
+            for (const module of Object.keys(modules)) {
+                for (const action of Object.keys(modules[module])) {
                     if ("commands" in modules[module][action] && modules[module][action]["commands"].includes(cmd) && "action" in modules[module][action] && typeof modules[module][action]["action"] === "function") {
                         let actionFunction = modules[module][action]["action"];
-                        let result = actionFunction({prefix: prefix, cmd: cmd, body: body, guild: guild, message: msg, slash: false});
+                        let result = await actionFunction({prefix: prefix, cmd: cmd, body: body, guild: guild, message: msg, slash: false});
                         console.log(`[C] ${guild ? `${msg.channel.guild.name} (${msg.channel.guild.id}) | ` : ""}${msg.author.username}#${msg.author.discriminator} (${msg.author.id}): ${msg.content}`);
                         switch (result) {
                             case "usage":
@@ -473,7 +473,7 @@ bot.on("messageCreate", msg => {
                                 else {
                                     resultMessage = "Command execution failed with no reason specified.";
                                 }
-                                msg.channel.createMessage({
+                                await msg.channel.createMessage({
                                     messageReferenceID: msg.id,
                                     embed: {
                                         description: resultMessage,
@@ -482,7 +482,7 @@ bot.on("messageCreate", msg => {
                                 });
                                 break;
                             case "manager":
-                                msg.channel.createMessage({
+                                await msg.channel.createMessage({
                                     messageReferenceID: msg.id,
                                     embed: {
                                         description: "You need to be a **Manager** to use that.",
@@ -491,7 +491,7 @@ bot.on("messageCreate", msg => {
                                 });
                                 break;
                             case "guild":
-                                msg.channel.createMessage({
+                                await msg.channel.createMessage({
                                     messageReferenceID: msg.id,
                                     embed: {
                                         description: "You need to be in a server to use that.",
@@ -500,7 +500,7 @@ bot.on("messageCreate", msg => {
                                 });
                                 break;
                             case "user":
-                                msg.channel.createMessage({
+                                await msg.channel.createMessage({
                                     messageReferenceID: msg.id,
                                     embed: {
                                         description: "You need to be in Direct Messages to use that.",
@@ -511,7 +511,7 @@ bot.on("messageCreate", msg => {
                             default:
                                 if (Array.isArray(result)) {
                                     let target = result.shift();
-                                    msg.channel.createMessage({
+                                    await msg.channel.createMessage({
                                         messageReferenceID: msg.id,
                                         embed: {
                                             description: `${target === "self" ? "I am" : "You are"} missing permission${result.length !== 1 ? "s" : ""}: ${result.map(r => `**${_.startCase(r)}**`).join(", ")}`,
@@ -522,12 +522,12 @@ bot.on("messageCreate", msg => {
                                 break;
                         }
                     }
-                });
-            });
+                }
+            }
         }
     }
     else if (msg.content === prefix.trim() && mention) {
-        msg.channel.createMessage({
+        await msg.channel.createMessage({
             messageReferenceID: msg.id,
             embed: {
                 description: `The prefix in this server is \`${guild && msg.channel.guild.id in guildSettings ? guildSettings[msg.channel.guild.id].prefix : settings.get("prefix")}\`.\nYou may also mention me, following it with a command.`,
