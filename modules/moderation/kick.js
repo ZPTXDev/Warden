@@ -85,6 +85,7 @@ module.exports.slashAction = async function (ctx) {
 }
 
 async function common(moderator, users, guild, reason) {
+    console.log(users);
     let kickSuccess = [];
     let kickFail = [];
     for (let member of guild.members) {
@@ -93,7 +94,6 @@ async function common(moderator, users, guild, reason) {
                 await member.kick(`[${moderator.username}#${moderator.discriminator}] ${reason}`);
                 kickSuccess.push(member.id);
             } catch (e) {
-                console.log(e);
                 kickFail.push(member.id);
             }
         }
