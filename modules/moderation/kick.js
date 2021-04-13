@@ -38,6 +38,9 @@ module.exports.action = async function (details) {
     if (!reason) {
         reason = "No reason specified.";
     }
+    if (userIds.length === 0) {
+        return "usage";
+    }
     let embed = await common(details["message"].author, userIds, details["message"].channel.guild, reason);
     await details["message"].channel.createMessage({
         messageReferenceID: details["message"].id,
