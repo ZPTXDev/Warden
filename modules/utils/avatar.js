@@ -7,6 +7,9 @@ module.exports.action = function (details) {
     const getUserId = require("../../main.js").getUserId;
     let userId;
     let options = false;
+    if (!("guild" in details["message"].channel)) {
+        return "guild";
+    }
     if (details["body"].endsWith("options")) {
         details["body"] = details["body"].slice(0, -7).trimEnd();
         options = true;
@@ -43,7 +46,8 @@ module.exports.slash = {
             required: false,
             type: CommandOptionType.BOOLEAN
         }
-    ]
+    ],
+    guildIDs: require("../../main.js").bot.guilds.map(g => g.id)
 };
 module.exports.slashAction = async function (ctx) {
     const bot = require("../../main.js").bot;
