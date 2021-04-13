@@ -20,9 +20,6 @@ module.exports.action = async function (details) {
     if (botPermsMissing.length > 0) {
         return ["self"].concat(botPermsMissing);
     }
-    if (!details["body"]) {
-        return "usage";
-    }
     let splitBody = details["body"].split(" ");
     let newBody = [];
     splitBody.filter(t => {
@@ -38,7 +35,7 @@ module.exports.action = async function (details) {
     if (!reason) {
         reason = "No reason specified.";
     }
-    if (userIds.length === 0) {
+    if (!details["body"] || userIds.length === 0) {
         return "usage";
     }
     let embed = await common(details["message"].author, userIds, details["message"].channel.guild, reason);
