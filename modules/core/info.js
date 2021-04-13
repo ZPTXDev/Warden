@@ -43,7 +43,7 @@ module.exports.slashAction = async function(ctx) {
     const settings = require("../../main.js").settings;
     const managers = settings.get("managers");
     let type = "";
-    if (ctx.options["stats"]) {
+    if ("stats" in ctx.options) {
         if (!managers.includes(ctx.user.id)) {
             await require("../../main.js").slashManagerRejection(ctx);
             return;
