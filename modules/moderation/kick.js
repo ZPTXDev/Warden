@@ -87,7 +87,7 @@ module.exports.slashAction = async function (ctx) {
 async function common(moderator, users, guild, reason) {
     let kickSuccess = [];
     let kickFail = [];
-    for (let member of Object.keys(guild.members)) {
+    for (let member of guild.members.map(m => m.id)) {
         if (users.includes(member)) {
             member = guild.members.get(member);
             try {
