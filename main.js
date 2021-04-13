@@ -307,6 +307,17 @@ async function slashManagerRejection(ctx) {
         ]
     });
 }
+async function slashPermissionRejection(ctx, permsArray) {
+    let target = permsArray.shift();
+    return ctx.send({
+        embeds: [
+            {
+                description: `${target === "self" ? "I am" : "You are"} missing permission${permsArray.length !== 1 ? "s" : ""}: ${permsArray.map(r => `**${_.startCase(r)}**`).join(", ")}`,
+                color: 0x2518a0
+            }
+        ]
+    });
+}
 
 exports.settings = settings;
 exports.reload = reload;
@@ -321,6 +332,7 @@ exports.getUserId = getUserId;
 exports.getPermsMatch = getPermsMatch;
 exports.databaseSync = databaseSync;
 exports.slashManagerRejection = slashManagerRejection;
+exports.slashPermissionRejection = slashPermissionRejection;
 
 bot.on("ready", () => {
     if (!ready) {
