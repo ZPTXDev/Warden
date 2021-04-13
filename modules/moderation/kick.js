@@ -87,17 +87,16 @@ module.exports.slashAction = async function (ctx) {
 async function common(moderator, users, guild, reason) {
     let kickSuccess = [];
     let kickFail = [];
-    // this should be synchronous because the callbackfn isn't async right?
-    guild.members.forEach(member => {
+    for (const member of guild.members) {
         if (users.includes(member.id)) {
-            member.kick(`[${moderator.username}#${moderator.discriminator}] ${reason}`).then(() => {
+            try {
+                await member.kick(`[${moderator.username}#${moderator.discriminator}] ${reason}`);
                 kickSuccess.push(member.id);
-            }).catch(() => {
+            } catch (e) {
                 kickFail.push(member.id);
-            });
+            }
         }
-    });
-    // right??
+    }
     return {
         description: `Successfully kicked **${kickSuccess.length}** user${kickSuccess.length === 1 ? "" : "s"}${kickFail.length > 0 ? ` and failed to kick **${kickFail.length}** user${kickFail.length === 1 ? "" : "s"}` : ""}.\nReason: \`${reason}\``,
         color: 0x2518a0
