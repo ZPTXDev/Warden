@@ -361,6 +361,10 @@ bot.on("ready", () => {
                 if ("slash" in modules[module][action]) {
                     let slash = class Command extends SlashCommand {
                         constructor(creator) {
+                            if (modules[module][action]["slash"].guildOnly) {
+                                delete modules[module][action]["slash"].guildOnly;
+                                modules[module][action]["slash"].guildIDs = bot.guilds.map(g => g.id);
+                            }
                             super(creator, modules[module][action]["slash"]);
                         }
                     }

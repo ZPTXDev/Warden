@@ -47,7 +47,7 @@ module.exports.slash = {
             type: CommandOptionType.BOOLEAN
         }
     ],
-    guildIDs: require("../../main.js").bot.guilds.map(g => g.id)
+    guildOnly: true
 };
 module.exports.slashAction = async function (ctx) {
     const bot = require("../../main.js").bot;
