@@ -189,33 +189,6 @@ creator.on("error", err => {
     console.log(err);
 });
 
-let slashCommands = [];
-Object.keys(modules).forEach(module => {
-    Object.keys(modules[module]).forEach(action => {
-        if ("slash" in modules[module][action]) {
-            let slash = class Command extends SlashCommand {
-                constructor(creator) {
-                    super(creator, modules[module][action]["slash"]);
-                }
-            }
-            slash.prototype.run = modules[module][action]["slashAction"];
-            slashCommands.push(slash);
-            slash = null;
-        }
-    });
-});
-
-creator
-    .withServer(new GatewayServer(handler => {
-        bot.on("rawWS", event => {
-            if (event.t === "INTERACTION_CREATE") {
-                handler(event.d);
-            }
-        });
-    }))
-    .registerCommands(slashCommands)
-    .syncCommands();
-
 // thanks: https://gist.github.com/flangofas/714f401b63a1c3d84aaa
 function msToTime(miliseconds, format) {
     let days, hours, minutes, seconds, total_hours, total_minutes, total_seconds;
@@ -381,6 +354,33 @@ bot.on("ready", () => {
         ready = true;
         bot.options.defaultImageFormat = "png";
         bot.editStatus("dnd", {name: "for suspicious activity", type: 3});
+
+        let slashCommands = [];
+        Object.keys(modules).forEach(module => {
+            Object.keys(modules[module]).forEach(action => {
+                if ("slash" in modules[module][action]) {
+                    let slash = class Command extends SlashCommand {
+                        constructor(creator) {
+                            super(creator, modules[module][action]["slash"]);
+                        }
+                    }
+                    slash.prototype.run = modules[module][action]["slashAction"];
+                    slashCommands.push(slash);
+                    slash = null;
+                }
+            });
+        });
+
+        creator
+            .withServer(new GatewayServer(handler => {
+                bot.on("rawWS", event => {
+                    if (event.t === "INTERACTION_CREATE") {
+                        handler(event.d);
+                    }
+                });
+            }))
+            .registerCommands(slashCommands)
+            .syncCommands();
     }
 });
 
