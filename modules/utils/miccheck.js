@@ -13,7 +13,7 @@ module.exports.action = async function (details) {
         userId = getUserId(details["body"], null, details["message"].channel.guild.id);
     }
     if (!userId) {
-        let embed = await common("stop");
+        let embed = await common("stop", details["message"].channel.guild);
         await details["message"].channel.createMessage({
             messageReferenceId: details["message"].id,
             embed: embed
