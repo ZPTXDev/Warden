@@ -91,11 +91,14 @@ async function common(user, guild, initiator) {
     let channel = guild.channels.get(user.voiceState.channelID);
     let voiceConnection = await channel.join();
     let receive = voiceConnection.receive("opus");
-    voiceConnection.play(receive);
+    voiceConnection.on("ready", () => {
+        voiceConnection.play(receive);
+    });
     voiceConnection.on("end", () => {
         bot.leaveVoiceChannel(channel.id);
     });
     return {
-        description: `Now performing mic check for user ${user.username}#${user.discriminator}\nEnd it by typing this command without any arguments`
+        description: `Now performing mic check for user **${user.username}#${user.discriminator}**\nEnd it by typing this command without any arguments`,
+        color: 0x2518a0
     };
 }
