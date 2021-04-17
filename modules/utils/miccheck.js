@@ -20,7 +20,7 @@ module.exports.action = async function (details) {
         });
         return true;
     }
-    let user = details["message"].channel.guild.members.get(userId).member;
+    let user = details["message"].channel.guild.members.get(userId);
     let embed = await common(user, details["message"].channel.guild, details["message"].member);
     await details["message"].channel.createMessage({
         messageReferenceId: details["message"].id,
