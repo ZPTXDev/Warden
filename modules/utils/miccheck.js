@@ -92,7 +92,6 @@ async function common(user, guild, initiator) {
     let channel = guild.channels.get(user.voiceState.channelID);
     let voiceConnection = await channel.join();
     let receive = voiceConnection.receive("opus");
-    console.log(receive);
     voiceConnection.on("ready", () => {
         voiceConnection.play(receive);
     });
