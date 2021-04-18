@@ -6,7 +6,7 @@ const reload = require("require-reload")(require);
 const fs = require("fs");
 const _ = require("lodash");
 let ready = false;
-let build = fs.readFileSync(".git/refs/heads/master").toString().replace("\n", "");
+let build = fs.existsSync(".git/refs/heads/master") ? fs.readFileSync(".git/refs/heads/master").toString().replace("\n", "") : "unknown";
 let botLogChannelId = "";
 let pool;
 let promisePool;
