@@ -60,6 +60,7 @@ module.exports.slashAction = async function(ctx) {
 
 function common(type) {
     const build = require("../../main.js").build;
+    const version = require("../../main.js").version;
     const modules = require("../../main.js").modules;
     const bot = require("../../main.js").bot;
     const msToTime = require("../../main.js").msToTime;
@@ -78,7 +79,7 @@ function common(type) {
     });
     return {
         title: "Warden",
-        description: `A moderation and utility bot, part of the ZapSquared Network.\nSource code available [here](https://github.com/zapteryx/Warden).\nRunning build [\`${build.slice(0, 7)}\`](https://github.com/zapteryx/Warden/commit/${build}).`,
+        description: `A moderation and utility bot, part of the ZapSquared Network.\nSource code available [here](https://github.com/zapteryx/Warden).\nRunning version \`${version}\`.`,
         color: 0x2518a0,
         fields: type === "stats" ? [
             {
@@ -91,7 +92,7 @@ function common(type) {
             },
             {
                 name: "Version",
-                value: `**Warden**: \`${build}\`\n**Eris**: \`${require("eris").VERSION}\`\n**NodeJS**: \`${process.env.NODE_VERSION}\``
+                value: `**Warden**: \`${version}\` [\`${build.slice(0, 7)}\`](https://github.com/zapteryx/Warden/commit/${build})\n**Eris**: \`${require("eris").VERSION}\`\n**NodeJS**: \`${process.env.NODE_VERSION}\``
             }
         ] : [],
         thumbnail: {

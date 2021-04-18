@@ -6,8 +6,9 @@ const reload = require("require-reload")(require);
 const fs = require("fs");
 const _ = require("lodash");
 let ready = false;
-let gitFilePath = `.git/refs/heads/${settings.get("dev") ? "dev" : "master"}`;
-let build = fs.existsSync(gitFilePath) ? fs.readFileSync(gitFilePath).toString().replace("\n", "") : "unknown";
+const gitFilePath = `.git/refs/heads/${settings.get("dev") ? "dev" : "master"}`;
+const build = fs.existsSync(gitFilePath) ? fs.readFileSync(gitFilePath).toString().replace("\n", "") : "unknown";
+const {version} = require('./package.json');
 let botLogChannelId = "";
 let pool;
 let promisePool;
@@ -323,6 +324,7 @@ async function slashPermissionRejection(ctx, permsArray) {
 exports.settings = settings;
 exports.reload = reload;
 exports.build = build;
+exports.version = version;
 exports.promisePool = promisePool;
 exports.modules = modules;
 exports.bot = bot;
@@ -347,6 +349,7 @@ bot.on("ready", () => {
             }
             settings.set("lastBuild", build);
         }
+        startupLogs.push(`[>] Build version: ${version}`);
         startupLogs.push(`[>] Loaded modules: ${Object.keys(modules).length > 0 ? Object.keys(modules).map(moduleName => `${moduleName} (${Object.keys(modules[moduleName]).length})`).join(", ") : "None"}`);
         startupLogs.push(`[>] Logged in to Discord as ${bot.user.username}#${bot.user.discriminator} (${bot.user.id})`);
         startupLogs.push(`[>] Connected to ${bot.guilds.size} guild${bot.guilds.size === 1 ? "" : "s"}`);
