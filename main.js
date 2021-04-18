@@ -286,7 +286,7 @@ function getPermsMatch(userPerms, perms) {
 async function databaseSync() {
     let m = await promisePool.query("SELECT * FROM `memberships`");
     let g = await promisePool.query("SELECT * FROM `guilds`");
-    let s = await promisePool.query("SELECT * FROM `guilds_warden`");
+    let s = settings.get("database.dev") ? await promisePool.query("SELECT * FROM `guilds_warden_dev`") : await promisePool.query("SELECT * FROM `guilds_warden`");
     m[0].forEach(me => {
         memberships[me["userid"]] = me;
     });
