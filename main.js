@@ -6,7 +6,8 @@ const reload = require("require-reload")(require);
 const fs = require("fs");
 const _ = require("lodash");
 let ready = false;
-let build = fs.existsSync(".git/refs/heads/master") ? fs.readFileSync(".git/refs/heads/master").toString().replace("\n", "") : "unknown";
+let gitFilePath = `.git/refs/heads/${settings.get("dev") ? "dev" : "master"}`;
+let build = fs.existsSync(gitFilePath) ? fs.readFileSync(gitFilePath).toString().replace("\n", "") : "unknown";
 let botLogChannelId = "";
 let pool;
 let promisePool;
@@ -286,7 +287,7 @@ function getPermsMatch(userPerms, perms) {
 async function databaseSync() {
     let m = await promisePool.query("SELECT * FROM `memberships`");
     let g = await promisePool.query("SELECT * FROM `guilds`");
-    let s = settings.get("database.dev") ? await promisePool.query("SELECT * FROM `guilds_warden_dev`") : await promisePool.query("SELECT * FROM `guilds_warden`");
+    let s = settings.get("dev") ? await promisePool.query("SELECT * FROM `guilds_warden_dev`") : await promisePool.query("SELECT * FROM `guilds_warden`");
     m[0].forEach(me => {
         memberships[me["userid"]] = me;
     });
