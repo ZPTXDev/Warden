@@ -86,7 +86,6 @@ module.exports.slashAction = async function (ctx) {
     let embed = await common(ctx.user, userIds, bot.guilds.get(ctx.guildID), reason);
     let file = embed.file;
     delete embed.file;
-    console.log(file);
     await ctx.send({
         embeds: [embed],
         file: file
