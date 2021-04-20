@@ -69,6 +69,7 @@ module.exports.slash = {
     guildOnly: true
 }
 module.exports.slashAction = async function (ctx) {
+    await ctx.defer();
     const bot = require("../../main.js").bot;
     const getPermsMatch = require("../../main.js").getPermsMatch;
     let userIds = [ctx.options["user"]];
@@ -88,7 +89,7 @@ module.exports.slashAction = async function (ctx) {
     delete embed.file;
     await ctx.send({
         embeds: [embed],
-        file: [file]
+        file: file
     });
 }
 

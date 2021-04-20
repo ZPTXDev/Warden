@@ -21,6 +21,7 @@ module.exports.slash = {
     deferEphemeral: false
 };
 module.exports.slashAction = async function(ctx) {
+    await ctx.defer();
     const bot = require("../../main.js").bot;
     await ctx.send({
         embeds: [

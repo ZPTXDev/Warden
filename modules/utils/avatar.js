@@ -50,6 +50,7 @@ module.exports.slash = {
     guildOnly: true
 };
 module.exports.slashAction = async function (ctx) {
+    await ctx.defer();
     const bot = require("../../main.js").bot;
     let userId;
     let options = false;

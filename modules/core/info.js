@@ -40,6 +40,7 @@ module.exports.slash = {
     ]
 };
 module.exports.slashAction = async function(ctx) {
+    await ctx.defer();
     const settings = require("../../main.js").settings;
     const managers = settings.get("managers");
     let type = "";
