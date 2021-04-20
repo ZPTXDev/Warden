@@ -114,7 +114,7 @@ async function common(moderator, users, guild, reason) {
         description: `Successfully kicked **${kickSuccess.length}** user${kickSuccess.length === 1 ? "" : "s"}${kickFail.length > 0 ? ` and failed to kick **${kickFail.length}** user${kickFail.length === 1 ? "" : "s"}` : ""}.\nReason: \`${reason}\``,
         color: 0x2518a0,
         file: {
-            file: fileBuffer.join("\n"),
+            file: Buffer.from(fileBuffer.join("\n")),
             name: "log.txt"
         }
     };
