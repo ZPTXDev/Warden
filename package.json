@@ -2,13 +2,13 @@
   "name": "warden",
   "version": "1.0.1-dev",
   "dependencies": {
-    "data-store": "^4.0.3",
+    "data-store": "4.0.3",
     "eris": "abalabahaha/eris#e71c2bae25583a4aff7bf1c543ab0132e717b4a6",
-    "lodash": "^4.17.21",
-    "mysql2": "^2.2.5",
-    "require-reload": "^0.2.2",
-    "slash-create": "^3.0.0",
-    "utf8": "^3.0.0",
-    "websocket": "^1.0.33"
+    "lodash": "4.17.21",
+    "mysql2": "2.2.5",
+    "require-reload": "0.2.2",
+    "slash-create": "3.1.0",
+    "utf8": "3.0.0",
+    "websocket": "1.0.33"
   }
 }
