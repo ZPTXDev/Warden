@@ -39,10 +39,12 @@ module.exports.action = async function (details) {
         return "usage";
     }
     let embed = await common(details["message"].author, userIds, details["message"].channel.guild, reason);
+    let file = embed.file;
+    delete embed.file;
     await details["message"].channel.createMessage({
         messageReferenceID: details["message"].id,
         embed: embed
-    });
+    }, file);
     return true;
 }
 
@@ -67,6 +69,7 @@ module.exports.slash = {
     guildOnly: true
 }
 module.exports.slashAction = async function (ctx) {
+    await ctx.defer();
     const bot = require("../../main.js").bot;
     const getPermsMatch = require("../../main.js").getPermsMatch;
     let userIds = [ctx.options["user"]];
@@ -82,28 +85,39 @@ module.exports.slashAction = async function (ctx) {
         return;
     }
     let embed = await common(ctx.user, userIds, bot.guilds.get(ctx.guildID), reason);
+    let file = embed.file;
+    delete embed.file;
     await ctx.send({
-        embeds: [embed]
+        embeds: [embed],
+        file: file
     });
 }
 
 async function common(moderator, users, guild, reason) {
     let kickSuccess = [];
     let kickFail = [];
+    let fileBuffer = [];
     for (let member of guild.members.map(m => m.id)) {
         if (users.includes(member)) {
             member = guild.members.get(member);
             try {
                 await member.kick(`[${moderator.username}#${moderator.discriminator}] ${reason}`);
                 kickSuccess.push(member.id);
+                fileBuffer.push(`[✓] Kicked ${member.username}#${member.discriminator} for: ${reason}`);
             } catch (e) {
                 kickFail.push(member.id);
+                fileBuffer.push(`[!] Failed to kick ${member.username}#${member.discriminator} (detailed error below)`);
+                fileBuffer.push(e);
             }
         }
     }
     return {
         description: `Successfully kicked **${kickSuccess.length}** user${kickSuccess.length === 1 ? "" : "s"}${kickFail.length > 0 ? ` and failed to kick **${kickFail.length}** user${kickFail.length === 1 ? "" : "s"}` : ""}.\nReason: \`${reason}\``,
-        color: 0x2518a0
+        color: 0x2518a0,
+        file: {
+            file: Buffer.from(fileBuffer.join("\n")),
+            name: "log.txt"
+        }
     };
 }
 

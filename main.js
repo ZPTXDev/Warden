@@ -6,7 +6,9 @@ const reload = require("require-reload")(require);
 const fs = require("fs");
 const _ = require("lodash");
 let ready = false;
-let build = fs.existsSync(".git/refs/heads/master") ? fs.readFileSync(".git/refs/heads/master").toString().replace("\n", "") : "unknown";
+const gitFilePath = `.git/refs/heads/${settings.get("dev") ? "dev" : "master"}`;
+const build = fs.existsSync(gitFilePath) ? fs.readFileSync(gitFilePath).toString().replace("\n", "") : "unknown";
+const {version} = require('./package.json');
 let botLogChannelId = "";
 let pool;
 let promisePool;
@@ -286,7 +288,7 @@ function getPermsMatch(userPerms, perms) {
 async function databaseSync() {
     let m = await promisePool.query("SELECT * FROM `memberships`");
     let g = await promisePool.query("SELECT * FROM `guilds`");
-    let s = await promisePool.query("SELECT * FROM `guilds_warden`");
+    let s = settings.get("dev") ? await promisePool.query("SELECT * FROM `guilds_warden_dev`") : await promisePool.query("SELECT * FROM `guilds_warden`");
     m[0].forEach(me => {
         memberships[me["userid"]] = me;
     });
@@ -322,6 +324,7 @@ async function slashPermissionRejection(ctx, permsArray) {
 exports.settings = settings;
 exports.reload = reload;
 exports.build = build;
+exports.version = version;
 exports.promisePool = promisePool;
 exports.modules = modules;
 exports.bot = bot;
@@ -346,6 +349,7 @@ bot.on("ready", () => {
             }
             settings.set("lastBuild", build);
         }
+        startupLogs.push(`[>] Build version: ${version}`);
         startupLogs.push(`[>] Loaded modules: ${Object.keys(modules).length > 0 ? Object.keys(modules).map(moduleName => `${moduleName} (${Object.keys(modules[moduleName]).length})`).join(", ") : "None"}`);
         startupLogs.push(`[>] Logged in to Discord as ${bot.user.username}#${bot.user.discriminator} (${bot.user.id})`);
         startupLogs.push(`[>] Connected to ${bot.guilds.size} guild${bot.guilds.size === 1 ? "" : "s"}`);
