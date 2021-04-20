@@ -88,7 +88,7 @@ module.exports.slashAction = async function (ctx) {
     delete embed.file;
     await ctx.send({
         embeds: [embed],
-        file: file
+        file: [file]
     });
 }
 
