@@ -16,6 +16,7 @@ let modules = {};
 let memberships = {};
 let guildMemberships = {};
 let guildSettings = {};
+let bans = {};
 
 let initialTime = new Date().getTime();
 
@@ -221,7 +222,7 @@ function msToTime(miliseconds, format) {
 function msToTimeString(msObject) {
     return `${msObject["d"] > 0 ? `${msObject["d"]} day${msObject["d"] === 1 ? "" : "s"}, ` : ""}${msObject["h"] > 0 ? `${msObject["h"]} hr${msObject["h"] === 1 ? "" : "s"}, ` : ""}${msObject["m"] > 0 ? `${msObject["m"]} min${msObject["m"] === 1 ? "" : "s"}, ` : ""}${msObject["s"] > 0 ? `${msObject["s"]} sec${msObject["s"] === 1 ? "" : "s"}, ` : ""}`.slice(0, -2);
 }
-// thanks: https://stackoverflow.com/a/15762794/13293007
+// thanks: https://stackoverflow.com/a/15762794
 function roundTo(n, digits) {
     let negative = false;
     if (digits === undefined) {digits = 0;}
@@ -232,6 +233,19 @@ function roundTo(n, digits) {
     if (negative) {n = (n * -1).toFixed(digits);}
     if (digits === 0) {n = parseInt(n, 10);}
     return n;
+}
+// thanks: https://stackoverflow.com/a/54897508
+function getSeconds(str) {
+    let seconds = 0;
+    let days = str.match(/(\d+)\s*d/);
+    let hours = str.match(/(\d+)\s*h/);
+    let minutes = str.match(/(\d+)\s*m/);
+    let secs = str.match(/(\d+)\s*s/);
+    if (days) { seconds += parseInt(days[1])*86400; }
+    if (hours) { seconds += parseInt(hours[1])*3600; }
+    if (minutes) { seconds += parseInt(minutes[1])*60; }
+    if (secs) { seconds += parseInt(secs[1]); }
+    return seconds;
 }
 function getUserId(cont, types=null, guildId) {
     if (types === null) {
@@ -289,6 +303,7 @@ async function databaseSync() {
     let m = await promisePool.query("SELECT * FROM `memberships`");
     let g = await promisePool.query("SELECT * FROM `guilds`");
     let s = settings.get("dev") ? await promisePool.query("SELECT * FROM `guilds_warden_dev`") : await promisePool.query("SELECT * FROM `guilds_warden`");
+    let b = settings.get("dev") ? await promisePool.query("SELECT * FROM `bans_warden_dev`") : await promisePool.query("SELECT * FROM `bans_warden`");
     m[0].forEach(me => {
         memberships[me["userid"]] = me;
     });
@@ -297,6 +312,20 @@ async function databaseSync() {
     });
     s[0].forEach(gs => {
         guildSettings[gs["guildid"]] = gs;
+    });
+    b[0].forEach(ba => {
+        if (ba["guildid"] in bans) {
+            bans[ba["guildid"]].push({
+                userid: ba["userid"],
+                expires: ba["expires"]
+            });
+        }
+        else {
+            bans[ba["guildid"]] = [{
+                userid: ba["userid"],
+                expires: ba["expires"]
+            }];
+        }
     });
 }
 async function slashManagerRejection(ctx) {
@@ -333,6 +362,7 @@ exports.msToTimeString = msToTimeString;
 exports.roundTo = roundTo;
 exports.getUserId = getUserId;
 exports.getPermsMatch = getPermsMatch;
+exports.getSeconds = getSeconds;
 exports.databaseSync = databaseSync;
 exports.slashManagerRejection = slashManagerRejection;
 exports.slashPermissionRejection = slashPermissionRejection;
