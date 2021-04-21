@@ -43,9 +43,6 @@ module.exports.action = async function (details) {
     if (!details["body"] || userIds.length === 0) {
         return "usage";
     }
-    if (duration === 0) {
-        duration = -1;
-    }
     let embed = await common(details["message"].author, userIds, details["message"].channel.guild, duration, reason);
     let file = embed.file;
     delete embed.file;
@@ -90,9 +87,6 @@ module.exports.slashAction = async function (ctx) {
     let userIds = [ctx.options["user"]];
     let duration = "duration" in ctx.options ? getSeconds(ctx.options["duration"]) : -1;
     let reason = "reason" in ctx.options ? ctx.options["reason"] : "No reason specified.";
-    if (duration === 0) {
-        duration = -1;
-    }
     let permsMissing = getPermsMatch(bot.guilds.get(ctx.guildID).members.get(ctx.user.id).permissions, ["banMembers"]);
     if (permsMissing.length > 0) {
         await require("../../main.js").slashPermissionRejection(ctx, ["user"].concat(permsMissing));
@@ -123,6 +117,7 @@ async function common(moderator, users, guild, duration, reason) {
     if (duration > 0) {
         duration *= 1000;
     }
+    console.log(duration);
     let d = new Date();
     d = new Date(d.getTime() + duration);
     for (let member of guild.members.map(m => m.id)) {
