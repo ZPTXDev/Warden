@@ -131,11 +131,13 @@ async function common(moderator, users, guild, duration, reason) {
             try {
                 await member.ban(0, `[${moderator.username}#${moderator.discriminator}] ${reason}`);
                 banSuccess.push(member.id);
-                if (settings.get("dev")) {
-                    await promisePool.execute("INSERT INTO `bans_warden_dev` (`guildid`, `userid`, `expires`) VALUES (?, ?, ?)", [guild.id, member.id, d.getTime()]);
-                }
-                else {
-                    await promisePool.execute("INSERT INTO `bans_warden` (`guildid`, `userid`, `expires`) VALUES (?, ?, ?)", [guild.id, member.id, d.getTime()]);
+                if (duration > 0) {
+                    if (settings.get("dev")) {
+                        await promisePool.execute("INSERT INTO `bans_warden_dev` (`guildid`, `userid`, `expires`) VALUES (?, ?, ?)", [guild.id, member.id, d.getTime()]);
+                    }
+                    else {
+                        await promisePool.execute("INSERT INTO `bans_warden` (`guildid`, `userid`, `expires`) VALUES (?, ?, ?)", [guild.id, member.id, d.getTime()]);
+                    }
                 }
                 databaseSync();
                 fileBuffer.push(`[✓] Banned ${member.username}#${member.discriminator}`);
