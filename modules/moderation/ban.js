@@ -144,7 +144,7 @@ async function common(moderator, users, guild, duration, reason) {
         }
     }
     return {
-        description: `Successfully banned **${banSuccess.length}** user${banSuccess.length === 1 ? "" : "s"}${banFail.length > 0 ? ` and failed to ban **${banFail.length}** user${banFail.length === 1 ? "" : "s"}` : ""}.\nDuration:\`${duration > 0 ? msToTimeString(msToTime(duration)) : "Permanent"}\`\nReason: \`${reason}\``,
+        description: `Successfully banned **${banSuccess.length}** user${banSuccess.length === 1 ? "" : "s"}${banFail.length > 0 ? ` and failed to ban **${banFail.length}** user${banFail.length === 1 ? "" : "s"}` : ""}.\nDuration: \`${duration > 0 ? msToTimeString(msToTime(duration)) : "Permanent"}\`\nReason: \`${reason}\``,
         color: 0x2518a0,
         file: {
             file: Buffer.from(fileBuffer.join("\n")),
