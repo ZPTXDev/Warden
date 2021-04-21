@@ -21,17 +21,17 @@ module.exports.action = async function (details) {
         return ["self"].concat(botPermsMissing);
     }
     let splitBody = details["body"].split(" ");
-    let newBody = [];
-    splitBody.filter(t => {
+    splitBody = splitBody.filter(t => {
         let uid = getUserId(t, ["mention", "id"], details["message"].channel.guild.id);
         if (uid !== "") {
             userIds.push(uid);
+            return false;
         }
         else {
-            newBody.push(t);
+            return true;
         }
     });
-    reason = newBody.join(" ");
+    reason = splitBody.join(" ");
     if (!reason) {
         reason = "No reason specified.";
     }
@@ -103,7 +103,7 @@ async function common(moderator, users, guild, reason) {
             try {
                 await member.kick(`[${moderator.username}#${moderator.discriminator}] ${reason}`);
                 kickSuccess.push(member.id);
-                fileBuffer.push(`[✓] Kicked ${member.username}#${member.discriminator} for: ${reason}`);
+                fileBuffer.push(`[✓] Kicked ${member.username}#${member.discriminator}`);
             } catch (e) {
                 kickFail.push(member.id);
                 fileBuffer.push(`[!] Failed to kick ${member.username}#${member.discriminator} (detailed error below)`);
@@ -120,4 +120,3 @@ async function common(moderator, users, guild, reason) {
         }
     };
 }
-
