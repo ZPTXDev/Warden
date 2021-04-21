@@ -2,6 +2,7 @@ module.exports.commands = ["prefix"];
 module.exports.usage = "%cmd% prefix [space]";
 module.exports.description = "Set Warden's prefix.";
 module.exports.action = function (details) {
+    const settings = require("../../main.js").settings;
     const promisePool = require("../../main.js").promisePool;
     const getPermsMatch = require("../../main.js").getPermsMatch;
     const databaseSync = require("../../main.js").databaseSync;
@@ -25,7 +26,12 @@ module.exports.action = function (details) {
         prefix = `${prefix} `;
     }
     (async () => {
-        await promisePool.execute("INSERT INTO `guilds_warden` (`guildid`, `prefix`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `prefix` = VALUES(`prefix`)", [details["message"].channel.guild.id, prefix]);
+        if (settings.get("dev")) {
+            await promisePool.execute("INSERT INTO `guilds_warden_dev` (`guildid`, `prefix`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `prefix` = VALUES(`prefix`)", [details["message"].channel.guild.id, prefix]);
+        }
+        else {
+            await promisePool.execute("INSERT INTO `guilds_warden` (`guildid`, `prefix`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `prefix` = VALUES(`prefix`)", [details["message"].channel.guild.id, prefix]);
+        }
         databaseSync();
     })();
     details["message"].channel.createMessage({
