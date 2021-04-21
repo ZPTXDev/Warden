@@ -110,6 +110,7 @@ async function common(moderator, users, guild, duration, reason) {
     const settings = require("../../main.js").settings;
     const promisePool = require("../../main.js").promisePool;
     const databaseSync = require("../../main.js").databaseSync;
+    const msToTime = require("../../main.js").msToTime;
     const msToTimeString = require("../../main.js").msToTimeString;
     let banSuccess = [];
     let banFail = [];
@@ -117,7 +118,6 @@ async function common(moderator, users, guild, duration, reason) {
     if (duration > 0) {
         duration *= 1000;
     }
-    console.log(duration);
     let d = new Date();
     d = new Date(d.getTime() + duration);
     for (let member of guild.members.map(m => m.id)) {
@@ -144,7 +144,7 @@ async function common(moderator, users, guild, duration, reason) {
         }
     }
     return {
-        description: `Successfully banned **${banSuccess.length}** user${banSuccess.length === 1 ? "" : "s"}${banFail.length > 0 ? ` and failed to ban **${banFail.length}** user${banFail.length === 1 ? "" : "s"}` : ""}.\nDuration:\`${duration > 0 ? msToTimeString(duration) : "Permanent"}\`\nReason: \`${reason}\``,
+        description: `Successfully banned **${banSuccess.length}** user${banSuccess.length === 1 ? "" : "s"}${banFail.length > 0 ? ` and failed to ban **${banFail.length}** user${banFail.length === 1 ? "" : "s"}` : ""}.\nDuration:\`${duration > 0 ? msToTimeString(msToTime(duration)) : "Permanent"}\`\nReason: \`${reason}\``,
         color: 0x2518a0,
         file: {
             file: Buffer.from(fileBuffer.join("\n")),
