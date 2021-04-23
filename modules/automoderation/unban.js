@@ -8,7 +8,9 @@ const unbanInterval = setInterval(async () => {
     let unbanned = false;
     Object.keys(bans).forEach(b => {
         bans[b].forEach(ban => {
+            console.log("here 1");
             if (parseInt(ban["expires"]) <= new Date().getTime()) {
+                console.log("here 2");
                 bot.unbanGuildMember(b, ban["userid"], "[Automod] Ban expired");
                 if (settings.get("dev")) {
                     promisePool.execute("DELETE FROM `bans_warden_dev` WHERE `guildid` = ? AND `userid` = ?", [b, ban["userid"]]);
