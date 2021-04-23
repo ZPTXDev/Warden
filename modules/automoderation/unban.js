@@ -6,6 +6,7 @@ const unbanInterval = setInterval(async () => {
     const databaseSync = require("../../main.js").databaseSync;
     const promisePool = require("../../main.js").promisePool;
     let unbanned = false;
+    console.log("here 0");
     Object.keys(bans).forEach(b => {
         bans[b].forEach(ban => {
             console.log("here 1");
