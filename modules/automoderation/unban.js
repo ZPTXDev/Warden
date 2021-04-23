@@ -1,10 +1,10 @@
 const bot = require("../../main.js").bot;
 const databaseSync = require("../../main.js").databaseSync;
 const promisePool = require("../../main.js").promisePool;
-const bans = require("../../main.js").bans;
 // is this bad for performance? hopefully not?
 // https://stackoverflow.com/questions/12810622/nodejs-setinterval-bad-for-performance
 const unbanInterval = setInterval(async () => {
+    const bans = require("../../main.js").bans;
     let unbanned = false;
     Object.keys(bans).forEach(b => {
         bans[b].forEach(ban => {
