@@ -2,16 +2,13 @@
 // https://stackoverflow.com/questions/12810622/nodejs-setinterval-bad-for-performance
 const unbanInterval = setInterval(async () => {
     const bot = require("../../main.js").bot;
-    const bans = require("../../main.js").bans;
+    let bans = require("../../main.js").bans;
     const databaseSync = require("../../main.js").databaseSync;
     const promisePool = require("../../main.js").promisePool;
     let unbanned = false;
-    console.log("here 0");
     Object.keys(bans).forEach(b => {
         bans[b].forEach(ban => {
-            console.log("here 1");
             if (parseInt(ban["expires"]) <= new Date().getTime()) {
-                console.log("here 2");
                 bot.unbanGuildMember(b, ban["userid"], "[Automod] Ban expired");
                 if (settings.get("dev")) {
                     promisePool.execute("DELETE FROM `bans_warden_dev` WHERE `guildid` = ? AND `userid` = ?", [b, ban["userid"]]);
