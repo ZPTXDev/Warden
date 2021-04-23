@@ -134,7 +134,7 @@ async function common(moderator, users, guild, duration, reason) {
                         await promisePool.execute("INSERT INTO `bans_warden` (`guildid`, `userid`, `expires`) VALUES (?, ?, ?)", [guild.id, member.id, d.getTime()]);
                     }
                 }
-                databaseSync();
+                await databaseSync();
                 fileBuffer.push(`[✓] Banned ${member.username}#${member.discriminator}`);
             } catch (e) {
                 banFail.push(member.id);
