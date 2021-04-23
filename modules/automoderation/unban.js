@@ -1,6 +1,6 @@
 // is this bad for performance? hopefully not?
 // https://stackoverflow.com/questions/12810622/nodejs-setinterval-bad-for-performance
-const unbanInterval = setInterval(async () => {
+const unbanInterval = setInterval(async function () {
     const bot = require("../../main.js").bot;
     let bans = require("../../main.js").bans;
     const databaseSync = require("../../main.js").databaseSync;
