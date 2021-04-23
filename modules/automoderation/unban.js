@@ -6,7 +6,6 @@ const unbanInterval = setInterval(async () => {
     const databaseSync = require("../../main.js").databaseSync;
     const promisePool = require("../../main.js").promisePool;
     let unbanned = false;
-    console.log(bans);
     Object.keys(bans).forEach(b => {
         bans[b].forEach(ban => {
             if (parseInt(ban["expires"]) <= new Date().getTime()) {
