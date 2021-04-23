@@ -571,4 +571,22 @@ bot.on("messageCreate", async msg => {
     }
 });
 
+bot.on("guildBanRemove", async (guild, user) => {
+    let userBan;
+    if (settings.get("dev")) {
+        userBan = await promisePool.query("SELECT * FROM `bans_warden_dev` WHERE `guildid` = ? AND `userid` = ?", [guild.id, user.id]);
+    }
+    else {
+        userBan = await promisePool.query("SELECT * FROM `bans_warden` WHERE `guildid` = ? AND `userid` = ?", [guild.id, user.id]);
+    }
+    if (userBan[0].length > 0) {
+        if (settings.get("dev")) {
+            await promisePool.execute("DELETE FROM `bans_warden_dev` WHERE `guildid` = ? AND `userid` = ?", [guild.id, user.id]);
+        }
+        else {
+            await promisePool.execute("DELETE FROM `bans_warden` WHERE `guildid` = ? AND `userid` = ?", [guild.id, user.id]);
+        }
+    }
+});
+
 bot.connect();
