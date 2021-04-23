@@ -1,6 +1,5 @@
 const {CommandOptionType} = require("slash-create");
 
-// test
 module.exports.commands = ["ban"];
 module.exports.usage = "%cmd% @mention [@mention] [duration] [reason]";
 module.exports.description = "Ban user(s).";
