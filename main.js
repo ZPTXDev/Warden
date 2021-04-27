@@ -313,7 +313,7 @@ async function databaseSync() {
     s[0].forEach(gs => {
         guildSettings[gs["guildid"]] = gs;
     });
-    bans = {}
+    bans = {};
     b[0].forEach(ba => {
         if (ba["guildid"] in bans) {
             bans[ba["guildid"]].push({
@@ -367,7 +367,9 @@ exports.getSeconds = getSeconds;
 exports.databaseSync = databaseSync;
 exports.slashManagerRejection = slashManagerRejection;
 exports.slashPermissionRejection = slashPermissionRejection;
-exports.bans = bans;
+exports.getBans = () => {
+    return bans;
+}
 
 bot.on("ready", () => {
     if (!ready) {
