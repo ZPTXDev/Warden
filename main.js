@@ -367,6 +367,7 @@ exports.getSeconds = getSeconds;
 exports.databaseSync = databaseSync;
 exports.slashManagerRejection = slashManagerRejection;
 exports.slashPermissionRejection = slashPermissionRejection;
+// THANK YOU https://stackoverflow.com/a/56720887
 exports.getBans = () => {
     return bans;
 }
