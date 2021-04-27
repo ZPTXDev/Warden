@@ -367,8 +367,7 @@ exports.getSeconds = getSeconds;
 exports.databaseSync = databaseSync;
 exports.slashManagerRejection = slashManagerRejection;
 exports.slashPermissionRejection = slashPermissionRejection;
-// i hate javascript
-exports.bans = {b: bans};
+exports.bans = bans;
 
 bot.on("ready", () => {
     if (!ready) {

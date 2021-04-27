@@ -2,8 +2,7 @@
 // https://stackoverflow.com/questions/12810622/nodejs-setinterval-bad-for-performance
 const unbanInterval = setInterval(async function () {
     const bot = require("../../main.js").bot;
-    // i really hate javascript
-    let bans = require("../../main.js").bans["b"];
+    let bans = require("../../main.js").bans;
     const databaseSync = require("../../main.js").databaseSync;
     const promisePool = require("../../main.js").promisePool;
     let unbanned = false;
