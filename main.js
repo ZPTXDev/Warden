@@ -5,18 +5,18 @@ const mysql = require("mysql2");
 const reload = require("require-reload")(require);
 const fs = require("fs");
 const _ = require("lodash");
-var ready = false;
+let ready = false;
 const gitFilePath = `.git/refs/heads/${settings.get("dev") ? "dev" : "master"}`;
 const build = fs.existsSync(gitFilePath) ? fs.readFileSync(gitFilePath).toString().replace("\n", "") : "unknown";
 const {version} = require('./package.json');
-var botLogChannelId = "";
-var pool;
-var promisePool;
-var modules = {};
-var memberships = {};
-var guildMemberships = {};
-var guildSettings = {};
-var bans = {};
+let botLogChannelId = "";
+let pool;
+let promisePool;
+let modules = {};
+let memberships = {};
+let guildMemberships = {};
+let guildSettings = {};
+let bans = {};
 
 let initialTime = new Date().getTime();
 
