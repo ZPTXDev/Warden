@@ -3,7 +3,6 @@
 const unbanInterval = setInterval(async function () {
     const bot = require("../../main.js").bot;
     let bans = require("../../main.js").bans;
-    console.log(bans);
     const databaseSync = require("../../main.js").databaseSync;
     const promisePool = require("../../main.js").promisePool;
     let unbanned = false;

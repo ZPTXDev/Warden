@@ -328,6 +328,7 @@ async function databaseSync() {
             }];
         }
     });
+    console.log(bans);
 }
 async function slashManagerRejection(ctx) {
     return ctx.send({
