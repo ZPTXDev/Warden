@@ -53,7 +53,7 @@ module.exports.slash = {
     options: [
         {
             name: "user",
-            description: "The user to ban.",
+            description: "The user to unban.",
             required: true,
             type: CommandOptionType.USER
         },
@@ -98,25 +98,22 @@ async function common(moderator, users, guild, reason) {
     let unbanSuccess = [];
     let unbanFail = [];
     let fileBuffer = [];
-    for (let member of guild.members.map(m => m.id)) {
-        if (users.includes(member)) {
-            member = guild.members.get(member);
-            try {
-                await member.unban(`[${moderator.username}#${moderator.discriminator}] ${reason}`);
-                unbanSuccess.push(member.id);
-                if (settings.get("dev")) {
-                    promisePool.execute("DELETE FROM `bans_warden_dev` WHERE `guildid` = ? AND `userid` = ?", [guild.id, member.id]);
-                }
-                else {
-                    promisePool.execute("DELETE FROM `bans_warden` WHERE `guildid` = ? AND `userid` = ?", [guild.id, member.id]);
-                }
-                await databaseSync();
-                fileBuffer.push(`[✓] Unbanned ${member.username}#${member.discriminator}`);
-            } catch (e) {
-                unbanFail.push(member.id);
-                fileBuffer.push(`[!] Failed to unban ${member.username}#${member.discriminator} (detailed error below)`);
-                fileBuffer.push(e);
+    for (let member of users) {
+        try {
+            await guild.unbanMember(member, `[${moderator.username}#${moderator.discriminator}] ${reason}`);
+            unbanSuccess.push(member);
+            if (settings.get("dev")) {
+                promisePool.execute("DELETE FROM `bans_warden_dev` WHERE `guildid` = ? AND `userid` = ?", [guild.id, member]);
             }
+            else {
+                promisePool.execute("DELETE FROM `bans_warden` WHERE `guildid` = ? AND `userid` = ?", [guild.id, member]);
+            }
+            await databaseSync();
+            fileBuffer.push(`[✓] Unbanned ${member}`);
+        } catch (e) {
+            unbanFail.push(member);
+            fileBuffer.push(`[!] Failed to unban ${member} (detailed error below)`);
+            fileBuffer.push(e);
         }
     }
     return {
