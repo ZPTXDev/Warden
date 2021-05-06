@@ -47,7 +47,7 @@ module.exports.action = async function (details) {
     let file = embed.file;
     delete embed.file;
     await details["message"].channel.createMessage({
-        messageReferenceID: details["message"].id,
+        messageReference: details["message"].id,
         embed: embed
     }, file);
     return true;

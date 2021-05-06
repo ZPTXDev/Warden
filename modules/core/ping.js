@@ -6,7 +6,7 @@ module.exports.action = function (details) {
         return "usage";
     }
     details["message"].channel.createMessage({
-        messageReferenceID: details["message"].id,
+        messageReference: details["message"].id,
         embed: {
             description: `${details["cmd"] === "ping" ? "Pong" : "Ping"}!${details["guild"] ? ` | ${details["message"].member.guild.shard.latency.toString()}ms` : ""}`,
             color: 0x2518a0

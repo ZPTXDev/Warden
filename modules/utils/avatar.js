@@ -23,7 +23,7 @@ module.exports.action = function (details) {
     let user = details["message"].channel.guild.members.get(userId).user;
     let embed = common(user, options);
     details["message"].channel.createMessage({
-        messageReferenceID: details["message"].id,
+        messageReference: details["message"].id,
         embed: embed
     });
     return true;

@@ -35,7 +35,7 @@ module.exports.action = function (details) {
         databaseSync();
     })();
     details["message"].channel.createMessage({
-        messageReferenceID: details["message"].id,
+        messageReference: details["message"].id,
         embed: {
             description: `Prefix for **${details["message"].channel.guild.name}** set to \`${prefix}\``,
             color: 0x2518a0
