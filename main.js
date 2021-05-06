@@ -513,7 +513,7 @@ bot.on("messageCreate", async msg => {
                                     resultMessage = "Command execution failed with no reason specified.";
                                 }
                                 await msg.channel.createMessage({
-                                    messageReference: msg.id,
+                                    messageReference: {messageID: msg.id},
                                     embed: {
                                         description: resultMessage,
                                         color: 0x2518a0
@@ -522,7 +522,7 @@ bot.on("messageCreate", async msg => {
                                 break;
                             case "manager":
                                 await msg.channel.createMessage({
-                                    messageReference: msg.id,
+                                    messageReference: {messageID: msg.id},
                                     embed: {
                                         description: "You need to be a **Manager** to use that.",
                                         color: 0x2518a0
@@ -531,7 +531,7 @@ bot.on("messageCreate", async msg => {
                                 break;
                             case "guild":
                                 await msg.channel.createMessage({
-                                    messageReference: msg.id,
+                                    messageReference: {messageID: msg.id},
                                     embed: {
                                         description: "You need to be in a server to use that.",
                                         color: 0x2518a0
@@ -540,7 +540,7 @@ bot.on("messageCreate", async msg => {
                                 break;
                             case "user":
                                 await msg.channel.createMessage({
-                                    messageReference: msg.id,
+                                    messageReference: {messageID: msg.id},
                                     embed: {
                                         description: "You need to be in Direct Messages to use that.",
                                         color: 0x2518a0
@@ -551,7 +551,7 @@ bot.on("messageCreate", async msg => {
                                 if (Array.isArray(result)) {
                                     let target = result.shift();
                                     await msg.channel.createMessage({
-                                        messageReference: msg.id,
+                                        messageReference: {messageID: msg.id},
                                         embed: {
                                             description: `${target === "self" ? "I am" : "You are"} missing permission${result.length !== 1 ? "s" : ""}: ${result.map(r => `**${_.startCase(r)}**`).join(", ")}`,
                                             color: 0x2518a0
@@ -567,7 +567,7 @@ bot.on("messageCreate", async msg => {
     }
     else if (msg.content === prefix.trim() && mention) {
         await msg.channel.createMessage({
-            messageReference: msg.id,
+            messageReference: {messageID: msg.id},
             embed: {
                 description: `The prefix in this server is \`${guild && msg.channel.guild.id in guildSettings ? guildSettings[msg.channel.guild.id].prefix : settings.get("prefix")}\`.\nYou may also mention me, following it with a command.`,
                 color: 0x2518a0
