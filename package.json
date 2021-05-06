@@ -3,7 +3,7 @@
   "version": "1.1.0-dev",
   "dependencies": {
     "data-store": "4.0.3",
-    "eris": "abalabahaha/eris#e71c2bae25583a4aff7bf1c543ab0132e717b4a6",
+    "eris": "^0.15.1",
     "lodash": "4.17.21",
     "mysql2": "2.2.5",
     "require-reload": "0.2.2",
