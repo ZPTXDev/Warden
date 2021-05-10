@@ -17,7 +17,10 @@ module.exports.action = function (details) {
     if (details["body"]) {
         userId = getUserId(details["body"], null, details["message"].channel.guild.id);
     }
-    if (!userId) {
+    if (details["body"] && !userId) {
+        return "usage";
+    }
+    else if (!details["body"] && !userId) {
         userId = details["message"].author.id;
     }
     let user = details["message"].channel.guild.members.get(userId).user;
