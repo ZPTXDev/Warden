@@ -90,7 +90,7 @@ function common(user, options) {
     sizes = sizes.join(" | ");
     return {
         title: `${user.username}#${user.discriminator}`,
-        description: `${options ? `**Formats**:\n${animated ? `[gif](${user.dynamicAvatarURL("gif", 2048)}) | ` : ""}[png](${user.dynamicAvatarURL("png", 2048)}) | [jpg](${user.dynamicAvatarURL("jpg", 2048)}) | [webp](${user.dynamicAvatarURL("webp", 2048)})\n**Sizes**:\n${sizes}` : `[External Link](${user.avatarURL})${sorry ? `\n*Options are unavailable for default profile pictures*` : ""}`}`,
+        description: `${options ? `**Formats**:\n${animated ? `[gif](${user.dynamicAvatarURL("gif", 2048)}) | ` : ""}[png](${user.dynamicAvatarURL("png", 2048)}) | [jpg](${user.dynamicAvatarURL("jpg", 2048)}) | [webp](${user.dynamicAvatarURL("webp", 2048)})\n**Sizes**:\n${sizes}` : `[External Link](${user.avatarURL})${sorry ? `\n*Options unavailable for default avatars*` : ""}`}`,
         image: {
             url: `${animated ? user.dynamicAvatarURL("gif", 2048) : user.dynamicAvatarURL("png", 2048)}`
         },
