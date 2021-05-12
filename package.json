@@ -1,6 +1,6 @@
 {
   "name": "warden",
-  "version": "1.2.0",
+  "version": "1.2.0-dev",
   "dependencies": {
     "data-store": "^4.0.3",
     "eris": "^0.15.1",
