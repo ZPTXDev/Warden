@@ -20,7 +20,7 @@ module.exports.action = function (details) {
     }
     let embed = common(type);
     details["message"].channel.createMessage({
-        messageReferenceID: details["message"].id,
+        messageReference: {messageID: details["message"].id},
         embed: embed
     });
     return true;

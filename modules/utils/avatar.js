@@ -17,13 +17,16 @@ module.exports.action = function (details) {
     if (details["body"]) {
         userId = getUserId(details["body"], null, details["message"].channel.guild.id);
     }
-    if (!userId) {
+    if (details["body"] && !userId) {
+        return "usage";
+    }
+    else if (!details["body"] && !userId) {
         userId = details["message"].author.id;
     }
     let user = details["message"].channel.guild.members.get(userId).user;
     let embed = common(user, options);
     details["message"].channel.createMessage({
-        messageReferenceID: details["message"].id,
+        messageReference: {messageID: details["message"].id},
         embed: embed
     });
     return true;
@@ -73,8 +76,10 @@ module.exports.slashAction = async function (ctx) {
 
 function common(user, options) {
     let animated = user.avatar && user.avatar.startsWith("a_");
+    let sorry = false;
     if (!user.avatar && options) {
         options = false;
+        sorry = true;
     }
     let sizes = [];
     let start = 4096;
@@ -85,7 +90,7 @@ function common(user, options) {
     sizes = sizes.join(" | ");
     return {
         title: `${user.username}#${user.discriminator}`,
-        description: `${options ? `**Formats**:\n${animated ? `[gif](${user.dynamicAvatarURL("gif", 2048)}) | ` : ""}[png](${user.dynamicAvatarURL("png", 2048)}) | [jpg](${user.dynamicAvatarURL("jpg", 2048)}) | [webp](${user.dynamicAvatarURL("webp", 2048)})\n**Sizes**:\n${sizes}` : `[External Link](${user.avatarURL})`}`,
+        description: `${options ? `**Formats**:\n${animated ? `[gif](${user.dynamicAvatarURL("gif", 2048)}) | ` : ""}[png](${user.dynamicAvatarURL("png", 2048)}) | [jpg](${user.dynamicAvatarURL("jpg", 2048)}) | [webp](${user.dynamicAvatarURL("webp", 2048)})\n**Sizes**:\n${sizes}` : `[External Link](${user.avatarURL})${sorry ? `\n*Options unavailable for default avatars*` : ""}`}`,
         image: {
             url: `${animated ? user.dynamicAvatarURL("gif", 2048) : user.dynamicAvatarURL("png", 2048)}`
         },

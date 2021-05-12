@@ -9,7 +9,7 @@ module.exports.action = function (details) {
     }
     console.log("[!] Gracefully stopping Warden")
     details["message"].channel.createMessage({
-        messageReferenceID: details["message"].id,
+        messageReference: {messageID: details["message"].id},
         embed: {
             description: "Gracefully stopping Warden",
             color: 0x2518a0
