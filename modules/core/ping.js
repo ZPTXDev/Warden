@@ -17,7 +17,7 @@ module.exports.action = function (details) {
 
 module.exports.slash = {
     name: "ping",
-    description: "Check if Warden is currently available.",
+    description: module.exports.description,
     deferEphemeral: false
 };
 module.exports.slashAction = async function(ctx) {
