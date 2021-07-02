@@ -12,7 +12,7 @@ module.exports.action = async function (details) {
     if (botPermsMissing.length > 0) {
         return ["self"].concat(botPermsMissing);
     }
-    let result = await common(details["guild"].id, details["message"].author.id, details["message"].channel.id, details["body"]);
+    let result = await common(details["message"].channel.guild.id, details["message"].author.id, details["message"].channel.id, details["body"]);
     let resultString = "";
     switch (result) {
         case "disabled":
@@ -101,7 +101,6 @@ async function common(gid, uid, cid, text) {
     if (!settings.get("llnodes")) {
         return "disabled";
     }
-    console.log(gid);
     if (!bot.guilds.get(gid).members.get(uid).voiceState.channelID) {
         return "vc";
     }
