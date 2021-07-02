@@ -8,7 +8,7 @@ module.exports.action = async function (details) {
     if (details["body"] === "") {
         return "usage";
     }
-    let botPermsMissing = getPermsMatch(details["message"].channel.guild.members.get(bot.user.id).permissions, ["voiceConnect", "voiceSpeak"]);
+    let botPermsMissing = getPermsMatch(details["message"].channel.guild.members.get(bot.user.id).permissions, ["voiceConnect", "voiceSpeak", "attachFiles", "sendMessages"]);
     if (botPermsMissing.length > 0) {
         return ["self"].concat(botPermsMissing);
     }
@@ -59,7 +59,7 @@ module.exports.slash = {
 }
 module.exports.slashAction = async function (ctx) {
     const {getPermsMatch, bot} = require("../../main.js");
-    let botPermsMissing = getPermsMatch(bot.guilds.get(ctx.guildID).members.get(bot.user.id).permissions, ["voiceConnect", "voiceSpeak"]);
+    let botPermsMissing = getPermsMatch(bot.guilds.get(ctx.guildID).members.get(bot.user.id).permissions, ["voiceConnect", "voiceSpeak", "attachFiles", "sendMessages"]);
     if (botPermsMissing.length > 0) {
         await require("../../main.js").slashPermissionRejection(ctx, ["self"].concat(botPermsMissing));
         return;
@@ -111,6 +111,6 @@ async function common(gid, uid, cid, text) {
     if (gid in ttsQueue) {
         return "busy";
     }
-    await tts(bot.guilds.get(gid).channels.get(cid), text);
+    await tts(bot.guilds.get(gid).channels.get(bot.guilds.get(gid).members.get(uid).voiceState.channelID), text, bot.guilds.get(gid).channels.get(cid));
     return "success";
 }

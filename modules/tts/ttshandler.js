@@ -24,7 +24,7 @@ async function resolveTracks(node, search) {
     return result.body;
 }
 
-async function tts(channel, text) {
+async function tts(channel, text, tc) {
     let {bot, settings} = require("../../main.js");
     const { PlayerManager } = require("eris-lavalink");
     const discordTTS = require("discord-tts");
@@ -56,10 +56,11 @@ async function tts(channel, text) {
     textSplit.push(currText.join(" "));
     for (const u of textSplit) {
         await discordTTS.saveToFile(`${__dirname}/${channel.guild.id}.mp3`, u, {lang: 'en'});
-        let track = await resolveTracks(settings.get("llnodes")[0], `${__dirname}/${channel.guild.id}.mp3`);
+        let msg = await tc.createMessage(null, {file: fs.readFileSync(`${__dirname}/${channel.guild.id}.mp3`), name: `${channel.guild.id}.mp3`});
+        let track = await resolveTracks(settings.get("llnodes")[0], msg.attachments[0].url);
         ttsQueue[channel.guild.id].push(track);
+        await fs.unlinkSync(`${__dirname}/${channel.guild.id}.mp3`);
     }
-    // await fs.unlinkSync(`${__dirname}/${channel.guild.id}.mp3`);
     player.play(ttsQueue[channel.guild.id][0]);
     ttsQueue[channel.guild.id].shift();
     if (nPlayer) {
