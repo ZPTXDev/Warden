@@ -1,5 +1,6 @@
 const {SlashCreator, GatewayServer, SlashCommand} = require("slash-create");
 const Eris = require("eris");
+const {PlayerManager} = require("eris-lavalink");
 const settings = require("data-store")({path: "settings.json"});
 const mysql = require("mysql2");
 const reload = require("require-reload")(require);
@@ -437,6 +438,12 @@ bot.on("ready", () => {
             }))
             .registerCommands(slashCommands)
             .syncCommands();
+    }
+    if (!(bot.voiceConnections instanceof PlayerManager)) {
+        bot.voiceConnections = new PlayerManager(bot, settings.get("llnodes"), {
+            numShards: bot.shards.size, // number of shards
+            userId: bot.user.id // the user id of the bot
+        });
     }
 });
 

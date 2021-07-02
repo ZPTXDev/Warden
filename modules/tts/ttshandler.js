@@ -31,14 +31,7 @@ async function resolveTracks(node, search) {
 
 async function tts(channel, text, tc) {
     let {bot, settings} = require("../../main.js");
-    const { PlayerManager } = require("eris-lavalink");
     const googleTTS = require("google-tts-api");
-    if (!(bot.voiceConnections instanceof PlayerManager)) {
-        bot.voiceConnections = new PlayerManager(bot, settings.get("llnodes"), {
-            numShards: bot.shards.size, // number of shards
-            userId: bot.user.id // the user id of the bot
-        });
-    }
     let play = getPlayer(channel);
     let nPlayer = play.n;
     play = await play.p;
