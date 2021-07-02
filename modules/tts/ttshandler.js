@@ -47,7 +47,7 @@ async function tts(channel, text) {
     });
     ttsQueue[channel.guild.id] = [];
     for (const u of urls) {
-        let track = await resolveTracks(settings.get("llnodes"), u.url);
+        let track = await resolveTracks(settings.get("llnodes")[0], u.url);
         ttsQueue[channel.guild.id].push(track);
     }
     player.play(ttsQueue[channel.guild.id][0]);
