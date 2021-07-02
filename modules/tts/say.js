@@ -28,7 +28,7 @@ module.exports.action = async function (details) {
             resultString = "I'm currently in the middle of another TTS message.";
             break;
         case "success":
-            resultString = `"**${details["message"].author.username}**: ${details["body"]}`;
+            resultString = `**${details["message"].author.username}**: ${details["body"]}`;
             break;
     }
     if (resultString) {
@@ -80,7 +80,7 @@ module.exports.slashAction = async function (ctx) {
             resultString = "I'm currently in the middle of another TTS message.";
             break;
         case "success":
-            resultString = `"**${ctx.user.username}**: ${ctx.options["message"]}`;
+            resultString = `**${ctx.user.username}**: ${ctx.options["message"]}`;
             break;
     }
     if (resultString) {
