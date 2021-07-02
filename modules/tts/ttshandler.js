@@ -59,7 +59,7 @@ async function tts(channel, text) {
         let track = await resolveTracks(settings.get("llnodes")[0], `${__dirname}/${channel.guild.id}.mp3`);
         ttsQueue[channel.guild.id].push(track);
     }
-    await fs.unlinkSync(`${__dirname}/${channel.guild.id}.mp3`);
+    // await fs.unlinkSync(`${__dirname}/${channel.guild.id}.mp3`);
     player.play(ttsQueue[channel.guild.id][0]);
     ttsQueue[channel.guild.id].shift();
     if (nPlayer) {
