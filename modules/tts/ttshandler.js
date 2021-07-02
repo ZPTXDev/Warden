@@ -4,7 +4,7 @@ const googleTTS = require("google-tts-api");
 
 let ttsQueue = {};
 let timeouts = {};
-let {bot, settings} = require("../../main");
+const {bot, settings} = require("../../main.js");
 
 function getPlayer(channel) {
     if (!channel || !channel.guild) {

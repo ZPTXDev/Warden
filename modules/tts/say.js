@@ -4,7 +4,7 @@ module.exports.commands = ["say"];
 module.exports.usage = "%cmd% message"
 module.exports.description = "Use TTS to say something in your voice channel.";
 module.exports.action = async function (details) {
-    let {getPermsMatch, bot} = require("../../main");
+    const {getPermsMatch, bot} = require("../../main.js");
     if (details["body"] === "") {
         return "usage";
     }
@@ -58,7 +58,7 @@ module.exports.slash = {
     guildOnly: true
 }
 module.exports.slashAction = async function (ctx) {
-    let {getPermsMatch, bot} = require("../../main");
+    const {getPermsMatch, bot} = require("../../main.js");
     let botPermsMissing = getPermsMatch(bot.guilds.get(ctx.guildID).members.get(bot.user.id).permissions, ["voiceConnect", "voiceSpeak"]);
     if (botPermsMissing.length > 0) {
         await require("../../main.js").slashPermissionRejection(ctx, ["self"].concat(botPermsMissing));
@@ -97,7 +97,7 @@ module.exports.slashAction = async function (ctx) {
 }
 
 async function common(gid, uid, cid, text) {
-    let {settings, bot} = require("../../main");
+    const {settings, bot} = require("../../main.js");
     if (!settings.get("llnodes")) {
         return "disabled";
     }
@@ -107,7 +107,7 @@ async function common(gid, uid, cid, text) {
     if (bot.guilds.get(gid).members.get(bot.user.id).voiceState.channelID && bot.guilds.get(gid).members.get(bot.user.id).voiceState.channelID !== bot.guilds.get(gid).members.get(uid).voiceState.channelID) {
         return "different";
     }
-    let {ttsQueue, tts} = require("./ttshandler");
+    let {ttsQueue, tts} = require("./ttshandler.js");
     if (gid in ttsQueue) {
         return "busy";
     }
