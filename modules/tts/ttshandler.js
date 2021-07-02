@@ -1,6 +1,6 @@
 const { PlayerManager } = require("eris-lavalink");
 const superagent = require("superagent");
-const googleTTS = require('google-tts-api');
+const googleTTS = require("google-tts-api");
 
 let ttsQueue = {};
 let timeouts = {};
