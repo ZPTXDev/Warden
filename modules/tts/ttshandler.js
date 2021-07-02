@@ -38,7 +38,8 @@ async function tts(channel, text, tc) {
     let base64s = await googleTTS.getAllAudioBase64(text);
     for (const u of base64s) {
         let msg = await tc.createMessage("", {file: Buffer.from(u.base64, "base64"), name: `${channel.guild.id}.mp3`});
-        let track = await resolveTracks(settings.get("llnodes")[0], msg.attachments[0].url).tracks[0].track;
+        let track = await resolveTracks(settings.get("llnodes")[0], msg.attachments[0].url);
+        track = track.tracks[0].track;
         ttsQueue[channel.guild.id].push(track);
     }
     play.play(ttsQueue[channel.guild.id][0]);
