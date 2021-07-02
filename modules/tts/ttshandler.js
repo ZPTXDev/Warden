@@ -4,9 +4,9 @@ const googleTTS = require("google-tts-api");
 
 let ttsQueue = {};
 let timeouts = {};
-const {bot} = require("../../main.js");
 
 function getPlayer(channel) {
+    const {bot} = require("../../main.js");
     if (!channel || !channel.guild) {
         return Promise.reject('Not a guild channel.');
     }
