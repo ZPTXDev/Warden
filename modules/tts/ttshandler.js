@@ -1,7 +1,7 @@
 let ttsQueue = {};
 let timeouts = {};
 
-async function getPlayer(channel) {
+function getPlayer(channel) {
     const {bot} = require("../../main.js");
     if (!channel || !channel.guild) {
         return Promise.reject('Not a guild channel.');
@@ -34,9 +34,9 @@ async function tts(channel, text, tc) {
             userId: bot.user.id // the user id of the bot
         });
     }
-    let player = getPlayer(channel);
-    let nPlayer = player.n;
-    player = await player.p;
+    let play = getPlayer(channel);
+    let nPlayer = play.n;
+    play = await play.p;
     if (channel.guild.id in timeouts) {
         clearTimeout(timeouts[channel.guild.id]);
         delete timeouts[channel.guild.id];
@@ -48,16 +48,16 @@ async function tts(channel, text, tc) {
         let track = await resolveTracks(settings.get("llnodes")[0], msg.attachments[0].url);
         ttsQueue[channel.guild.id].push(track);
     }
-    player.play(ttsQueue[channel.guild.id][0]);
+    play.play(ttsQueue[channel.guild.id][0]);
     ttsQueue[channel.guild.id].shift();
     if (nPlayer) {
         function left() {
             delete ttsQueue[channel.guild.id];
         }
-        player.on("disconnect", left);
-        player.on("error", left);
-        player.on("stuck", left);
-        player.on("end", d => {
+        play.on("disconnect", left);
+        play.on("error", left);
+        play.on("stuck", left);
+        play.on("end", d => {
             if (d.reason && d.reason === 'REPLACED') {return;}
             if (ttsQueue[channel.guild.id].length > 0) {
                 player.play(ttsQueue[channel.guild.id][0]);
