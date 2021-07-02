@@ -5,7 +5,7 @@ const googleTTS = require("google-tts-api");
 let ttsQueue = {};
 let timeouts = {};
 
-function getPlayer(channel) {
+async function getPlayer(channel) {
     const {bot} = require("../../main.js");
     if (!channel || !channel.guild) {
         return Promise.reject('Not a guild channel.');
@@ -38,6 +38,20 @@ async function tts(channel, text) {
     let player = await getPlayer(channel);
     let nPlayer = player.n;
     player = player.p;
+    if (channel.guild.id in timeouts) {
+        clearTimeout(timeouts[channel.guild.id]);
+        delete timeouts[channel.guild.id];
+    }
+    const urls = googleTTS.getAllAudioUrls(text, {
+        splitPunct: ',.?'
+    });
+    ttsQueue[channel.guild.id] = [];
+    for (const u of urls) {
+        let track = await resolveTracks(settings.get("llnodes"), u.url);
+        ttsQueue[channel.guild.id].push(track);
+    }
+    player.play(ttsQueue[channel.guild.id][0]);
+    ttsQueue[channel.guild.id].shift();
     if (nPlayer) {
         function left() {
             delete ttsQueue[channel.guild.id];
@@ -59,20 +73,6 @@ async function tts(channel, text) {
             }
         });
     }
-    if (channel.guild.id in timeouts) {
-        clearTimeout(timeouts[channel.guild.id]);
-        delete timeouts[channel.guild.id];
-    }
-    const urls = googleTTS.getAllAudioUrls(text, {
-        splitPunct: ',.?'
-    });
-    ttsQueue[channel.guild.id] = [];
-    for (const u of urls) {
-        let track = await resolveTracks(settings.get("llnodes"), u.url);
-        ttsQueue[channel.guild.id].push(track);
-    }
-    player.play(ttsQueue[channel.guild.id][0]);
-    ttsQueue[channel.guild.id].shift();
 }
 
 module.exports.ttsQueue = ttsQueue;
