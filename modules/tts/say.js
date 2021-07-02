@@ -97,7 +97,8 @@ module.exports.slashAction = async function (ctx) {
 }
 
 async function common(gid, uid, cid, text) {
-    const {settings, bot} = require("../../main.js");
+    const settings = require("../../main.js").settings;
+    const bot = require("../../main.js").bot;
     if (!settings.get("llnodes")) {
         return "disabled";
     }
