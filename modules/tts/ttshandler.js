@@ -28,6 +28,7 @@ async function resolveTracks(node, search) {
 }
 
 async function tts(channel, text) {
+    const {bot} = require("../../main.js");
     if (!(bot.voiceConnections instanceof PlayerManager)) {
         bot.voiceConnections = new PlayerManager(bot, nodes, {
             numShards: bot.shards.size, // number of shards
