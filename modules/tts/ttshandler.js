@@ -4,7 +4,7 @@ const googleTTS = require("google-tts-api");
 
 let ttsQueue = {};
 let timeouts = {};
-const {bot, settings} = require("../../main.js");
+const {bot} = require("../../main.js");
 
 function getPlayer(channel) {
     if (!channel || !channel.guild) {
@@ -28,9 +28,9 @@ async function resolveTracks(node, search) {
 }
 
 async function tts(channel, text) {
-    const {bot} = require("../../main.js");
+    const {bot, settings} = require("../../main.js");
     if (!(bot.voiceConnections instanceof PlayerManager)) {
-        bot.voiceConnections = new PlayerManager(bot, nodes, {
+        bot.voiceConnections = new PlayerManager(bot, settings.get("llnodes"), {
             numShards: bot.shards.size, // number of shards
             userId: bot.user.id // the user id of the bot
         });
