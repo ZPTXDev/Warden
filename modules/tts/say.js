@@ -1,10 +1,10 @@
-const {getPermsMatch, settings, bot} = require("../../main");
 const {CommandOptionType} = require("slash-create");
 
 module.exports.commands = ["say"];
 module.exports.usage = "%cmd% message"
 module.exports.description = "Use TTS to say something in your voice channel.";
 module.exports.action = async function (details) {
+    const {getPermsMatch, bot} = require("../../main");
     if (details["body"] === "") {
         return "usage";
     }
@@ -58,6 +58,7 @@ module.exports.slash = {
     guildOnly: true
 }
 module.exports.slashAction = async function (ctx) {
+    const {getPermsMatch, bot} = require("../../main");
     let botPermsMissing = getPermsMatch(bot.guilds.get(ctx.guildID).members.get(bot.user.id).permissions, ["voiceConnect", "voiceSpeak"]);
     if (botPermsMissing.length > 0) {
         await require("../../main.js").slashPermissionRejection(ctx, ["self"].concat(botPermsMissing));
@@ -96,6 +97,7 @@ module.exports.slashAction = async function (ctx) {
 }
 
 async function common(gid, uid, cid, text) {
+    const {settings} = require("../../main");
     if (!settings.get("llnodes")) {
         return "disabled";
     }
