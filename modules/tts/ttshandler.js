@@ -55,7 +55,7 @@ async function tts(channel, text) {
     });
     textSplit.push(currText.join(" "));
     for (const u of textSplit) {
-        await discordTTS.saveToFile(`${__dirname}/${channel.guild.id}.mp3`, u);
+        await discordTTS.saveToFile(`${__dirname}/${channel.guild.id}.mp3`, u, {lang: 'en'});
         let track = await resolveTracks(settings.get("llnodes")[0], `${__dirname}/${channel.guild.id}.mp3`);
         ttsQueue[channel.guild.id].push(track);
     }
