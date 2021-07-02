@@ -97,11 +97,11 @@ module.exports.slashAction = async function (ctx) {
 }
 
 async function common(gid, uid, cid, text) {
-    const settings = require("../../main.js").settings;
-    const bot = require("../../main.js").bot;
+    const {settings, bot} = require("../../main.js");
     if (!settings.get("llnodes")) {
         return "disabled";
     }
+    console.log(gid);
     if (!bot.guilds.get(gid).members.get(uid).voiceState.channelID) {
         return "vc";
     }
