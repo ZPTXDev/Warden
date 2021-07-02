@@ -15,9 +15,14 @@ function getPlayer(channel) {
 
 async function resolveTracks(node, search) {
     const superagent = require("superagent");
-    const result = await superagent.get(`http://${node.host}:${node.port}/loadtracks?identifier=${search}`)
-        .set('Authorization', node.password)
-        .set('Accept', 'application/json');
+    try {
+        const result = await superagent.get(`http://${node.host}:${node.port}/loadtracks?identifier=${search}`)
+            .set('Authorization', node.password)
+            .set('Accept', 'application/json');
+    }
+    catch (err) {
+        throw err;
+    }
     if (!result) {
         throw "Unable to play that track.";
     }
@@ -45,7 +50,7 @@ async function tts(channel, text, tc) {
     let base64s = await googleTTS.getAllAudioBase64(text);
     for (const u of base64s) {
         let msg = await tc.createMessage("", {file: Buffer.from(u.base64, "base64"), name: `${channel.guild.id}.mp3`});
-        let track = await resolveTracks(settings.get("llnodes")[0], msg.attachments[0].url);
+        let track = await resolveTracks(settings.get("llnodes")[0], msg.attachments[0].url)[0].track;
         ttsQueue[channel.guild.id].push(track);
     }
     play.play(ttsQueue[channel.guild.id][0]);
