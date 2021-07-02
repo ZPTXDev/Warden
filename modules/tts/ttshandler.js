@@ -1,20 +1,6 @@
 let ttsQueue = {};
 let timeouts = {};
 
-// thanks: https://stackoverflow.com/a/67729663
-function stream2buffer(stream) {
-
-    return new Promise((resolve, reject) => {
-
-        const _buf = [];
-
-        stream.on("data", (chunk) => _buf.push(chunk));
-        stream.on("end", () => resolve(Buffer.concat(_buf)));
-        stream.on("error", (err) => reject(err));
-
-    });
-}
-
 async function getPlayer(channel) {
     const {bot} = require("../../main.js");
     if (!channel || !channel.guild) {
@@ -41,7 +27,7 @@ async function resolveTracks(node, search) {
 async function tts(channel, text, tc) {
     let {bot, settings} = require("../../main.js");
     const { PlayerManager } = require("eris-lavalink");
-    const discordTTS = require("discord-tts");
+    const googleTTS = require("google-tts-api");
     if (!(bot.voiceConnections instanceof PlayerManager)) {
         bot.voiceConnections = new PlayerManager(bot, settings.get("llnodes"), {
             numShards: bot.shards.size, // number of shards
@@ -56,20 +42,9 @@ async function tts(channel, text, tc) {
         delete timeouts[channel.guild.id];
     }
     ttsQueue[channel.guild.id] = [];
-    let textSplit = [];
-    let currText = [];
-    text.split(" ").forEach(t => {
-        currText.push(t);
-        if (currText.join(" ").length >= 200) {
-            currText.pop();
-            textSplit.push(currText.join(" "));
-            currText = [t];
-        }
-    });
-    textSplit.push(currText.join(" "));
-    for (const u of textSplit) {
-        let vs = await discordTTS.getVoiceStream(u);
-        let msg = await tc.createMessage("", {file: stream2buffer(vs), name: `${channel.guild.id}.mp3`});
+    let base64s = await googleTTS.getAllAudioBase64(text);
+    for (const u of base64s) {
+        let msg = await tc.createMessage("", {file: Buffer.from(u.base64, "base64"), name: `${channel.guild.id}.mp3`});
         let track = await resolveTracks(settings.get("llnodes")[0], msg.attachments[0].url);
         ttsQueue[channel.guild.id].push(track);
     }
