@@ -60,7 +60,7 @@ async function tts(channel, text, tc) {
         let msg = await tc.createMessage("", {file: file, name: `${channel.guild.id}.mp3`});
         let track = await resolveTracks(settings.get("llnodes")[0], msg.attachments[0].url);
         ttsQueue[channel.guild.id].push(track);
-        await fs.unlinkSync(`${__dirname}/${channel.guild.id}.mp3`);
+        // await fs.unlinkSync(`${__dirname}/${channel.guild.id}.mp3`);
     }
     player.play(ttsQueue[channel.guild.id][0]);
     ttsQueue[channel.guild.id].shift();
