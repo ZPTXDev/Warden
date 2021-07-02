@@ -3,6 +3,7 @@
   "version": "1.2.0-dev",
   "dependencies": {
     "data-store": "^4.0.3",
+    "discord-tts": "^1.2.0",
     "eris": "^0.15.1",
     "eris-lavalink": "^1.0.2",
     "google-tts-api": "^2.0.2",

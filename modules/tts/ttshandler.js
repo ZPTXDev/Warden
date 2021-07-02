@@ -27,7 +27,8 @@ async function resolveTracks(node, search) {
 async function tts(channel, text) {
     let {bot, settings} = require("../../main.js");
     const { PlayerManager } = require("eris-lavalink");
-    const googleTTS = require("google-tts-api");
+    const discordTTS = require("discord-tts");
+    const fs = require('fs');
     if (!(bot.voiceConnections instanceof PlayerManager)) {
         bot.voiceConnections = new PlayerManager(bot, settings.get("llnodes"), {
             numShards: bot.shards.size, // number of shards
@@ -41,14 +42,24 @@ async function tts(channel, text) {
         clearTimeout(timeouts[channel.guild.id]);
         delete timeouts[channel.guild.id];
     }
-    const urls = await googleTTS.getAllAudioBase64(text, {
-        splitPunct: ',.?'
-    });
     ttsQueue[channel.guild.id] = [];
-    for (const u of urls) {
-        let track = await resolveTracks(settings.get("llnodes")[0], u.base64);
+    let textSplit = [];
+    let currText = [];
+    text.split(" ").forEach(t => {
+        currText.push(t);
+        if (currText.join(" ").length >= 200) {
+            currText.pop();
+            textSplit.push(currText.join(" "));
+            currText = [t];
+        }
+    });
+    textSplit.push(currText.join(" "));
+    for (const u of textSplit) {
+        await discordTTS.saveToFile(`${__dirname}/${channel.guild.id}.mp3`, u);
+        let track = await resolveTracks(settings.get("llnodes")[0], `${__dirname}/${channel.guild.id}.mp3`);
         ttsQueue[channel.guild.id].push(track);
     }
+    await fs.unlinkSync(`${__dirname}/${channel.guild.id}.mp3`);
     player.play(ttsQueue[channel.guild.id][0]);
     ttsQueue[channel.guild.id].shift();
     if (nPlayer) {
