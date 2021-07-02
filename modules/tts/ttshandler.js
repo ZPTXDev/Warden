@@ -1,7 +1,3 @@
-const { PlayerManager } = require("eris-lavalink");
-const superagent = require("superagent");
-const googleTTS = require("google-tts-api");
-
 let ttsQueue = {};
 let timeouts = {};
 
@@ -18,6 +14,7 @@ async function getPlayer(channel) {
 }
 
 async function resolveTracks(node, search) {
+    const superagent = require("superagent");
     const result = await superagent.get(`http://${node.host}:${node.port}/loadtracks?identifier=${search}`)
         .set('Authorization', node.password)
         .set('Accept', 'application/json');
@@ -29,13 +26,15 @@ async function resolveTracks(node, search) {
 
 async function tts(channel, text) {
     let {bot, settings} = require("../../main.js");
+    const { PlayerManager } = require("eris-lavalink");
+    const googleTTS = require("google-tts-api");
     if (!(bot.voiceConnections instanceof PlayerManager)) {
         bot.voiceConnections = new PlayerManager(bot, settings.get("llnodes"), {
             numShards: bot.shards.size, // number of shards
             userId: bot.user.id // the user id of the bot
         });
     }
-    let player = await getPlayer(channel);
+    let player = getPlayer(channel);
     let nPlayer = player.n;
     player = await player.p;
     if (channel.guild.id in timeouts) {
