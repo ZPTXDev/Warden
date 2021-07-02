@@ -41,12 +41,12 @@ async function tts(channel, text) {
         clearTimeout(timeouts[channel.guild.id]);
         delete timeouts[channel.guild.id];
     }
-    const urls = googleTTS.getAllAudioUrls(text, {
+    const urls = await googleTTS.getAllAudioBase64(text, {
         splitPunct: ',.?'
     });
     ttsQueue[channel.guild.id] = [];
     for (const u of urls) {
-        let track = await resolveTracks(settings.get("llnodes")[0], u.url);
+        let track = await resolveTracks(settings.get("llnodes")[0], u.base64);
         ttsQueue[channel.guild.id].push(track);
     }
     player.play(ttsQueue[channel.guild.id][0]);
