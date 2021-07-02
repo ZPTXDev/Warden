@@ -1,6 +1,20 @@
 let ttsQueue = {};
 let timeouts = {};
 
+// thanks: https://stackoverflow.com/a/67729663
+function stream2buffer(stream) {
+
+    return new Promise((resolve, reject) => {
+
+        const _buf = [];
+
+        stream.on("data", (chunk) => _buf.push(chunk));
+        stream.on("end", () => resolve(Buffer.concat(_buf)));
+        stream.on("error", (err) => reject(err));
+
+    });
+}
+
 async function getPlayer(channel) {
     const {bot} = require("../../main.js");
     if (!channel || !channel.guild) {
@@ -28,7 +42,6 @@ async function tts(channel, text, tc) {
     let {bot, settings} = require("../../main.js");
     const { PlayerManager } = require("eris-lavalink");
     const discordTTS = require("discord-tts");
-    const fs = require('fs');
     if (!(bot.voiceConnections instanceof PlayerManager)) {
         bot.voiceConnections = new PlayerManager(bot, settings.get("llnodes"), {
             numShards: bot.shards.size, // number of shards
@@ -55,12 +68,10 @@ async function tts(channel, text, tc) {
     });
     textSplit.push(currText.join(" "));
     for (const u of textSplit) {
-        await discordTTS.saveToFile(`${__dirname}/${channel.guild.id}.mp3`, u, {lang: 'en'});
-        let file = await fs.readFileSync(`${__dirname}/${channel.guild.id}.mp3`);
-        let msg = await tc.createMessage("", {file: file, name: `${channel.guild.id}.mp3`});
+        let vs = await discordTTS.getVoiceStream(u);
+        let msg = await tc.createMessage("", {file: stream2buffer(vs), name: `${channel.guild.id}.mp3`});
         let track = await resolveTracks(settings.get("llnodes")[0], msg.attachments[0].url);
         ttsQueue[channel.guild.id].push(track);
-        // await fs.unlinkSync(`${__dirname}/${channel.guild.id}.mp3`);
     }
     player.play(ttsQueue[channel.guild.id][0]);
     ttsQueue[channel.guild.id].shift();
