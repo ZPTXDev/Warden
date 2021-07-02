@@ -39,6 +39,7 @@ async function tts(channel, text, tc) {
     for (const u of base64s) {
         let msg = await tc.createMessage("", {file: Buffer.from(u.base64, "base64"), name: `${channel.guild.id}.mp3`});
         let track = await resolveTracks(settings.get("llnodes")[0], msg.attachments[0].url);
+        await msg.delete();
         track = track.tracks[0].track;
         ttsQueue[channel.guild.id].push(track);
     }
@@ -54,7 +55,7 @@ async function tts(channel, text, tc) {
         play.on("end", d => {
             if (d.reason && d.reason === 'REPLACED') {return;}
             if (ttsQueue[channel.guild.id].length > 0) {
-                player.play(ttsQueue[channel.guild.id][0]);
+                play.play(ttsQueue[channel.guild.id][0]);
                 ttsQueue[channel.guild.id].shift();
             }
             else {
