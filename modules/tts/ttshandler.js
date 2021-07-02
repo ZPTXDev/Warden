@@ -37,7 +37,7 @@ async function tts(channel, text) {
     }
     let player = await getPlayer(channel);
     let nPlayer = player.n;
-    player = player.p;
+    player = await player.p;
     if (channel.guild.id in timeouts) {
         clearTimeout(timeouts[channel.guild.id]);
         delete timeouts[channel.guild.id];
