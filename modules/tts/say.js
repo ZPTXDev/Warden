@@ -91,7 +91,7 @@ module.exports.slashAction = async function (ctx) {
                     color: 0x2518a0
                 }
             ],
-            ephemeral: true
+            ephemeral: result !== "success"
         });
     }
 }
