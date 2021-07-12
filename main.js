@@ -1,5 +1,6 @@
 const {SlashCreator, GatewayServer, SlashCommand} = require("slash-create");
 const Eris = require("eris");
+const {PlayerManager} = require("eris-lavalink");
 const settings = require("data-store")({path: "settings.json"});
 const mysql = require("mysql2");
 const reload = require("require-reload")(require);
@@ -174,7 +175,7 @@ catch (err) {
     process.exit(1);
 }
 
-const bot = new Eris(`Bot ${settings.get("token")}`);
+let bot = new Eris(`Bot ${settings.get("token")}`);
 
 const creator = new SlashCreator({
     applicationID: settings.get("applicationId"),
@@ -365,6 +366,7 @@ exports.getUserId = getUserId;
 exports.getPermsMatch = getPermsMatch;
 exports.getSeconds = getSeconds;
 exports.databaseSync = databaseSync;
+exports.guildSettings = guildSettings;
 exports.slashManagerRejection = slashManagerRejection;
 exports.slashPermissionRejection = slashPermissionRejection;
 // THANK YOU https://stackoverflow.com/a/56720887
@@ -437,6 +439,12 @@ bot.on("ready", () => {
             }))
             .registerCommands(slashCommands)
             .syncCommands();
+    }
+    if (!(bot.voiceConnections instanceof PlayerManager)) {
+        bot.voiceConnections = new PlayerManager(bot, settings.get("llnodes"), {
+            numShards: bot.shards.size, // number of shards
+            userId: bot.user.id // the user id of the bot
+        });
     }
 });
 

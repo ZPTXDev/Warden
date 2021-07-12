@@ -34,7 +34,7 @@ module.exports.action = function (details) {
 
 module.exports.slash = {
     name: "avatar",
-    description: "Display a user's avatar.",
+    description: module.exports.description,
     deferEphemeral: false,
     options: [
         {
