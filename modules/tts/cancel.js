@@ -1,6 +1,6 @@
-module.exports.commands = ["stop"];
+module.exports.commands = ["cancel"];
 module.exports.usage = "%cmd%";
-module.exports.description = "Stop TTS.";
+module.exports.description = "Cancel TTS.";
 module.exports.action = async function (details) {
     let result = await common(details["message"].channel.guild.id, details["message"].author.id);
     let resultString = "";
@@ -15,7 +15,7 @@ module.exports.action = async function (details) {
             resultString = "I'm not currently in the middle of a TTS message.";
             break;
         case "success":
-            resultString = "Successfully stopped.";
+            resultString = "Successfully cancelled.";
             break;
     }
     if (resultString) {
@@ -30,8 +30,8 @@ module.exports.action = async function (details) {
 }
 
 module.exports.slash = {
-    name: "stop",
-    description: "Stop TTS.",
+    name: "cancel",
+    description: "Cancel TTS.",
     deferEphemeral: false,
     guildOnly: true
 }
@@ -49,7 +49,7 @@ module.exports.slashAction = async function (ctx) {
             resultString = "I'm not currently in the middle of a TTS message.";
             break;
         case "success":
-            resultString = "Successfully stopped.";
+            resultString = "Successfully cancelled.";
             break;
     }
     if (resultString) {
