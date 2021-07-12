@@ -1,7 +1,7 @@
 module.exports.commands = ["prefix"];
 module.exports.usage = "%cmd% prefix [space]";
 module.exports.description = "Set Warden's prefix.";
-module.exports.action = function (details) {
+module.exports.action = async function (details) {
     const settings = require("../../main.js").settings;
     const promisePool = require("../../main.js").promisePool;
     const getPermsMatch = require("../../main.js").getPermsMatch;
@@ -25,16 +25,14 @@ module.exports.action = function (details) {
     if (space) {
         prefix = `${prefix} `;
     }
-    (async () => {
-        if (settings.get("dev")) {
-            await promisePool.execute("INSERT INTO `guilds_warden_dev` (`guildid`, `prefix`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `prefix` = VALUES(`prefix`)", [details["message"].channel.guild.id, prefix]);
-        }
-        else {
-            await promisePool.execute("INSERT INTO `guilds_warden` (`guildid`, `prefix`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `prefix` = VALUES(`prefix`)", [details["message"].channel.guild.id, prefix]);
-        }
-        await databaseSync();
-    })();
-    details["message"].channel.createMessage({
+    if (settings.get("dev")) {
+        await promisePool.execute("INSERT INTO `guilds_warden_dev` (`guildid`, `prefix`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `prefix` = VALUES(`prefix`)", [details["message"].channel.guild.id, prefix]);
+    }
+    else {
+        await promisePool.execute("INSERT INTO `guilds_warden` (`guildid`, `prefix`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `prefix` = VALUES(`prefix`)", [details["message"].channel.guild.id, prefix]);
+    }
+    await databaseSync();
+    await details["message"].channel.createMessage({
         messageReference: {messageID: details["message"].id},
         embed: {
             description: `Prefix for **${details["message"].channel.guild.name}** set to \`${prefix}\``,
