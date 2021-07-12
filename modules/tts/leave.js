@@ -5,6 +5,9 @@ module.exports.action = async function (details) {
     let result = await common(details["message"].channel.guild.id, details["message"].author.id);
     let resultString = "";
     switch (result) {
+        case "session":
+            resultString = "There is no ongoing session in this server.";
+            break;
         case "vc":
             resultString = "You are not in a voice channel.";
             break;
@@ -36,6 +39,9 @@ module.exports.slashAction = async function (ctx) {
     let result = await common(ctx.guildID, ctx.user.id);
     let resultString = "";
     switch (result) {
+        case "session":
+            resultString = "There is no ongoing session in this server.";
+            break;
         case "vc":
             resultString = "You are not in a voice channel.";
             break;
@@ -68,6 +74,9 @@ async function common(gid, uid) {
         return "different";
     }
     let {ttsQueue, timeouts} = require("./ttshandler.js");
+    if (!(gid in ttsQueue)) {
+        return "session";
+    }
     delete ttsQueue[gid];
     if (gid in timeouts) {
         clearTimeout(timeouts[gid]);
