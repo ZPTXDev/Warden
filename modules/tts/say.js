@@ -1,7 +1,7 @@
 const {CommandOptionType} = require("slash-create");
 
 module.exports.commands = ["say"];
-module.exports.usage = "%cmd% message"
+module.exports.usage = "%cmd% message";
 module.exports.description = "Use TTS to say something in your voice channel.";
 module.exports.action = async function (details) {
     const {getPermsMatch, bot} = require("../../main.js");
