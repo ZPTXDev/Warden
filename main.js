@@ -366,6 +366,7 @@ exports.getUserId = getUserId;
 exports.getPermsMatch = getPermsMatch;
 exports.getSeconds = getSeconds;
 exports.databaseSync = databaseSync;
+exports.guildSettings = guildSettings;
 exports.slashManagerRejection = slashManagerRejection;
 exports.slashPermissionRejection = slashPermissionRejection;
 // THANK YOU https://stackoverflow.com/a/56720887
