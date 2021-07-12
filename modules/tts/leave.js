@@ -33,7 +33,7 @@ module.exports.slash = {
     guildOnly: true
 }
 module.exports.slashAction = async function (ctx) {
-    let result = await common(details["message"].channel.guild.id, details["message"].author.id);
+    let result = await common(ctx.guildID, ctx.user.id);
     let resultString = "";
     switch (result) {
         case "vc":
