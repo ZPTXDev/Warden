@@ -32,7 +32,7 @@ module.exports.action = function (details) {
         else {
             await promisePool.execute("INSERT INTO `guilds_warden` (`guildid`, `prefix`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `prefix` = VALUES(`prefix`)", [details["message"].channel.guild.id, prefix]);
         }
-        databaseSync();
+        await databaseSync();
     })();
     details["message"].channel.createMessage({
         messageReference: {messageID: details["message"].id},
