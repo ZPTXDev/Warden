@@ -70,3 +70,4 @@ async function tts(channel, text, tc) {
 
 module.exports.ttsQueue = ttsQueue;
 module.exports.tts = tts;
+module.exports.timeouts = timeouts;
