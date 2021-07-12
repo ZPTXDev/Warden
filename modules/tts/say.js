@@ -97,7 +97,7 @@ module.exports.slashAction = async function (ctx) {
 }
 
 async function common(gid, uid, cid, text) {
-    const {settings, bot} = require("../../main.js");
+    const {settings, bot, guildSettings} = require("../../main.js");
     if (!settings.get("llnodes")) {
         return "disabled";
     }
@@ -110,6 +110,14 @@ async function common(gid, uid, cid, text) {
     let {ttsQueue, tts} = require("./ttshandler.js");
     if (gid in ttsQueue) {
         return "busy";
+    }
+    switch (guildSettings[gid].tts_name) {
+        case 1:
+            text = bot.guilds.get(gid).members.get(uid).username + " says " + text;
+            break;
+        case 2:
+            text = bot.guilds.get(gid).members.get(uid).nick === null ? bot.guilds.get(gid).members.get(uid).username : bot.guilds.get(gid).members.get(uid).nick + " says " + text;
+            break;
     }
     await tts(bot.guilds.get(gid).channels.get(bot.guilds.get(gid).members.get(uid).voiceState.channelID), text, bot.guilds.get(gid).channels.get(cid));
     return "success";
