@@ -67,6 +67,9 @@ module.exports.slashAction = async function (ctx) {
 
 async function common(gid, uid) {
     const {bot} = require("../../main.js");
+    if (!bot.guilds.get(gid).members.get(bot.user.id).voiceState.channelID) {
+        return "session";
+    }
     if (!bot.guilds.get(gid).members.get(uid).voiceState.channelID) {
         return "vc";
     }
@@ -74,9 +77,6 @@ async function common(gid, uid) {
         return "different";
     }
     let {ttsQueue, timeouts} = require("./ttshandler.js");
-    if (!(gid in ttsQueue)) {
-        return "session";
-    }
     delete ttsQueue[gid];
     if (gid in timeouts) {
         clearTimeout(timeouts[gid]);
