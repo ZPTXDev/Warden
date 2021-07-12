@@ -78,7 +78,7 @@ async function common(gid, uid) {
     if (!(gid in ttsQueue)) {
         return "free";
     }
-    delete ttsQueue[gid];
+    ttsQueue[gid] = [];
     timeouts[gid] = setTimeout(cid => {
         bot.leaveVoiceChannel(cid);
     }, 300000, bot.guilds.get(gid).members.get(bot.user.id).voiceState.channelID);
