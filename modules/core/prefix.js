@@ -2,10 +2,7 @@ module.exports.commands = ["prefix"];
 module.exports.usage = "%cmd% prefix [space]";
 module.exports.description = "Set Warden's prefix.";
 module.exports.action = async function (details) {
-    const settings = require("../../main.js").settings;
-    const promisePool = require("../../main.js").promisePool;
-    const getPermsMatch = require("../../main.js").getPermsMatch;
-    const databaseSync = require("../../main.js").databaseSync;
+    const {settings, getPermsMatch, promisePool, databaseSync} = require("../../main.js");
     let space = false;
     if (!("guild" in details["message"].channel)) {
         return "guild";
