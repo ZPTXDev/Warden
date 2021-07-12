@@ -440,7 +440,7 @@ bot.on("ready", () => {
             .registerCommands(slashCommands)
             .syncCommands();
     }
-    if (!(bot.voiceConnections instanceof PlayerManager)) {
+    if (!(bot.voiceConnections instanceof PlayerManager) && settings.get("llnodes")) {
         bot.voiceConnections = new PlayerManager(bot, settings.get("llnodes"), {
             numShards: bot.shards.size, // number of shards
             userId: bot.user.id // the user id of the bot
