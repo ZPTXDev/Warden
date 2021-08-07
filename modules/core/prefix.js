@@ -4,7 +4,7 @@ module.exports.description = "Set Warden's prefix.";
 module.exports.action = async function (details) {
     const {settings, getPermsMatch, promisePool, databaseSync} = require("../../main.js");
     let space = false;
-    if (!("guild" in details["message"].channel)) {
+    if (!details["guild"]) {
         return "guild";
     }
     let permsMissing = getPermsMatch(details["message"].member.permissions, ["manageGuild"]);

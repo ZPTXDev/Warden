@@ -2,6 +2,9 @@ module.exports.commands = ["cancel"];
 module.exports.usage = "%cmd%";
 module.exports.description = "Cancel TTS.";
 module.exports.action = async function (details) {
+    if (!details["guild"]) {
+        return "guild";
+    }
     let result = await common(details["message"].channel.guild.id, details["message"].author.id);
     let resultString = "";
     switch (result) {

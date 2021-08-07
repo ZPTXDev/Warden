@@ -337,7 +337,8 @@ async function slashManagerRejection(ctx) {
                 description: "You need to be a **Manager** to use that.",
                 color: 0x2518a0
             }
-        ]
+        ],
+        ephemeral: true
     });
 }
 async function slashPermissionRejection(ctx, permsArray) {
@@ -348,7 +349,8 @@ async function slashPermissionRejection(ctx, permsArray) {
                 description: `${target === "self" ? "I am" : "You are"} missing permission${permsArray.length !== 1 ? "s" : ""}: ${permsArray.map(r => `**${_.startCase(r)}**`).join(", ")}`,
                 color: 0x2518a0
             }
-        ]
+        ],
+        ephemeral: true
     });
 }
 

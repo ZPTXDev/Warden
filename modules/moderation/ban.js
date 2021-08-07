@@ -11,7 +11,7 @@ module.exports.action = async function (details) {
     let userIds = [];
     let duration = 0;
     let reason = "";
-    if (!("guild" in details["message"].channel)) {
+    if (!details["guild"]) {
         return "guild";
     }
     let permsMissing = getPermsMatch(details["message"].member.permissions, ["banMembers"]);

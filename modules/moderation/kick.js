@@ -9,7 +9,7 @@ module.exports.action = async function (details) {
     const getPermsMatch = require("../../main.js").getPermsMatch;
     let userIds = [];
     let reason = "";
-    if (!("guild" in details["message"].channel)) {
+    if (!details["guild"]) {
         return "guild";
     }
     let permsMissing = getPermsMatch(details["message"].member.permissions, ["kickMembers"]);

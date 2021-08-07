@@ -4,7 +4,7 @@ module.exports.description = "Configure TTS to use names.";
 module.exports.action = async function (details) {
     const {settings, getPermsMatch, promisePool, databaseSync} = require("../../main.js");
     const types = ["none", "username", "nickname"];
-    if (!("guild" in details["message"].channel)) {
+    if (!details["guild"]) {
         return "guild";
     }
     if (details["body"] === "" || !types.includes(details["body"].toLowerCase())) {

@@ -2,6 +2,9 @@ module.exports.commands = ["leave", "disconnect", "dc"];
 module.exports.usage = "%cmd%";
 module.exports.description = "Stop TTS and leave the voice channel.";
 module.exports.action = async function (details) {
+    if (!details["guild"]) {
+        return "guild";
+    }
     let result = await common(details["message"].channel.guild.id, details["message"].author.id);
     let resultString = "";
     switch (result) {

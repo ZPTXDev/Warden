@@ -5,6 +5,9 @@ module.exports.usage = "%cmd% message";
 module.exports.description = "Use TTS to say something in your voice channel.";
 module.exports.action = async function (details) {
     const {getPermsMatch, bot} = require("../../main.js");
+    if (!details["guild"]) {
+        return "guild";
+    }
     if (details["body"] === "") {
         return "usage";
     }
