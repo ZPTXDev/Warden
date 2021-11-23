@@ -4,7 +4,7 @@
   "dependencies": {
     "data-store": "^4.0.3",
     "discord-tts": "^1.2.1",
-    "eris": "^0.15.1",
+    "eris": "^0.16.1",
     "eris-lavalink": "^1.0.2",
     "google-tts-api": "^2.0.2",
     "lodash": "^4.17.21",
