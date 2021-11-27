@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const { checks } = require('../enums.js');
 const { defaultColor } = require('../settings.json');
-const { guildData } = require('../main.js');
+const { guildData } = require('../data.js');
 const googleTTS = require('google-tts-api');
 
 module.exports = {

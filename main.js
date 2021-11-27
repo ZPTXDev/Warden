@@ -5,9 +5,6 @@ const { token, lavalink, defaultColor } = require('./settings.json');
 const fs = require('fs');
 const { version } = require('./package.json');
 const { checks } = require('./enums.js');
-const guildData = require('data-store')({ path: 'data.json' });
-
-module.exports = { guildData };
 
 const bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_PRESENCES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES] });
 bot.commands = new Collection();
