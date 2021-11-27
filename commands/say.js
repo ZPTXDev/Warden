@@ -22,7 +22,8 @@ module.exports = {
 	async execute(interaction) {
 		await interaction.deferReply();
 		const prepend = guildData.get(`${interaction.guildId}.tts.prepend`);
-		const message = `${prepend ? `${prepend === 'nickname' ? interaction.member.nickname ?? interaction.user.username : interaction.user.username} says ` : ''}${interaction.options.getString('message')}`;
+		const rawMessage = interaction.options.getString('message');
+		const message = `${prepend ? `${prepend === 'nickname' ? interaction.member.nickname ?? interaction.user.username : interaction.user.username} says ` : ''}${rawMessage}`;
 		const tracks = [];
 		let errored = false;
 		const urls = googleTTS.getAllAudioUrls(message);
@@ -68,7 +69,7 @@ module.exports = {
 		await interaction.editReply({
 			embeds: [
 				new MessageEmbed()
-					.setDescription(message)
+					.setDescription(rawMessage)
 					.setAuthor(interaction.user.tag, interaction.user.avatarURL({ format: 'png', dynamic: true }))
 					.setColor(defaultColor),
 			],
