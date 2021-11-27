@@ -27,7 +27,7 @@ module.exports = {
 		let errored = false;
 		const urls = googleTTS.getAllAudioUrls(message);
 		for (const url of urls) {
-			const result = await interaction.client.music.rest.loadTracks(url);
+			const result = await interaction.client.music.rest.loadTracks(url.url);
 			if (result.loadType === 'TRACK_LOADED') {
 				tracks.push(result.tracks[0]);
 			}
