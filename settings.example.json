@@ -7,8 +7,8 @@
     "Paste your user ID here"
   ],
   "lavalink": {
-      "host": "localhost",
-      "port": 12345,
-      "password": "youshallnotpass"
+    "host": "localhost",
+    "port": 12345,
+    "password": "youshallnotpass"
   }
 }
