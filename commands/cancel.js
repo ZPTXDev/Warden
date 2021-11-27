@@ -34,7 +34,6 @@ module.exports = {
 					.setDescription('Cancelled the message.')
 					.setColor(defaultColor),
 			],
-			ephemeral: true,
 		});
 	},
 };

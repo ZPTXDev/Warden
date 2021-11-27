@@ -31,7 +31,6 @@ module.exports = {
 						.setDescription('Prepending disabled.')
 						.setColor(defaultColor),
 				],
-				ephemeral: true,
 			});
 			return;
 		}
@@ -42,7 +41,6 @@ module.exports = {
 					.setDescription(`Text-to-speech will now prepend the user's **${type}** in messages.`)
 					.setColor(defaultColor),
 			],
-			ephemeral: true,
 		});
 	},
 };
