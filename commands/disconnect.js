@@ -33,7 +33,6 @@ module.exports = {
 					.setDescription('Left the voice channel.')
 					.setColor(defaultColor),
 			],
-			ephemeral: true,
 		});
 	},
 };
