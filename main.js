@@ -72,6 +72,7 @@ bot.on('ready', async () => {
 		console.log(`[Warden] Connected to Discord! Logged in as ${bot.user.tag}.`);
 		console.log(`[Warden] Running version ${version}. For help, see https://github.com/ZapSquared/Warden/issues.`);
 		bot.music.connect(bot.user.id);
+		bot.user.setActivity(version);
 		startup = true;
 	}
 	else {
