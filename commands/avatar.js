@@ -37,7 +37,7 @@ module.exports = {
 		let sizes = [];
 		let start = 4096;
 		while (start >= 16) {
-			sizes.push(`[${start.toString()}](${user.displayAvatarURL({ dynamic: true, format: 'png' })})`);
+			sizes.push(`[${start.toString()}](${user.displayAvatarURL({ dynamic: true, format: 'png', size: start })})`);
 			start /= 2;
 		}
 		sizes = sizes.join(' | ');
@@ -48,7 +48,7 @@ module.exports = {
 			let gsizes = [];
 			start = 4096;
 			while (start >= 16) {
-				gsizes.push(`[${start.toString()}](${guser.avatarURL({ dynamic: true, format: 'png' })})`);
+				gsizes.push(`[${start.toString()}](${guser.avatarURL({ dynamic: true, format: 'png', size: start })})`);
 				start /= 2;
 			}
 			gsizes = gsizes.join(' | ');
