@@ -31,10 +31,12 @@ bot.music.on('connect', () => {
 });
 
 bot.music.on('queueFinish', queue => {
+	console.log(`[G ${queue.player.guildId}] Setting timeout`);
 	if (queue.player.timeout) {
 		clearTimeout(queue.player.timeout);
 	}
 	queue.player.timeout = setTimeout(p => {
+		console.log(`[G ${p.guildId}] Disconnecting (inactivity)`);
 		const channel = p.queue.channel;
 		p.disconnect();
 		bot.music.destroyPlayer(p.guildId);
@@ -49,11 +51,13 @@ bot.music.on('queueFinish', queue => {
 });
 
 bot.music.on('trackStart', queue => {
+	console.log(`[G ${queue.player.guildId}] Starting track`);
 	if (queue.player.timeout) {
 		clearTimeout(queue.player.timeout);
 		delete queue.player.timeout;
 	}
 	if (bot.guilds.cache.get(queue.player.guildId).channels.cache.get(queue.player.channelId).members?.filter(m => !m.bot).size < 1) {
+		console.log(`[G ${queue.player.guildId}] Disconnecting (alone)`);
 		queue.player.disconnect();
 		bot.music.destroyPlayer(queue.player.guildId);
 		queue.channel.send({
@@ -88,6 +92,7 @@ bot.on('interactionCreate', async interaction => {
 	if (interaction.isCommand()) {
 		const command = bot.commands.get(interaction.commandName);
 		if (!command) return;
+		console.log(`[U ${interaction.user.id}] Processing command ${interaction.commandName}`);
 		const failedChecks = [];
 		for (const check of command.checks) {
 			switch (check) {
@@ -114,6 +119,7 @@ bot.on('interactionCreate', async interaction => {
 			}
 		}
 		if (failedChecks.length > 0) {
+			console.log(`[U ${interaction.user.id}] Command ${interaction.commandName} failed ${failedChecks.length} checks`);
 			await interaction.reply({
 				embeds: [
 					new MessageEmbed()
@@ -158,9 +164,11 @@ bot.on('interactionCreate', async interaction => {
 			return;
 		}
 		try {
+			console.log(`[U ${interaction.user.id}] Executing command ${interaction.commandName}`);
 			await command.execute(interaction);
 		}
 		catch (err) {
+			console.log(`[U ${interaction.user.id}] Encountered error with command ${interaction.commandName}`);
 			console.error(err);
 			await interaction.reply({
 				embeds: [
@@ -172,6 +180,14 @@ bot.on('interactionCreate', async interaction => {
 			});
 		}
 	}
+});
+
+bot.on('guildCreate', guild => {
+	console.log(`[G ${guild.id}] Joined ${guild.name}`);
+});
+
+bot.on('guildDelete', guild => {
+	console.log(`[G ${guild.id}] Left ${guild.name}`);
 });
 
 bot.login(token);
