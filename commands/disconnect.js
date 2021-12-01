@@ -25,6 +25,7 @@ module.exports = {
 			});
 			return;
 		}
+		clearTimeout(player.timeout);
 		player.disconnect();
 		interaction.client.music.destroyPlayer(interaction.guildId);
 		await interaction.reply({
