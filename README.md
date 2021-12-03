@@ -11,7 +11,7 @@ Hosting Warden is fairly simple. Make a copy of `settings.example.json`, edit th
 
 You are required to host your own instance of [Lavalink](https://github.com/freyacodes/Lavalink) and specify the connection details in `settings.json`. This is mandatory for text-to-speech to work.
 
-From version **2.0.0**, you are no longer required to specify MySQL connection details as Warden will use JSON for guild data.
+From version **1.0.0**, you are no longer required to specify MySQL connection details as Warden will use JSON for guild data.
 
 ## Prerequisites
 - Node.js v16.0.0 (or higher)
