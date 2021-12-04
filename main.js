@@ -3,6 +3,7 @@ const { Client, Intents, Collection, MessageEmbed } = require('discord.js');
 const { Node } = require('lavaclient');
 const { token, lavalink, defaultColor } = require('./settings.json');
 const fs = require('fs');
+const fsPromises = require('fs').promises;
 const { version } = require('./package.json');
 const { checks } = require('./enums.js');
 
@@ -193,7 +194,7 @@ bot.on('guildDelete', guild => {
 bot.login(token);
 
 let inprg = false;
-async function shuttingDown() {
+async function shuttingDown(err) {
 	if (inprg) return;
 	inprg = true;
 	console.log('[Warden] Shutting down...');
@@ -214,10 +215,14 @@ async function shuttingDown() {
 			bot.music.destroyPlayer(player.guildId);
 		}
 	}
+	if (err) {
+		console.log('[Warden] Logging error to error.log.');
+		await fsPromises.writeFile('error.log', err);
+	}
 	bot.destroy();
 	process.exit();
 }
 
-['exit', 'SIGINT', 'SIGUSR1', 'SIGUSR2', 'uncaughtException', 'SIGTERM'].forEach(eventType => {
+['exit', 'SIGINT', 'SIGUSR1', 'SIGUSR2', 'SIGTERM', 'uncaughtException', 'unhandledRejection'].forEach(eventType => {
 	process.on(eventType, shuttingDown);
 });
