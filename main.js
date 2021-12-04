@@ -191,3 +191,33 @@ bot.on('guildDelete', guild => {
 });
 
 bot.login(token);
+
+let inprg = false;
+async function shuttingDown() {
+	if (inprg) return;
+	inprg = true;
+	console.log('[Warden] Shutting down...');
+	if (startup) {
+		console.log('[Warden] Disconnecting from all guilds...');
+		for (const pair of bot.music.players) {
+			const player = pair[1];
+			console.log(`[G ${player.guildId}] Disconnecting (restarting)`);
+			await player.queue.channel.send({
+				embeds: [
+					new MessageEmbed()
+						.setDescription('Warden is restarting and will disconnect.')
+						.setFooter('Sorry for the inconvenience caused.')
+						.setColor(defaultColor),
+				],
+			});
+			player.disconnect();
+			bot.music.destroyPlayer(player.guildId);
+		}
+	}
+	bot.destroy();
+	process.exit();
+}
+
+['exit', 'SIGINT', 'SIGUSR1', 'SIGUSR2', 'uncaughtException', 'SIGTERM'].forEach(eventType => {
+	process.on(eventType, shuttingDown);
+});
