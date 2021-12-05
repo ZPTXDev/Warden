@@ -215,8 +215,8 @@ async function shuttingDown(eventType, err) {
 			bot.music.destroyPlayer(player.guildId);
 		}
 	}
-	if (['uncaughtException', 'unhandledRejection'].includes(eventType) && err) {
-		console.log('[Warden] Logging error to error.log.');
+	if (err) {
+		console.log('[Warden] Logging additional output to error.log.');
 		try {
 			await fsPromises.writeFile('error.log', err.toString());
 		}
