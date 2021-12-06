@@ -57,6 +57,9 @@ bot.music.on('trackStart', queue => {
 		clearTimeout(queue.player.timeout);
 		delete queue.player.timeout;
 	}
+});
+
+bot.music.on('trackEnd', queue => {
 	if (bot.guilds.cache.get(queue.player.guildId).channels.cache.get(queue.player.channelId).members?.filter(m => !m.user.bot).size < 1) {
 		console.log(`[G ${queue.player.guildId}] Disconnecting (alone)`);
 		queue.player.disconnect();
