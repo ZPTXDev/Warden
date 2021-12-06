@@ -218,7 +218,7 @@ async function shuttingDown(eventType, err) {
 	if (err) {
 		console.log('[Warden] Logging additional output to error.log.');
 		try {
-			await fsPromises.writeFile('error.log', (await err).toString());
+			await fsPromises.writeFile('error.log', `${eventType}\n${(await err).toString()}`);
 		}
 		catch (e) {
 			console.error(`[Warden] Encountered error while writing to error.log:\n${e}`);
