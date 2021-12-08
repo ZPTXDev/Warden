@@ -220,7 +220,7 @@ async function shuttingDown(eventType, err) {
 			await player.queue.channel.send({
 				embeds: [
 					new MessageEmbed()
-						.setDescription('Warden is restarting and will disconnect.')
+						.setDescription(`Warden ${['exit', 'SIGINT'].includes(eventType) ? 'is restarting' : 'has crashed'} and will disconnect.`)
 						.setFooter('Sorry for the inconvenience caused.')
 						.setColor(defaultColor),
 				],
@@ -232,8 +232,7 @@ async function shuttingDown(eventType, err) {
 	if (err) {
 		console.log('[Warden] Logging additional output to error.log.');
 		try {
-			const error = await err;
-			await fsPromises.writeFile('error.log', `${eventType}\n${error.toString()}`);
+			await fsPromises.writeFile('error.log', `${eventType}\n${err.message}\n${err.stack}`);
 		}
 		catch (e) {
 			console.error(`[Warden] Encountered error while writing to error.log:\n${e}`);
@@ -244,5 +243,5 @@ async function shuttingDown(eventType, err) {
 }
 
 ['exit', 'SIGINT', 'SIGUSR1', 'SIGUSR2', 'SIGTERM', 'uncaughtException', 'unhandledRejection'].forEach(eventType => {
-	process.on(eventType, shuttingDown);
+	process.on(eventType, err => shuttingDown(eventType, err));
 });
