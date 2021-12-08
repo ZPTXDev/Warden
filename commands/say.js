@@ -17,9 +17,22 @@ module.exports = {
 	checks: [checks.GUILD_ONLY, checks.IN_VOICE, checks.IN_SESSION_VOICE],
 	permissions: {
 		user: [],
-		bot: ['CONNECT', 'SPEAK'],
+		bot: [],
 	},
 	async execute(interaction) {
+		// check for connect, speak permission for channel
+		if (!interaction.member.voice.channel.permissionsFor(interaction.client.user.id).has(['CONNECT', 'SPEAK'])) {
+			await interaction.reply({
+				embeds: [
+					new MessageEmbed()
+						.setDescription('I need to be able to connect and speak in the voice channel.')
+						.setColor('DARK_RED'),
+				],
+				ephemeral: true,
+			});
+			return;
+		}
+
 		await interaction.deferReply();
 		const prepend = guildData.get(`${interaction.guildId}.tts.prepend`);
 		const rawMessage = interaction.options.getString('message');
