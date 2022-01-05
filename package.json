@@ -10,7 +10,7 @@
     "@lavaclient/queue": "^2.0.6",
     "discord-api-types": "^0.25.2",
     "discord.js": "^13.3.1",
-    "lavaclient": "^4.0.5",
+    "lavaclient": "^4.0.6",
     "data-store": "^4.0.3",
     "google-tts-api": "^2.0.2"
   },
