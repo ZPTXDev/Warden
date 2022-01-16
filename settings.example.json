@@ -9,6 +9,7 @@
   "lavalink": {
     "host": "localhost",
     "port": 12345,
-    "password": "youshallnotpass"
+    "password": "youshallnotpass",
+    "secure": false
   }
 }
