@@ -1,11 +1,12 @@
 require('@lavaclient/queue/register');
 const { Client, Intents, Collection, MessageEmbed } = require('discord.js');
 const { Node } = require('lavaclient');
-const { token, lavalink, defaultColor } = require('./settings.json');
+const { token, lavalink, defaultColor, defaultLocale } = require('./settings.json');
 const fs = require('fs');
 const fsPromises = require('fs').promises;
 const { version } = require('./package.json');
 const { checks } = require('./enums.js');
+const { getLocale } = require('./functions.js');
 const readline = require('readline');
 
 const rl = readline.createInterface({
@@ -40,23 +41,23 @@ for (const file of commandFiles) {
 let startup = false;
 
 bot.music.on('connect', () => {
-	console.log('[Warden] Connected to Lavalink!');
+	console.log(`[Warden] ${getLocale(defaultLocale, 'LOG_LAVALINK_CONNECTED')}`);
 });
 
 bot.music.on('queueFinish', queue => {
-	console.log(`[G ${queue.player.guildId}] Setting timeout`);
+	console.log(`[G ${queue.player.guildId}] ${getLocale(defaultLocale, 'LOG_SETTING_TIMEOUT')}`);
 	if (queue.player.timeout) {
 		clearTimeout(queue.player.timeout);
 	}
 	queue.player.timeout = setTimeout(p => {
-		console.log(`[G ${p.guildId}] Disconnecting (inactivity)`);
+		console.log(`[G ${p.guildId}] ${getLocale(defaultLocale, 'LOG_INACTIVITY')}`);
 		const channel = p.queue.channel;
 		p.disconnect();
 		bot.music.destroyPlayer(p.guildId);
 		channel.send({
 			embeds: [
 				new MessageEmbed()
-					.setDescription('Disconnected from inactivity.')
+					.setDescription(getLocale(defaultLocale, 'WARDEN_INACTIVITY'))
 					.setColor(defaultColor),
 			],
 		});
@@ -64,7 +65,7 @@ bot.music.on('queueFinish', queue => {
 });
 
 bot.music.on('trackStart', queue => {
-	console.log(`[G ${queue.player.guildId}] Starting track`);
+	console.log(`[G ${queue.player.guildId}] ${getLocale(defaultLocale, 'LOG_STARTING_TRACK')}`);
 	if (queue.player.timeout) {
 		clearTimeout(queue.player.timeout);
 		delete queue.player.timeout;
@@ -73,13 +74,13 @@ bot.music.on('trackStart', queue => {
 
 bot.music.on('trackEnd', queue => {
 	if (bot.guilds.cache.get(queue.player.guildId).channels.cache.get(queue.player.channelId).members?.filter(m => !m.user.bot).size < 1) {
-		console.log(`[G ${queue.player.guildId}] Disconnecting (alone)`);
+		console.log(`[G ${queue.player.guildId}] ${getLocale(defaultLocale, 'LOG_ALONE')}`);
 		queue.player.disconnect();
 		bot.music.destroyPlayer(queue.player.guildId);
 		queue.channel.send({
 			embeds: [
 				new MessageEmbed()
-					.setDescription('Disconnected as everyone left.')
+					.setDescription(getLocale(defaultLocale, 'WARDEN_ALONE'))
 					.setColor(defaultColor),
 			],
 		});
@@ -89,14 +90,14 @@ bot.music.on('trackEnd', queue => {
 
 bot.on('ready', async () => {
 	if (!startup) {
-		console.log(`[Warden] Connected to Discord! Logged in as ${bot.user.tag}.`);
-		console.log(`[Warden] Running version ${version}. For help, see https://github.com/ZapSquared/Warden/issues.`);
+		console.log(`[Warden] ${getLocale(defaultLocale, 'LOG_DISCORD_CONNECTED', bot.user.tag)}`);
+		console.log(`[Warden] ${getLocale(defaultLocale, 'LOG_STARTUP', version)}`);
 		bot.music.connect(bot.user.id);
 		bot.user.setActivity(version);
 		startup = true;
 	}
 	else {
-		console.log('[Warden] Lost connection to Discord. Attempting to resume sessions now.');
+		console.log(`[Warden] ${getLocale(defaultLocale, 'LOG_CONNECTION_LOST')}`);
 		for (const pair of bot.music.players) {
 			const player = pair[1];
 			await player.resume();
@@ -139,7 +140,7 @@ bot.on('interactionCreate', async interaction => {
 			await interaction.reply({
 				embeds: [
 					new MessageEmbed()
-						.setDescription(failedChecks[0])
+						.setDescription(defaultLocale, failedChecks[0])
 						.setColor('DARK_RED'),
 				],
 				ephemeral: true,
@@ -161,7 +162,7 @@ bot.on('interactionCreate', async interaction => {
 			await interaction.reply({
 				embeds: [
 					new MessageEmbed()
-						.setDescription(`You are missing permissions: ${failedPermissions.user.map(perm => '`' + perm + '`').join(' ')}`)
+						.setDescription(getLocale(defaultLocale, 'DISCORD_USER_MISSING_PERMISSIONS', failedPermissions.user.map(perm => '`' + perm + '`').join(' ')))
 						.setColor('DARK_RED'),
 				],
 				ephemeral: true,
@@ -172,7 +173,7 @@ bot.on('interactionCreate', async interaction => {
 			await interaction.reply({
 				embeds: [
 					new MessageEmbed()
-						.setDescription(`I am missing permissions: ${failedPermissions.user.map(perm => '`' + perm + '`').join(' ')}`)
+						.setDescription(getLocale(defaultLocale, 'DISCORD_BOT_MISSING_PERMISSIONS', failedPermissions.bot.map(perm => '`' + perm + '`').join(' ')))
 						.setColor('DARK_RED'),
 				],
 				ephemeral: true,
@@ -180,16 +181,16 @@ bot.on('interactionCreate', async interaction => {
 			return;
 		}
 		try {
-			console.log(`[${interaction.guildId ? `G ${interaction.guildId} | ` : ''}U ${interaction.user.id}] Executing command ${interaction.commandName}`);
+			console.log(`[${interaction.guildId ? `G ${interaction.guildId} | ` : ''}U ${interaction.user.id}] ${getLocale(defaultLocale, 'LOG_CMD_EXECUTING', interaction.commandName)}`);
 			await command.execute(interaction);
 		}
 		catch (err) {
-			console.log(`[${interaction.guildId ? `G ${interaction.guildId} | ` : ''}U ${interaction.user.id}] Encountered error with command ${interaction.commandName}`);
+			console.log(`[${interaction.guildId ? `G ${interaction.guildId} | ` : ''}U ${interaction.user.id}] ${getLocale(defaultLocale, 'LOG_CMD_ERROR', interaction.commandName)}`);
 			console.error(err);
 			await interaction.reply({
 				embeds: [
 					new MessageEmbed()
-						.setDescription('There was an error while handling the command.')
+						.setDescription(getLocale(defaultLocale, 'DISCORD_CMD_ERROR'))
 						.setColor('DARK_RED'),
 				],
 				ephemeral: true,
@@ -199,11 +200,11 @@ bot.on('interactionCreate', async interaction => {
 });
 
 bot.on('guildCreate', guild => {
-	console.log(`[G ${guild.id}] Joined ${guild.name}`);
+	console.log(`[G ${guild.id}] ${getLocale(defaultLocale, 'LOG_GUILD_JOINED', guild.name)}`);
 });
 
 bot.on('guildDelete', guild => {
-	console.log(`[G ${guild.id}] Left ${guild.name}`);
+	console.log(`[G ${guild.id}] ${getLocale(defaultLocale, 'LOG_GUILD_LEFT', guild.name)}`);
 });
 
 bot.login(token);
@@ -212,17 +213,17 @@ let inprg = false;
 async function shuttingDown(eventType, err) {
 	if (inprg) return;
 	inprg = true;
-	console.log('[Warden] Shutting down...');
+	console.log(`[Warden] ${getLocale(defaultLocale, 'LOG_SHUTDOWN')}`);
 	if (startup) {
-		console.log('[Warden] Disconnecting from all guilds...');
+		console.log(`[Warden] ${getLocale(defaultLocale, 'LOG_DISCONNECTING')}`);
 		for (const pair of bot.music.players) {
 			const player = pair[1];
-			console.log(`[G ${player.guildId}] Disconnecting (restarting)`);
+			console.log(`[G ${player.guildId}] ${getLocale(defaultLocale, 'LOG_RESTARTING')}`);
 			await player.queue.channel.send({
 				embeds: [
 					new MessageEmbed()
-						.setDescription(`Warden ${['exit', 'SIGINT'].includes(eventType) ? 'is restarting' : 'has crashed'} and will disconnect.`)
-						.setFooter('Sorry for the inconvenience caused.')
+						.setDescription(`${getLocale(defaultLocale, ['exit', 'SIGINT'].includes(eventType) ? 'WARDEN_RESTART' : 'WARDEN_RESTART_CRASH')}`)
+						.setFooter(getLocale(defaultLocale, 'WARDEN_RESTART_SORRY'))
 						.setColor(defaultColor),
 				],
 			});
@@ -231,12 +232,12 @@ async function shuttingDown(eventType, err) {
 		}
 	}
 	if (err) {
-		console.log('[Warden] Logging additional output to error.log.');
+		console.log(`[Warden] ${getLocale(defaultLocale, 'LOG_ERROR')}`);
 		try {
 			await fsPromises.writeFile('error.log', `${eventType}\n${err.message}\n${err.stack}`);
 		}
 		catch (e) {
-			console.error(`[Warden] Encountered error while writing to error.log:\n${e}`);
+			console.error(`[Warden] ${getLocale(defaultLocale, 'LOG_ERROR_FAIL')}\n${e}`);
 		}
 	}
 	bot.destroy();

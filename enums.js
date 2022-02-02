@@ -1,7 +1,7 @@
 const checks = {
-	GUILD_ONLY: 'This command only works in servers.',
-	IN_VOICE: 'You need to be in a voice channel.',
-	IN_SESSION_VOICE: 'You need to be in my voice channel.',
+	GUILD_ONLY: 'CHECK_GUILD_ONLY',
+	IN_VOICE: 'CHECK_IN_VOICE',
+	IN_SESSION_VOICE: 'CHECK_IN_SESSION_VOICE',
 };
 
 module.exports = { checks };
