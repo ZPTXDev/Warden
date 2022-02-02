@@ -8,7 +8,7 @@
     "@discordjs/builders": "^0.12.0",
     "@discordjs/rest": "^0.1.0-canary.0",
     "@lavaclient/queue": "^2.0.6",
-    "discord-api-types": "^0.25.2",
+    "discord-api-types": "^0.26.1",
     "discord.js": "^13.3.1",
     "lavaclient": "^4.0.7",
     "data-store": "^4.0.3",
