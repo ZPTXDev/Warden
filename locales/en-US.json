@@ -39,7 +39,7 @@
   "CMD_AVATAR_OPTION_USER": "The user to display an avatar for.",
   "CMD_AVATAR_OPTION_FORMAT": "Show all format and size variations for the avatar.",
   "CMD_AVATAR_NO_AVATAR": "<@%1> does not have an avatar and options cannot be provided.",
-  "CMD_AVATAR_SERVER_AVATAR": "Server Avatar",
+  "CMD_AVATAR_SERVER": "Server Avatar",
   "CMD_AVATAR_USER_AVATAR": "User Avatar",
   "CMD_AVATAR_FORMATS": "**Formats**:",
   "CMD_AVATAR_SIZES": "**Sizes**:",

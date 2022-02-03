@@ -55,7 +55,7 @@ module.exports = {
 			gsizes = gsizes.join(' | ');
 			guildAvatar = [
 				new MessageEmbed()
-					.setTitle(getLocale(defaultLocale, 'CMD_AVATAR_SERVER_AVATAR'))
+					.setTitle(getLocale(defaultLocale, 'CMD_AVATAR_SERVER'))
 					.setDescription(options ? `${getLocale(defaultLocale, 'CMD_AVATAR_FORMATS')}\n${ganimated ? `[gif](${guser.avatarURL({ dynamic: true, size: 2048 })}) | ` : ''}[png](${guser.avatarURL({ format: 'png', size: 2048 })}) | [jpg](${guser.avatarURL({ format: 'jpg', size: 2048 })}) | [webp](${guser.avatarURL({ format: 'webp', size: 2048 })})\n${getLocale(defaultLocale, 'CMD_AVATAR_SIZES')}\n${gsizes}` : `[${getLocale(defaultLocale, 'CMD_AVATAR_EXTERNAL')}](${guser.avatarURL({ dynamic: true, format: 'png' })})`)
 					.setAuthor(user.tag)
 					.setImage(guser.avatarURL({ dynamic: true, format: 'png', size: 2048 }))
