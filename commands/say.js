@@ -40,7 +40,14 @@ module.exports = {
 		const message = `${prepend ? `${prepend === 'nickname' ? interaction.member.nickname ?? interaction.user.username : interaction.user.username} says ` : ''}${rawMessage}`;
 		const tracks = [];
 		let errored = false;
-		const urls = googleTTS.getAllAudioUrls(message);
+		let urls = [];
+		try {
+			urls = googleTTS.getAllAudioUrls(message);
+		}
+		catch (error) {
+			errored = true;
+			console.error(error);
+		}
 		for (const url of urls) {
 			const result = await interaction.client.music.rest.loadTracks(url.url);
 			if (result.loadType === 'TRACK_LOADED') {
