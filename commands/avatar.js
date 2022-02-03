@@ -6,20 +6,15 @@ const { getLocale } = require('../functions.js');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('avatar')
-		.setDescription(getLocale(defaultLocale, 'CMD_AVATAR_DESCRIPTION'),
-		)
+		.setDescription(getLocale(defaultLocale, 'CMD_AVATAR_DESCRIPTION'))
 		.addUserOption(option =>
 			option
 				.setName('user')
-				.setDescription(getLocale(defaultLocale, 'CMD_AVATAR_OPTION_USER'),
-				),
-		)
+				.setDescription(getLocale(defaultLocale, 'CMD_AVATAR_OPTION_USER'))
 		.addBooleanOption(option =>
 			option
 				.setName('options')
-				.setDescription(getLocale(defaultLocale, 'CMD_AVATAR_OPTION_FORMAT'),
-				),
-		),
+				.setDescription(getLocale(defaultLocale, 'CMD_AVATAR_OPTION_FORMAT')),
 	checks: [],
 	permissions: {
 		user: [],
