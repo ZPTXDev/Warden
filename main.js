@@ -119,6 +119,14 @@ bot.on('interactionCreate', async interaction => {
 						failedChecks.push(check);
 					}
 					break;
+				// Must have an active session
+				case checks.ACTIVE_SESSION: {
+					const player = bot.music.players.get(interaction.guildId);
+					if (!player) {
+						failedChecks.push(check);
+					}
+					break;
+				}
 				// Must be in a voice channel
 				case checks.IN_VOICE:
 					if (!interaction.member?.voice.channelId) {
