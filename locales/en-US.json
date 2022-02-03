@@ -68,6 +68,6 @@
   "CMD_SAY_DESCRIPTION": "Say something in your voice channel through text-to-speech.",
   "CMD_SAY_MESSAGE": "The message to say.",
   "CMD_SAY_PLAYING": "I am in the middle of another message",
-  "CMD_SAY_ERROR": "There was an error loading your message. Try again later.",
+  "CMD_SAY_LOAD_FAIL": "There was an error loading your message. Try again later.",
   "MORETHANADAY": "more than a day"
 }

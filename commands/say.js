@@ -55,7 +55,7 @@ module.exports = {
 			await interaction.editReply({
 				embeds: [
 					new MessageEmbed()
-						.setDescription(getLocale(defaultLocale, 'CMD_SAY_ERROR'))
+						.setDescription(getLocale(defaultLocale, 'CMD_SAY_LOAD_FAIL'))
 						.setColor('DARK_RED'),
 				],
 			});
