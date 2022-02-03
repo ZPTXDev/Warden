@@ -1,7 +1,8 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const { checks } = require('../enums.js');
-const { defaultColor } = require('../settings.json');
+const { defaultColor, defaultLocale } = require('../settings.json');
+const { getLocale } = require('../functions.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -18,7 +19,7 @@ module.exports = {
 			await interaction.reply({
 				embeds: [
 					new MessageEmbed()
-						.setDescription('I am not currently in the voice channel.')
+						.setDescription(getLocale(defaultLocale, 'CHECK_ACTIVE_SESSION'))
 						.setColor('DARK_RED'),
 				],
 				ephemeral: true,
@@ -31,7 +32,7 @@ module.exports = {
 		await interaction.reply({
 			embeds: [
 				new MessageEmbed()
-					.setDescription('Left the voice channel.')
+					.setDescription(getLocale(defaultLocale, 'CMD_DISCONNECT_SUCCESS'))
 					.setColor(defaultColor),
 			],
 		});

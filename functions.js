@@ -1,3 +1,5 @@
+const { defaultLocale } = require('./settings.json');
+
 // thanks: https://gist.github.com/flangofas/714f401b63a1c3d84aaa
 function msToTime(milliseconds, format) {
 	const total_seconds = parseInt(Math.floor(milliseconds / 1000));
@@ -25,7 +27,7 @@ function msToTime(milliseconds, format) {
 function msToTimeString(msObject, simple) {
 	if (simple) {
 		if (msObject['d'] > 0) {
-			return 'more than a day';
+			return getLocale(defaultLocale, 'MORETHANADAY');
 		}
 		return `${msObject['h'] > 0 ? `${msObject['h']}:` : ''}${msObject['h'] > 0 ? msObject['m'].toString().padStart(2, '0') : msObject['m']}:${msObject['s'].toString().padStart(2, '0')}`;
 	}
@@ -79,5 +81,33 @@ function paginate(arr, size) {
 		return acc;
 	}, []);
 }
+// thanks: https://stackoverflow.com/a/63376860
+function getLocale(language, string, ...vars) {
+	let strings = require(`./locales/${language}.json`);
+	if (!strings) return 'LOCALE_MISSING';
+	let locale = strings[string];
+	if (!locale) {
+		// this uses en-US by default on purpose.
+		// en-US is the only locale I can confirm is 100% complete.
+		strings = require('./locales/en-US.json');
+		locale = strings[string];
+	}
+	vars.forEach((v, i) => {
+		locale = locale.replace(`%${i + 1}`, v);
+	});
+	return locale;
+}
 
-module.exports = { msToTime, msToTimeString, roundTo, getSeconds, getBar, paginate };
+function checkLocaleCompletion(language) {
+	const foreignStrings = require(`./locales/${language}.json`);
+	const strings = require('./locales/en-US.json');
+	const foreignStringsKeys = Object.keys(foreignStrings);
+	const stringsKeys = Object.keys(strings);
+	// missing strings
+	if (stringsKeys.length > foreignStringsKeys.length) {
+		return { completion: foreignStringsKeys.length / stringsKeys.length * 100, missing: stringsKeys.filter(x => !foreignStringsKeys.includes(x)) };
+	}
+	return { completion: 100, missing: [] };
+}
+
+module.exports = { msToTime, msToTimeString, roundTo, getSeconds, getBar, paginate, getLocale, checkLocaleCompletion };

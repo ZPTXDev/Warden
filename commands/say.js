@@ -1,14 +1,15 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const { checks } = require('../enums.js');
-const { defaultColor } = require('../settings.json');
+const { defaultColor, defaultLocale } = require('../settings.json');
+const { getLocale } = require('../functions.js');
 const { guildData } = require('../data.js');
 const googleTTS = require('google-tts-api');
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('say')
-		.setDescription('Say something in your voice channel through text-to-speech.')
+		.setDescription(getLocale(defaultLocale, 'CMD_SAY_DESCRIPTION'))
 		.addStringOption(option =>
 			option
 				.setName('message')
@@ -25,7 +26,7 @@ module.exports = {
 			await interaction.reply({
 				embeds: [
 					new MessageEmbed()
-						.setDescription('I need to be able to connect and speak in the voice channel.')
+						.setDescription(getLocale(defaultLocale, 'DISCORD_BOT_MISSING_PERMISSIONS_BASIC'))
 						.setColor('DARK_RED'),
 				],
 				ephemeral: true,
@@ -54,7 +55,7 @@ module.exports = {
 			await interaction.editReply({
 				embeds: [
 					new MessageEmbed()
-						.setDescription('There was an error loading your message. Try again later.')
+						.setDescription(getLocale(defaultLocale, 'CMD_SAY_LOAD_FAIL'))
 						.setColor('DARK_RED'),
 				],
 			});
@@ -70,7 +71,7 @@ module.exports = {
 			await interaction.editReply({
 				embeds: [
 					new MessageEmbed()
-						.setDescription('I am in the middle of another message.')
+						.setDescription(getLocale(defaultLocale, 'CMD_SAY_IN_PROGRESS'))
 						.setColor('DARK_RED'),
 				],
 			});

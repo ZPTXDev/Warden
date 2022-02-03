@@ -1,12 +1,13 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const { checks } = require('../enums.js');
-const { defaultColor } = require('../settings.json');
+const { defaultColor, defaultLocale } = require('../settings.json');
+const { getLocale } = require('../functions.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('cancel')
-		.setDescription('Cancel the current text-to-speech message.'),
+		.setDescription(getLocale(defaultLocale, 'CMD_CANCEL_DESCRIPTION')),
 	checks: [checks.GUILD_ONLY, checks.IN_VOICE, checks.IN_SESSION_VOICE],
 	permissions: {
 		user: [],
@@ -18,7 +19,7 @@ module.exports = {
 			await interaction.reply({
 				embeds: [
 					new MessageEmbed()
-						.setDescription('I am not currently in the middle of a message.')
+						.setDescription(getLocale(defaultLocale, 'CMD_CANCEL_NOT_PLAYING'))
 						.setColor('DARK_RED'),
 				],
 				ephemeral: true,
@@ -31,7 +32,7 @@ module.exports = {
 		await interaction.reply({
 			embeds: [
 				new MessageEmbed()
-					.setDescription('Cancelled the message.')
+					.setDescription(getLocale(defaultLocale, 'CMD_CANCEL_SUCCESS'))
 					.setColor(defaultColor),
 			],
 		});

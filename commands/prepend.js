@@ -1,21 +1,22 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const { checks } = require('../enums.js');
-const { defaultColor } = require('../settings.json');
+const { defaultColor, defaultLocale } = require('../settings.json');
+const { getLocale } = require('../functions.js');
 const { guildData } = require('../data.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('prepend')
-		.setDescription('Configure text-to-speech to prepend a username or nickname.')
+		.setDescription(getLocale(defaultLocale, 'CMD_PREPEND_DESCRIPTION'))
 		.addStringOption(option =>
 			option
 				.setName('type')
-				.setDescription('The type to prepend.')
+				.setDescription(getLocale(defaultLocale, 'CMD_PREPEND_TYPE'))
 				.setRequired(true)
-				.addChoice('Username', 'username')
-				.addChoice('Nickname', 'nickname')
-				.addChoice('None', 'none')),
+				.addChoice(getLocale(defaultLocale, 'CMD_PREPEND_OPTION_USERNAME'), 'username')
+				.addChoice(getLocale(defaultLocale, 'CMD_PREPEND_OPTION_NICKNAME'), 'nickname')
+				.addChoice(getLocale(defaultLocale, 'CMD_PREPEND_OPTION_NONE'), 'none')),
 	checks: [checks.GUILD_ONLY, checks.IN_VOICE, checks.IN_SESSION_VOICE],
 	permissions: {
 		user: ['MANAGE_GUILD'],
@@ -28,7 +29,7 @@ module.exports = {
 			await interaction.reply({
 				embeds: [
 					new MessageEmbed()
-						.setDescription('Prepending disabled.')
+						.setDescription(getLocale(defaultLocale, 'CMD_PREPEND_DISABLED'))
 						.setColor(defaultColor),
 				],
 			});
@@ -38,7 +39,7 @@ module.exports = {
 		await interaction.reply({
 			embeds: [
 				new MessageEmbed()
-					.setDescription(`Text-to-speech will now prepend the user's **${type}** in messages.`)
+					.setDescription(getLocale(defaultLocale, 'CMD_PREPEND_ENABLED', type))
 					.setColor(defaultColor),
 			],
 		});
