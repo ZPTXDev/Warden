@@ -57,7 +57,7 @@ bot.music.on('queueFinish', queue => {
 		channel.send({
 			embeds: [
 				new MessageEmbed()
-					.setDescription(getLocale(defaultLocale, 'WARDEN_INACTIVITY'))
+					.setDescription(getLocale(defaultLocale, 'TTS_INACTIVITY'))
 					.setColor(defaultColor),
 			],
 		});
@@ -80,7 +80,7 @@ bot.music.on('trackEnd', queue => {
 		queue.channel.send({
 			embeds: [
 				new MessageEmbed()
-					.setDescription(getLocale(defaultLocale, 'WARDEN_ALONE'))
+					.setDescription(getLocale(defaultLocale, 'TTS_ALONE'))
 					.setColor(defaultColor),
 			],
 		});
@@ -222,8 +222,8 @@ async function shuttingDown(eventType, err) {
 			await player.queue.channel.send({
 				embeds: [
 					new MessageEmbed()
-						.setDescription(`${getLocale(defaultLocale, ['exit', 'SIGINT'].includes(eventType) ? 'WARDEN_RESTART' : 'WARDEN_RESTART_CRASH')}`)
-						.setFooter(getLocale(defaultLocale, 'WARDEN_RESTART_SORRY'))
+						.setDescription(`${getLocale(defaultLocale, ['exit', 'SIGINT'].includes(eventType) ? 'TTS_RESTART' : 'TTS_RESTART_CRASH')}`)
+						.setFooter(getLocale(defaultLocale, 'TTS_RESTART_SORRY'))
 						.setColor(defaultColor),
 				],
 			});
