@@ -10,11 +10,11 @@ module.exports = {
 		.addUserOption(option =>
 			option
 				.setName('user')
-				.setDescription(getLocale(defaultLocale, 'CMD_AVATAR_OPTION_USER'))
+				.setDescription(getLocale(defaultLocale, 'CMD_AVATAR_OPTION_USER')))
 		.addBooleanOption(option =>
 			option
 				.setName('options')
-				.setDescription(getLocale(defaultLocale, 'CMD_AVATAR_OPTION_FORMAT')),
+				.setDescription(getLocale(defaultLocale, 'CMD_AVATAR_OPTION_FORMAT'))),
 	checks: [],
 	permissions: {
 		user: [],
