@@ -32,7 +32,7 @@ module.exports = {
 		await interaction.reply({
 			embeds: [
 				new MessageEmbed()
-					.setDescription(getLocale(defaultLocale, 'CMD_CANCEL_MESSAGE_CANCELLED'))
+					.setDescription(getLocale(defaultLocale, 'CMD_CANCEL_SUCCESS'))
 					.setColor(defaultColor),
 			],
 		});

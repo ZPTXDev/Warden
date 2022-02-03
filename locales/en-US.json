@@ -45,7 +45,7 @@
   "CMD_AVATAR_SIZES": "**Sizes**:",
   "CMD_AVATAR_EXTERNAL_LINK": "External Link",
   "CMD_CANCEL_DESCRIPTION": "Cancel the current text-to-speech message.",
-  "CMD_CANCEL_MESSAGE_CANCELLED": "Cancelled the message.",
+  "CMD_CANCEL_SUCCESS": "Cancelled the message.",
   "CMD_CANCEL_NOT_PLAYING": "I am not currently in the middle of a message.",
   "CMD_DISCONNECT_DESCRIPTION": "Disconnect Warden.",
   "CMD_DISCONNECT_SUCCESS": "Left the voice channel.",
