@@ -12,11 +12,11 @@ module.exports = {
 		.addStringOption(option =>
 			option
 				.setName('type')
-				.setDescription(getLocale(defaultLocale, 'CMD_PREPEND_TYPE'))
+				.setDescription(getLocale(defaultLocale, 'CMD_PREPEND_OPTION_TYPE'))
 				.setRequired(true)
-				.addChoice(getLocale(defaultLocale, 'CMD_PREPEND_OPTION_USERNAME'), 'username')
-				.addChoice(getLocale(defaultLocale, 'CMD_PREPEND_OPTION_NICKNAME'), 'nickname')
-				.addChoice(getLocale(defaultLocale, 'CMD_PREPEND_OPTION_NONE'), 'none')),
+				.addChoice(getLocale(defaultLocale, 'CMD_PREPEND_OPTION_TYPE_USERNAME'), 'username')
+				.addChoice(getLocale(defaultLocale, 'CMD_PREPEND_OPTION_TYPE_NICKNAME'), 'nickname')
+				.addChoice(getLocale(defaultLocale, 'CMD_PREPEND_OPTION_TYPE_NONE'), 'none')),
 	checks: [checks.GUILD_ONLY, checks.IN_VOICE, checks.IN_SESSION_VOICE],
 	permissions: {
 		user: ['MANAGE_GUILD'],
