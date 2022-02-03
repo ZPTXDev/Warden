@@ -13,7 +13,7 @@ module.exports = {
 		.addStringOption(option =>
 			option
 				.setName('message')
-				.setDescription('The message to say.')
+				.setDescription(getLocale(defaultLocale, 'CMD_SAY_OPTION_MESSAGE'))
 				.setRequired(true)),
 	checks: [checks.GUILD_ONLY, checks.IN_VOICE, checks.IN_SESSION_VOICE],
 	permissions: {
@@ -77,9 +77,7 @@ module.exports = {
 			});
 			return;
 		}
-
 		player.queue.add(tracks, { requester: interaction.user.id });
-
 		await interaction.editReply({
 			embeds: [
 				new MessageEmbed()
