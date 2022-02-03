@@ -56,7 +56,7 @@ module.exports = {
 			guildAvatar = [
 				new MessageEmbed()
 					.setTitle(getLocale(defaultLocale, 'CMD_AVATAR_SERVER'))
-					.setDescription(options ? `${getLocale(defaultLocale, 'CMD_AVATAR_FORMATS')}\n${ganimated ? `[gif](${guser.avatarURL({ dynamic: true, size: 2048 })}) | ` : ''}[png](${guser.avatarURL({ format: 'png', size: 2048 })}) | [jpg](${guser.avatarURL({ format: 'jpg', size: 2048 })}) | [webp](${guser.avatarURL({ format: 'webp', size: 2048 })})\n${getLocale(defaultLocale, 'CMD_AVATAR_SIZES')}\n${gsizes}` : `[${getLocale(defaultLocale, 'CMD_AVATAR_EXTERNAL')}](${guser.avatarURL({ dynamic: true, format: 'png' })})`)
+					.setDescription(options ? `${getLocale(defaultLocale, 'CMD_AVATAR_FORMATS')}\n${ganimated ? `[gif](${guser.avatarURL({ dynamic: true, size: 2048 })}) | ` : ''}[png](${guser.avatarURL({ format: 'png', size: 2048 })}) | [jpg](${guser.avatarURL({ format: 'jpg', size: 2048 })}) | [webp](${guser.avatarURL({ format: 'webp', size: 2048 })})\n${getLocale(defaultLocale, 'CMD_AVATAR_SIZES')}\n${gsizes}` : `[${getLocale(defaultLocale, 'CMD_AVATAR_EXTERNAL_LINK')}](${guser.avatarURL({ dynamic: true, format: 'png' })})`)
 					.setAuthor(user.tag)
 					.setImage(guser.avatarURL({ dynamic: true, format: 'png', size: 2048 }))
 					.setColor(defaultColor),
@@ -66,7 +66,7 @@ module.exports = {
 			embeds: [
 				new MessageEmbed()
 					.setTitle(getLocale(defaultLocale, 'CMD_AVATAR_USER'))
-					.setDescription(options ? `${getLocale(defaultLocale, 'CMD_AVATAR_FORMATS')}\n${animated ? `[gif](${user.avatarURL({ dynamic: true, size: 2048 })}) | ` : ''}[png](${user.avatarURL({ format: 'png', size: 2048 })}) | [jpg](${user.avatarURL({ format: 'jpg', size: 2048 })}) | [webp](${user.avatarURL({ format: 'webp', size: 2048 })})\n${getLocale(defaultLocale, 'CMD_AVATAR_SIZES')}\n${sizes}` : `[${getLocale(defaultLocale, 'CMD_AVATAR_EXTERNAL')}](${user.avatarURL({ dynamic: true, format: 'png' })})`)
+					.setDescription(options ? `${getLocale(defaultLocale, 'CMD_AVATAR_FORMATS')}\n${animated ? `[gif](${user.avatarURL({ dynamic: true, size: 2048 })}) | ` : ''}[png](${user.avatarURL({ format: 'png', size: 2048 })}) | [jpg](${user.avatarURL({ format: 'jpg', size: 2048 })}) | [webp](${user.avatarURL({ format: 'webp', size: 2048 })})\n${getLocale(defaultLocale, 'CMD_AVATAR_SIZES')}\n${sizes}` : `[${getLocale(defaultLocale, 'CMD_AVATAR_EXTERNAL_LINK')}](${user.avatarURL({ dynamic: true, format: 'png' })})`)
 					.setAuthor(user.tag)
 					.setImage(user.displayAvatarURL({ dynamic: true, format: 'png', size: 2048 }))
 					.setColor(defaultColor),
