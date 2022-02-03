@@ -33,6 +33,7 @@
   "DISCORD_INTERACTION_WRONG_USER": "That is not your interaction.",
   "DISCORD_INTERACTION_CANCELED": "This interaction was canceled by <@%1>.",
   "CHECK_GUILD_ONLY": "This command only works in servers.",
+  "CHECK_ACTIVE_SESSION": "There is no session in this server.",
   "CHECK_IN_VOICE": "You need to be in a voice channel.",
   "CHECK_IN_SESSION_VOICE": "You need to be in my voice channel.",
   "CMD_AVATAR_DESCRIPTION": "Display an avatar.",

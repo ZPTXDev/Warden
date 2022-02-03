@@ -19,7 +19,7 @@ module.exports = {
 			await interaction.reply({
 				embeds: [
 					new MessageEmbed()
-						.setDescription(getLocale(defaultLocale, 'DISCORD_BOT_NOT_IN_CHANNEL'))
+						.setDescription(getLocale(defaultLocale, 'CHECK_ACTIVE_SESSION'))
 						.setColor('DARK_RED'),
 				],
 				ephemeral: true,
