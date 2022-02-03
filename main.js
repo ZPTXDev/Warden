@@ -144,7 +144,7 @@ bot.on('interactionCreate', async interaction => {
 			}
 		}
 		if (failedChecks.length > 0) {
-			console.log(`[${interaction.guildId ? `G ${interaction.guildId} | ` : ''}U ${interaction.user.id}] Command ${interaction.commandName} failed ${failedChecks.length} checks`);
+			console.log(`[${interaction.guildId ? `G ${interaction.guildId} | ` : ''}U ${interaction.user.id}] ${getLocale(defaultLocale, 'LOG_CMD_FAILED', interaction.commandName, failedChecks.length)}`);
 			await interaction.reply({
 				embeds: [
 					new MessageEmbed()
