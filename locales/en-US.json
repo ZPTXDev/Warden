@@ -67,7 +67,7 @@
   "CMD_PREPEND_ENABLED": "Text-to-speech will now prepend the user's **%1** in messages.",
   "CMD_SAY_DESCRIPTION": "Say something in your voice channel through text-to-speech.",
   "CMD_SAY_MESSAGE": "The message to say.",
-  "CMD_SAY_PLAYING": "I am in the middle of another message",
+  "CMD_SAY_IN_PROGRESS": "I am in the middle of another message",
   "CMD_SAY_LOAD_FAIL": "There was an error loading your message. Try again later.",
   "MORETHANADAY": "more than a day"
 }

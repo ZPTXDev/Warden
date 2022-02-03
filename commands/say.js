@@ -71,7 +71,7 @@ module.exports = {
 			await interaction.editReply({
 				embeds: [
 					new MessageEmbed()
-						.setDescription(getLocale(defaultLocale, 'CMD_SAY_PLAYING'))
+						.setDescription(getLocale(defaultLocale, 'CMD_SAY_IN_PROGRESS'))
 						.setColor('DARK_RED'),
 				],
 			});
