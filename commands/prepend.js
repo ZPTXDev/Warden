@@ -29,7 +29,7 @@ module.exports = {
 			await interaction.reply({
 				embeds: [
 					new MessageEmbed()
-						.setDescription(getLocale(defaultLocale, 'CMD_PREPEND_DISABLED'))
+						.setDescription(getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'CMD_PREPEND_DISABLED'))
 						.setColor(defaultColor),
 				],
 			});
@@ -39,7 +39,7 @@ module.exports = {
 		await interaction.reply({
 			embeds: [
 				new MessageEmbed()
-					.setDescription(getLocale(defaultLocale, 'CMD_PREPEND_ENABLED', type))
+					.setDescription(getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'CMD_PREPEND_ENABLED', type))
 					.setColor(defaultColor),
 			],
 		});

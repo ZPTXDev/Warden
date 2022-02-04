@@ -2,6 +2,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const { defaultColor, defaultLocale } = require('../settings.json');
 const { getLocale } = require('../functions.js');
+const { guildData } = require('../data.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -28,7 +29,7 @@ module.exports = {
 			await interaction.reply({
 				embeds: [
 					new MessageEmbed()
-						.setDescription(getLocale(defaultLocale, 'CMD_AVATAR_NO_AVATAR', user.id))
+						.setDescription(getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'CMD_AVATAR_NO_AVATAR', user.id))
 						.setColor(defaultColor),
 				],
 				ephemeral: true,
@@ -58,8 +59,8 @@ module.exports = {
 			gsizes = gsizes.join(' | ');
 			guildAvatar = [
 				new MessageEmbed()
-					.setTitle(getLocale(defaultLocale, 'CMD_AVATAR_SERVER'))
-					.setDescription(options ? `${getLocale(defaultLocale, 'CMD_AVATAR_FORMATS')}\n${ganimated ? `[gif](${guser.avatarURL({ dynamic: true, size: 2048 })}) | ` : ''}[png](${guser.avatarURL({ format: 'png', size: 2048 })}) | [jpg](${guser.avatarURL({ format: 'jpg', size: 2048 })}) | [webp](${guser.avatarURL({ format: 'webp', size: 2048 })})\n${getLocale(defaultLocale, 'CMD_AVATAR_SIZES')}\n${gsizes}` : `[${getLocale(defaultLocale, 'CMD_AVATAR_EXTERNAL_LINK')}](${guser.avatarURL({ dynamic: true, format: 'png' })})`)
+					.setTitle(getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'CMD_AVATAR_SERVER'))
+					.setDescription(options ? `${getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'CMD_AVATAR_FORMATS')}\n${ganimated ? `[gif](${guser.avatarURL({ dynamic: true, size: 2048 })}) | ` : ''}[png](${guser.avatarURL({ format: 'png', size: 2048 })}) | [jpg](${guser.avatarURL({ format: 'jpg', size: 2048 })}) | [webp](${guser.avatarURL({ format: 'webp', size: 2048 })})\n${getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'CMD_AVATAR_SIZES')}\n${gsizes}` : `[${getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'CMD_AVATAR_EXTERNAL_LINK')}](${guser.avatarURL({ dynamic: true, format: 'png' })})`)
 					.setAuthor(author)
 					.setImage(guser.avatarURL({ dynamic: true, format: 'png', size: 2048 }))
 					.setColor(defaultColor),
@@ -69,7 +70,7 @@ module.exports = {
 			embeds: [
 				new MessageEmbed()
 					.setTitle(getLocale(defaultLocale, 'CMD_AVATAR_USER'))
-					.setDescription(options ? `${getLocale(defaultLocale, 'CMD_AVATAR_FORMATS')}\n${animated ? `[gif](${user.avatarURL({ dynamic: true, size: 2048 })}) | ` : ''}[png](${user.avatarURL({ format: 'png', size: 2048 })}) | [jpg](${user.avatarURL({ format: 'jpg', size: 2048 })}) | [webp](${user.avatarURL({ format: 'webp', size: 2048 })})\n${getLocale(defaultLocale, 'CMD_AVATAR_SIZES')}\n${sizes}` : `[${getLocale(defaultLocale, 'CMD_AVATAR_EXTERNAL_LINK')}](${user.avatarURL({ dynamic: true, format: 'png' })})`)
+					.setDescription(options ? `${getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'CMD_AVATAR_FORMATS')}\n${animated ? `[gif](${user.avatarURL({ dynamic: true, size: 2048 })}) | ` : ''}[png](${user.avatarURL({ format: 'png', size: 2048 })}) | [jpg](${user.avatarURL({ format: 'jpg', size: 2048 })}) | [webp](${user.avatarURL({ format: 'webp', size: 2048 })})\n${getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'CMD_AVATAR_SIZES')}\n${sizes}` : `[${getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'CMD_AVATAR_EXTERNAL_LINK')}](${user.avatarURL({ dynamic: true, format: 'png' })})`)
 					.setAuthor(author)
 					.setImage(user.displayAvatarURL({ dynamic: true, format: 'png', size: 2048 }))
 					.setColor(defaultColor),
