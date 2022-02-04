@@ -22,6 +22,7 @@
   "LOG_GUILD_LEFT": "Left %1",
   "TTS_ALONE": "Disconnected as everyone left.",
   "TTS_INACTIVITY": "Disconnected from inactivity.",
+  "TTS_STAGE_TOPIC": "Text to Speech by Warden",
   "TTS_RESTART": "Warden is restarting and will disconnect.",
   "TTS_RESTART_CRASH": "Warden has crashed and will disconnect.",
   "TTS_RESTART_SORRY": "Sorry for the inconvenience caused.",
