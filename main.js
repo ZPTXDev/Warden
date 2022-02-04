@@ -109,7 +109,7 @@ bot.on('interactionCreate', async interaction => {
 	if (interaction.isCommand()) {
 		const command = bot.commands.get(interaction.commandName);
 		if (!command) return;
-		console.log(`[${interaction.guildId ? `G ${interaction.guildId} | ` : ''}U ${interaction.user.id}] Processing command ${interaction.commandName}`);
+		console.log(`[${interaction.guildId ? `G ${interaction.guildId} | ` : ''}U ${interaction.user.id}] ${getLocale(defaultLocale, 'LOG_CMD_PROCESSING', interaction.commandName)}`);
 		const failedChecks = [];
 		for (const check of command.checks) {
 			switch (check) {
@@ -144,7 +144,7 @@ bot.on('interactionCreate', async interaction => {
 			}
 		}
 		if (failedChecks.length > 0) {
-			console.log(`[${interaction.guildId ? `G ${interaction.guildId} | ` : ''}U ${interaction.user.id}] Command ${interaction.commandName} failed ${failedChecks.length} checks`);
+			console.log(`[${interaction.guildId ? `G ${interaction.guildId} | ` : ''}U ${interaction.user.id}] ${getLocale(defaultLocale, 'LOG_CMD_FAILED', interaction.commandName, failedChecks.length)}`);
 			await interaction.reply({
 				embeds: [
 					new MessageEmbed()
