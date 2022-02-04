@@ -26,7 +26,7 @@ module.exports = {
 			await interaction.reply({
 				embeds: [
 					new MessageEmbed()
-						.setDescription(getLocale(defaultLocale, 'DISCORD_BOT_MISSING_PERMISSIONS_BASIC'))
+						.setDescription(getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'DISCORD_BOT_MISSING_PERMISSIONS_BASIC'))
 						.setColor('DARK_RED'),
 				],
 				ephemeral: true,
@@ -62,7 +62,7 @@ module.exports = {
 			await interaction.editReply({
 				embeds: [
 					new MessageEmbed()
-						.setDescription(getLocale(defaultLocale, 'CMD_SAY_LOAD_FAIL'))
+						.setDescription(getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'CMD_SAY_LOAD_FAIL'))
 						.setColor('DARK_RED'),
 				],
 			});
@@ -78,7 +78,7 @@ module.exports = {
 			await interaction.editReply({
 				embeds: [
 					new MessageEmbed()
-						.setDescription(getLocale(defaultLocale, 'CMD_SAY_IN_PROGRESS'))
+						.setDescription(getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'CMD_SAY_IN_PROGRESS'))
 						.setColor('DARK_RED'),
 				],
 			});

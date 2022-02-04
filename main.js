@@ -8,6 +8,7 @@ const { version } = require('./package.json');
 const { checks } = require('./enums.js');
 const { getLocale } = require('./functions.js');
 const readline = require('readline');
+const { guildData } = require('./data.js');
 
 const rl = readline.createInterface({
 	input: process.stdin,
@@ -57,7 +58,7 @@ bot.music.on('queueFinish', queue => {
 		channel.send({
 			embeds: [
 				new MessageEmbed()
-					.setDescription(getLocale(defaultLocale, 'TTS_INACTIVITY'))
+					.setDescription(getLocale(guildData.get(`${p.guildId}.locale`) ?? defaultLocale, 'TTS_INACTIVITY'))
 					.setColor(defaultColor),
 			],
 		});
@@ -80,7 +81,7 @@ bot.music.on('trackEnd', queue => {
 		queue.channel.send({
 			embeds: [
 				new MessageEmbed()
-					.setDescription(getLocale(defaultLocale, 'TTS_ALONE'))
+					.setDescription(getLocale(guildData.get(`${queue.player.guildId}.locale`) ?? defaultLocale, 'TTS_ALONE'))
 					.setColor(defaultColor),
 			],
 		});
@@ -148,7 +149,7 @@ bot.on('interactionCreate', async interaction => {
 			await interaction.reply({
 				embeds: [
 					new MessageEmbed()
-						.setDescription(getLocale(defaultLocale, failedChecks[0]))
+						.setDescription(getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, failedChecks[0]))
 						.setColor('DARK_RED'),
 				],
 				ephemeral: true,
@@ -170,7 +171,7 @@ bot.on('interactionCreate', async interaction => {
 			await interaction.reply({
 				embeds: [
 					new MessageEmbed()
-						.setDescription(getLocale(defaultLocale, 'DISCORD_USER_MISSING_PERMISSIONS', failedPermissions.user.map(perm => '`' + perm + '`').join(' ')))
+						.setDescription(getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'DISCORD_USER_MISSING_PERMISSIONS', failedPermissions.user.map(perm => '`' + perm + '`').join(' ')))
 						.setColor('DARK_RED'),
 				],
 				ephemeral: true,
@@ -181,7 +182,7 @@ bot.on('interactionCreate', async interaction => {
 			await interaction.reply({
 				embeds: [
 					new MessageEmbed()
-						.setDescription(getLocale(defaultLocale, 'DISCORD_BOT_MISSING_PERMISSIONS', failedPermissions.bot.map(perm => '`' + perm + '`').join(' ')))
+						.setDescription(getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'DISCORD_BOT_MISSING_PERMISSIONS', failedPermissions.bot.map(perm => '`' + perm + '`').join(' ')))
 						.setColor('DARK_RED'),
 				],
 				ephemeral: true,
@@ -198,7 +199,7 @@ bot.on('interactionCreate', async interaction => {
 			await interaction.reply({
 				embeds: [
 					new MessageEmbed()
-						.setDescription(getLocale(defaultLocale, 'DISCORD_CMD_ERROR'))
+						.setDescription(getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'DISCORD_CMD_ERROR'))
 						.setColor('DARK_RED'),
 				],
 				ephemeral: true,
@@ -230,8 +231,8 @@ async function shuttingDown(eventType, err) {
 			await player.queue.channel.send({
 				embeds: [
 					new MessageEmbed()
-						.setDescription(`${getLocale(defaultLocale, ['exit', 'SIGINT'].includes(eventType) ? 'TTS_RESTART' : 'TTS_RESTART_CRASH')}`)
-						.setFooter(getLocale(defaultLocale, 'TTS_RESTART_SORRY'))
+						.setDescription(`${getLocale(guildData.get(`${player.guildId}.locale`) ?? defaultLocale, ['exit', 'SIGINT'].includes(eventType) ? 'TTS_RESTART' : 'TTS_RESTART_CRASH')}`)
+						.setFooter(getLocale(guildData.get(`${player.guildId}.locale`) ?? defaultLocale, 'TTS_RESTART_SORRY'))
 						.setColor(defaultColor),
 				],
 			});
