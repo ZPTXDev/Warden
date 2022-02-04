@@ -89,7 +89,10 @@ module.exports = {
 			embeds: [
 				new MessageEmbed()
 					.setDescription(rawMessage)
-					.setAuthor(interaction.user.tag, interaction.user.avatarURL({ format: 'png', dynamic: true }))
+					.setAuthor({
+						name: interaction.user.tag,
+						iconURL: interaction.user.avatarURL({ format: 'png', dynamic: true }),
+					})
 					.setColor(defaultColor),
 			],
 		});
