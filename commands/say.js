@@ -84,16 +84,15 @@ module.exports = {
 			});
 			return;
 		}
-		const author = {
-			name: interaction.user.tag,
-			iconURL: interaction.user.avatarURL({ format: 'png', dynamic: true }),
-		};
 		player.queue.add(tracks, { requester: interaction.user.id });
 		await interaction.editReply({
 			embeds: [
 				new MessageEmbed()
 					.setDescription(rawMessage)
-					.setAuthor(author)
+					.setAuthor({
+						name: interaction.user.tag,
+						iconURL: interaction.user.avatarURL({ format: 'png', dynamic: true }),
+					})
 					.setColor(defaultColor),
 			],
 		});
