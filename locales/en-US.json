@@ -1,5 +1,5 @@
 {
-  "CMDLINE_REGISTERED": "Successfully registered application commands.",
+  "CMDLINE_REGISTERED": "Successfully registered application commands",
   "LOG_SETTING_TIMEOUT": "Setting timeout",
   "LOG_SETTING_TIMEOUT_PAUSE": "Setting pause timeout",
   "LOG_INACTIVITY": "Disconnecting (inactivity)",
