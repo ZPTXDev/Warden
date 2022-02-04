@@ -148,7 +148,7 @@ bot.on('interactionCreate', async interaction => {
 			await interaction.reply({
 				embeds: [
 					new MessageEmbed()
-						.setDescription(defaultLocale, failedChecks[0])
+						.setDescription(getLocale(defaultLocale, failedChecks[0]))
 						.setColor('DARK_RED'),
 				],
 				ephemeral: true,
