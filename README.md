@@ -14,7 +14,7 @@ You are required to host your own instance of [Lavalink](https://github.com/frey
 You are not required to specify MySQL connection details as Warden will use JSON for guild data.
 
 ## Prerequisites
-- Node.js v16.0.0 (or higher)
+- Node.js v16.6.0 (or higher)
 - npm (should come with Node.js)
 - Lavalink (latest release)
 - Bot token from [Discord](https://discord.com/developers/applications)
@@ -28,7 +28,7 @@ Once that's done, run `node main.js` to start the bot. This will be the only com
 
 # FAQ
 ## Where did all the moderation features go? Isn't this a moderation bot as well?
-It'll be back soon. Text-to-speech is the current priority.
+It may be back soon. Discord has added moderation slash commands, negating the need for most moderation aspects. I'll still look into it though.
 
 ## Can you add x feature to Warden?
 Yes, if it is meaningful. Submit an issue [here](https://github.com/ZapSquared/Warden/issues) and I'll take a look.
