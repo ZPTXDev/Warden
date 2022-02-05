@@ -232,7 +232,7 @@ async function shuttingDown(eventType, err) {
 				embeds: [
 					new MessageEmbed()
 						.setDescription(`${getLocale(guildData.get(`${player.guildId}.locale`) ?? defaultLocale, ['exit', 'SIGINT'].includes(eventType) ? 'TTS_RESTART' : 'TTS_RESTART_CRASH')}`)
-						.setFooter(getLocale(guildData.get(`${player.guildId}.locale`) ?? defaultLocale, 'TTS_RESTART_SORRY'))
+						.setFooter({ text: getLocale(guildData.get(`${player.guildId}.locale`) ?? defaultLocale, 'TTS_RESTART_SORRY') })
 						.setColor(defaultColor),
 				],
 			});
