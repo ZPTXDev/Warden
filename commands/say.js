@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, Permissions } = require('discord.js');
 const { checks } = require('../enums.js');
 const { defaultColor, defaultLocale } = require('../settings.json');
 const { getLocale } = require('../functions.js');
@@ -22,11 +22,23 @@ module.exports = {
 	},
 	async execute(interaction) {
 		// check for connect, speak permission for channel
-		if (!interaction.member.voice.channel.permissionsFor(interaction.client.user.id).has(['CONNECT', 'SPEAK'])) {
+		const permissions = interaction.member.voice.channel.permissionsFor(interaction.client.user.id);
+		if (!permissions.has(['VIEW_CHANNEL', 'CONNECT', 'SPEAK'])) {
 			await interaction.reply({
 				embeds: [
 					new MessageEmbed()
 						.setDescription(getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'DISCORD_BOT_MISSING_PERMISSIONS_BASIC'))
+						.setColor('DARK_RED'),
+				],
+				ephemeral: true,
+			});
+			return;
+		}
+		if (interaction.member.voice.channel.type === 'GUILD_STAGE_VOICE' && !permissions.has(Permissions.STAGE_MODERATOR)) {
+			await interaction.reply({
+				embeds: [
+					new MessageEmbed()
+						.setDescription(getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'DISCORD_BOT_MISSING_PERMISSIONS_STAGE'))
 						.setColor('DARK_RED'),
 				],
 				ephemeral: true,
@@ -74,6 +86,9 @@ module.exports = {
 			player.queue.channel = interaction.channel;
 			await player.connect(interaction.member.voice.channelId, { deafened: true });
 		}
+		if (interaction.member.voice.channel.type === 'GUILD_STAGE_VOICE' && !interaction.member.voice.channel.stageInstance) {
+			await interaction.member.voice.channel.createStageInstance({ topic: getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'TTS_STAGE_TOPIC'), privacyLevel: 'GUILD_ONLY' });
+		}
 		if (player.playing) {
 			await interaction.editReply({
 				embeds: [
@@ -85,6 +100,8 @@ module.exports = {
 			return;
 		}
 		player.queue.add(tracks, { requester: interaction.user.id });
+
+		const started = player.playing || player.paused;
 		await interaction.editReply({
 			embeds: [
 				new MessageEmbed()
@@ -96,6 +113,10 @@ module.exports = {
 					.setColor(defaultColor),
 			],
 		});
-		await player.queue.start();
+		if (!started) { await player.queue.start(); }
+		const state = interaction.guild.members.cache.get(interaction.client.user.id).voice;
+		if (state.channel.type === 'GUILD_STAGE_VOICE' && state.suppress) {
+			await state.setSuppressed(false);
+		}
 	},
 };
