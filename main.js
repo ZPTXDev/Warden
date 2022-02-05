@@ -239,6 +239,21 @@ bot.on('voiceStateUpdate', async (oldState, newState) => {
 	if (!player) return;
 	// Warden voiceStateUpdate
 	if (oldState.member.user.id === bot.user.id) {
+		// disconnected
+		if (!newState.channelId) {
+			const channel = player.queue.channel;
+			clearTimeout(player.timeout);
+			clearTimeout(player.pauseTimeout);
+			bot.music.destroyPlayer(player.guildId);
+			await channel.send({
+				embeds: [
+					new MessageEmbed()
+						.setDescription(getLocale(guildData.get(`${player.guildId}.locale`) ?? defaultLocale, 'TTS_FORCED'))
+						.setColor(defaultColor),
+				],
+			});
+			return;
+		}
 		// channel is a stage channel, and bot is suppressed
 		// this also handles suppressing Warden mid-track
 		if (newState.channel.type === 'GUILD_STAGE_VOICE' && newState.suppress) {
