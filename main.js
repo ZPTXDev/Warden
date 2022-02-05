@@ -1,5 +1,5 @@
 require('@lavaclient/queue/register');
-const { Client, Intents, Collection, MessageEmbed } = require('discord.js');
+const { Client, Intents, Collection, MessageEmbed, Permissions } = require('discord.js');
 const { Node } = require('lavaclient');
 const { token, lavalink, defaultColor, defaultLocale } = require('./settings.json');
 const fs = require('fs');
@@ -214,6 +214,17 @@ bot.on('interactionCreate', async interaction => {
 			embeds: [
 				new MessageEmbed()
 					.setDescription(getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'DISCORD_BOT_MISSING_PERMISSIONS_BASIC'))
+					.setColor('DARK_RED'),
+			],
+			ephemeral: true,
+		});
+		return;
+	}
+	if (interaction.member?.voice.channel.type === 'GUILD_STAGE_VOICE' && !permissions.has(Permissions.STAGE_MODERATOR)) {
+		await interaction.reply({
+			embeds: [
+				new MessageEmbed()
+					.setDescription(getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'DISCORD_BOT_MISSING_PERMISSIONS_STAGE'))
 					.setColor('DARK_RED'),
 			],
 			ephemeral: true,
