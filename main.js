@@ -53,6 +53,7 @@ bot.music.on('queueFinish', queue => {
 	queue.player.timeout = setTimeout(p => {
 		console.log(`[G ${p.guildId}] ${getLocale(defaultLocale, 'LOG_INACTIVITY')}`);
 		const channel = p.queue.channel;
+		clearTimeout(p.pauseTimeout);
 		p.disconnect();
 		bot.music.destroyPlayer(p.guildId);
 		channel.send({
