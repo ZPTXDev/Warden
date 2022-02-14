@@ -320,20 +320,20 @@ bot.on('voiceStateUpdate', async (oldState, newState) => {
 				});
 			}, 300000, player);
 		}
-	}
-	// the new vc has humans and pauseTimeout is set
-	else if (newState.channel.members.filter(m => !m.user.bot).size >= 1 && player.pauseTimeout) {
-		player.resume();
-		clearTimeout(player.pauseTimeout);
-		delete player.pauseTimeout;
-		await player.queue.channel.send({
-			embeds: [
-				new MessageEmbed()
-					.setDescription(getLocale(guildData.get(`${player.guildId}.locale`) ?? defaultLocale, 'TTS_ALONE_RESUMED'))
-					.setColor(defaultColor),
-			],
-		});
-		return;
+		// the new vc has humans and pauseTimeout is set
+		else if (newState.channel.members.filter(m => !m.user.bot).size >= 1 && player.pauseTimeout) {
+			player.resume();
+			clearTimeout(player.pauseTimeout);
+			delete player.pauseTimeout;
+			await player.queue.channel.send({
+				embeds: [
+					new MessageEmbed()
+						.setDescription(getLocale(guildData.get(`${player.guildId}.locale`) ?? defaultLocale, 'TTS_ALONE_RESUMED'))
+						.setColor(defaultColor),
+				],
+			});
+			return;
+		}
 	}
 	// other bots voiceStateUpdate - ignore
 	if (oldState.member.user.bot) return;
