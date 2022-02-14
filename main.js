@@ -329,7 +329,7 @@ bot.on('voiceStateUpdate', async (oldState, newState) => {
 		await player.queue.channel.send({
 			embeds: [
 				new MessageEmbed()
-					.setDescription(getLocale(guildData.get(`${player.guildId}.locale`) ?? defaultLocale, 'MUSIC_ALONE_RESUMED'))
+					.setDescription(getLocale(guildData.get(`${player.guildId}.locale`) ?? defaultLocale, 'TTS_ALONE_RESUMED'))
 					.setColor(defaultColor),
 			],
 		});
