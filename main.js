@@ -239,6 +239,10 @@ bot.on('voiceStateUpdate', async (oldState, newState) => {
 	if (!player) return;
 	// Warden voiceStateUpdate
 	if (oldState.member.user.id === bot.user.id) {
+		// just the suppress state changed
+		if ((oldState.suppress !== newState.suppress || oldState.serverMute !== newState.serverMute || oldState.serverDeaf !== newState.serverDeaf) && oldState.channelId === newState.channelId) {
+			return;
+		}
 		// disconnected
 		if (!newState.channelId) {
 			const channel = player.queue.channel;
