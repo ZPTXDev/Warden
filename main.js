@@ -207,30 +207,6 @@ bot.on('interactionCreate', async interaction => {
 			});
 		}
 	}
-	// check for connect, speak permission for channel
-	const permissions = interaction.member?.voice.channel.permissionsFor(bot.user.id);
-	if (!permissions.has(['VIEW_CHANNEL', 'CONNECT', 'SPEAK'])) {
-		await interaction.reply({
-			embeds: [
-				new MessageEmbed()
-					.setDescription(getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'DISCORD_BOT_MISSING_PERMISSIONS_BASIC'))
-					.setColor('DARK_RED'),
-			],
-			ephemeral: true,
-		});
-		return;
-	}
-	if (interaction.member?.voice.channel.type === 'GUILD_STAGE_VOICE' && !permissions.has(Permissions.STAGE_MODERATOR)) {
-		await interaction.reply({
-			embeds: [
-				new MessageEmbed()
-					.setDescription(getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'DISCORD_BOT_MISSING_PERMISSIONS_STAGE'))
-					.setColor('DARK_RED'),
-			],
-			ephemeral: true,
-		});
-		return;
-	}
 });
 
 bot.on('voiceStateUpdate', async (oldState, newState) => {
