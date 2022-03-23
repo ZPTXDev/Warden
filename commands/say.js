@@ -85,9 +85,22 @@ module.exports = {
 			player = interaction.client.music.createPlayer(interaction.guildId);
 			player.queue.channel = interaction.channel;
 			await player.connect(interaction.member.voice.channelId, { deafened: true });
-		}
-		if (interaction.member.voice.channel.type === 'GUILD_STAGE_VOICE' && !interaction.member.voice.channel.stageInstance) {
-			await interaction.member.voice.channel.createStageInstance({ topic: getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'TTS_STAGE_TOPIC'), privacyLevel: 'GUILD_ONLY' });
+			// that kid left while we were busy bruh
+			if (!interaction.member.voice.channelId) {
+				player.disconnect();
+				interaction.client.music.destroyPlayer(interaction.guildId);
+				await interaction.editReply({
+					embeds: [
+						new MessageEmbed()
+							.setDescription(getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'DISCORD_INTERACTION_CANCELED', interaction.user.id))
+							.setColor(defaultColor),
+					],
+				});
+				return;
+			}
+			if (interaction.member.voice.channel.type === 'GUILD_STAGE_VOICE' && !interaction.member.voice.channel.stageInstance) {
+				await interaction.member.voice.channel.createStageInstance({ topic: getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'TTS_STAGE_TOPIC'), privacyLevel: 'GUILD_ONLY' });
+			}
 		}
 		if (player.playing) {
 			await interaction.editReply({
