@@ -1,5 +1,5 @@
 require('@lavaclient/queue/register');
-const { Client, Intents, Collection, MessageEmbed } = require('discord.js');
+const { Client, Intents, Collection, MessageEmbed, Permissions } = require('discord.js');
 const { Node } = require('lavaclient');
 const { token, lavalink, defaultColor, defaultLocale } = require('./settings.json');
 const fs = require('fs');
@@ -206,6 +206,134 @@ bot.on('interactionCreate', async interaction => {
 			});
 		}
 	}
+});
+
+bot.on('voiceStateUpdate', async (oldState, newState) => {
+	const guild = oldState.guild;
+	const player = bot.music.players.get(guild.id);
+	if (!player) return;
+	// Warden voiceStateUpdate
+	if (oldState.member.user.id === bot.user.id) {
+		// channel is a stage channel, and bot is suppressed
+		// this also handles suppressing Warden mid-track
+		if (newState.channel.type === 'GUILD_STAGE_VOICE' && newState.suppress) {
+			const permissions =	bot.guilds.cache.get(guild.id).channels.cache.get(newState.channelId).permissionsFor(bot.user.id);
+			if (!permissions.has(Permissions.STAGE_MODERATOR)) {
+				const channel = player.queue.channel;
+				clearTimeout(player.timeout);
+				clearTimeout(player.pauseTimeout);
+				player.disconnect();
+				bot.music.destroyPlayer(guild.id);
+				try {
+					await channel.send({
+						embeds: [
+							new MessageEmbed()
+								.setDescription(getLocale(guildData.get(`${player.guildId}.locale`) ?? defaultLocale, 'TTS_FORCED_STAGE'))
+								.setColor(defaultColor),
+						],
+					});
+				}
+				catch (err) {
+					console.error(err);
+				}
+				return;
+			}
+			await newState.setSuppressed(false);
+		}
+		// the new vc has no humans
+		if (newState.channel.members.filter(m => !m.user.bot).size < 1) {
+			// the bot is not playing anything - leave immediately
+			if (!player.queue.current || !player.playing && !player.paused) {
+				console.log(`[G ${player.guildId}] ${getLocale(defaultLocale, 'LOG_ALONE')}`);
+				const channel = player.queue.channel;
+				clearTimeout(player.timeout);
+				clearTimeout(player.pauseTimeout);
+				player.disconnect();
+				bot.music.destroyPlayer(player.guildId);
+				channel.send({
+					embeds: [
+						new MessageEmbed()
+							.setDescription(getLocale(guildData.get(`${player.guildId}.locale`) ?? defaultLocale, 'TTS_ALONE_MOVED'))
+							.setColor(defaultColor),
+					],
+				});
+				return;
+			}
+			// the bot was playing something - set pauseTimeout
+			await player.pause();
+			console.log(`[G ${newState.guildId}] ${getLocale(defaultLocale, 'LOG_SETTING_TIMEOUT_PAUSE')}`);
+			if (player.pauseTimeout) {
+				clearTimeout(player.pauseTimeout);
+			}
+			player.pauseTimeout = setTimeout(p => {
+				console.log(`[G ${p.guildId}] ${getLocale(defaultLocale, 'LOG_INACTIVITY')}`);
+				const channel = p.queue.channel;
+				clearTimeout(p.timeout);
+				p.disconnect();
+				bot.music.destroyPlayer(p.guildId);
+				channel.send({
+					embeds: [
+						new MessageEmbed()
+							.setDescription(getLocale(guildData.get(`${p.guildId}.locale`) ?? defaultLocale, 'TTS_INACTIVITY'))
+							.setColor(defaultColor),
+					],
+				});
+			}, 300000, player);
+		}
+	}
+	// other bots voiceStateUpdate - ignore
+	if (oldState.member.user.bot) return;
+	// user voiceStateUpdate, the channel is the bot's channel, and there's a pauseTimeout
+	if (newState.channelId === player?.channelId && player?.pauseTimeout) {
+		player.resume();
+		if (player.pauseTimeout) {
+			clearTimeout(player.pauseTimeout);
+			delete player.pauseTimeout;
+		}
+		return;
+	}
+	// user has nothing to do with us
+	if (oldState.channelId !== player?.channelId) return;
+	// user didn't leave the vc
+	if (newState.channelId === oldState.channelId) return;
+	// vc still has people
+	if (oldState.channel.members.filter(m => !m.user.bot).size >= 1) return;
+	// nothing is playing so we just leave
+	if (!player.queue.current || !player.playing && !player.paused) {
+		console.log(`[G ${player.guildId}] ${getLocale(defaultLocale, 'LOG_ALONE')}`);
+		const channel = player.queue.channel;
+		clearTimeout(player.timeout);
+		clearTimeout(player.pauseTimeout);
+		player.disconnect();
+		bot.music.destroyPlayer(player.guildId);
+		channel.send({
+			embeds: [
+				new MessageEmbed()
+					.setDescription(getLocale(guildData.get(`${player.guildId}.locale`) ?? defaultLocale, 'TTS_ALONE'))
+					.setColor(defaultColor),
+			],
+		});
+		return;
+	}
+	await player.pause();
+	console.log(`[G ${player.guildId}] ${getLocale(defaultLocale, 'LOG_SETTING_TIMEOUT_PAUSE')}`);
+	if (player.pauseTimeout) {
+		clearTimeout(player.pauseTimeout);
+	}
+	player.pauseTimeout = setTimeout(p => {
+		console.log(`[G ${p.guildId}] ${getLocale(defaultLocale, 'LOG_INACTIVITY')}`);
+		const channel = p.queue.channel;
+		clearTimeout(p.timeout);
+		p.disconnect();
+		bot.music.destroyPlayer(p.guildId);
+		channel.send({
+			embeds: [
+				new MessageEmbed()
+					.setDescription(getLocale(guildData.get(`${p.guildId}.locale`) ?? defaultLocale, 'TTS_INACTIVITY'))
+					.setColor(defaultColor),
+			],
+		});
+	}, 300000, player);
 });
 
 bot.on('guildCreate', guild => {

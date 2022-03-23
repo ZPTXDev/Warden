@@ -21,6 +21,8 @@
   "LOG_GUILD_JOINED": "Joined %1",
   "LOG_GUILD_LEFT": "Left %1",
   "TTS_ALONE": "Disconnected as everyone left.",
+  "TTS_ALONE_MOVED": "Disconnected as there was no one in the target channel.",
+  "TTS_FORCED_STAGE": "Session ended as I was moved to a stage channel that I was not a stage moderator of.",
   "TTS_INACTIVITY": "Disconnected from inactivity.",
   "TTS_RESTART": "Warden is restarting and will disconnect.",
   "TTS_RESTART_CRASH": "Warden has crashed and will disconnect.",
