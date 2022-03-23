@@ -240,10 +240,10 @@ async function shuttingDown(eventType, err) {
 			bot.music.destroyPlayer(player.guildId);
 		}
 	}
-	if (err) {
+	if (!['exit', 'SIGINT', 'SIGTERM'].includes(eventType)) {
 		console.log(`[Warden] ${getLocale(defaultLocale, 'LOG_ERROR')}`);
 		try {
-			await fsPromises.writeFile('error.log', `${eventType}\n${err.message}\n${err.stack}`);
+			await fsPromises.writeFile('error.log', `${eventType}${err.message ? `\n${err.message}` : ''}${err.stack ? `\n${err.stack}` : ''}`);
 		}
 		catch (e) {
 			console.error(`[Warden] ${getLocale(defaultLocale, 'LOG_ERROR_FAIL')}\n${e}`);
