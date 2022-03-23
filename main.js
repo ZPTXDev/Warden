@@ -16,7 +16,7 @@ const rl = readline.createInterface({
 });
 rl.on('line', line => {
 	if (line === 'exit') {
-		process.exit(0);
+		shuttingDown('exit');
 	}
 });
 
