@@ -98,6 +98,9 @@ module.exports = {
 				});
 				return;
 			}
+			if (interaction.member.voice.channel.type === 'GUILD_STAGE_VOICE' && !interaction.member.voice.channel.stageInstance) {
+				await interaction.member.voice.channel.createStageInstance({ topic: getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'TTS_STAGE_TOPIC'), privacyLevel: 'GUILD_ONLY' });
+			}
 		}
 		if (player.playing) {
 			await interaction.editReply({
