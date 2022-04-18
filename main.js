@@ -1,5 +1,5 @@
 require('@lavaclient/queue/register');
-const { Client, Intents, Collection, MessageEmbed, Permissions } = require('discord.js');
+const { Client, Intents, Collection, MessageEmbed } = require('discord.js');
 const { Node } = require('lavaclient');
 const { token, lavalink, defaultColor, defaultLocale } = require('./settings.json');
 const fs = require('fs');
@@ -232,40 +232,6 @@ bot.on('voiceStateUpdate', async (oldState, newState) => {
 				],
 			});
 			return;
-		}
-		// channel is a stage channel, and bot is suppressed
-		// this also handles suppressing Warden mid-track
-		if (newState.channel.type === 'GUILD_STAGE_VOICE' && newState.suppress) {
-			const permissions =	bot.guilds.cache.get(guild.id).channels.cache.get(newState.channelId).permissionsFor(bot.user.id);
-			if (!permissions.has(Permissions.STAGE_MODERATOR)) {
-				const channel = player.queue.channel;
-				clearTimeout(player.timeout);
-				clearTimeout(player.pauseTimeout);
-				player.disconnect();
-				bot.music.destroyPlayer(guild.id);
-				try {
-					await channel.send({
-						embeds: [
-							new MessageEmbed()
-								.setDescription(getLocale(guildData.get(`${player.guildId}.locale`) ?? defaultLocale, 'TTS_FORCED_STAGE'))
-								.setColor(defaultColor),
-						],
-					});
-				}
-				catch (err) {
-					console.error(err);
-				}
-				return;
-			}
-			await newState.setSuppressed(false);
-			if (!newState.channel.stageInstance) {
-				try {
-					await newState.channel.createStageInstance({ topic: getLocale(guildData.get(`${player.guildId}.locale`) ?? defaultLocale, 'TTS_STAGE_TOPIC'), privacyLevel: 'GUILD_ONLY' });
-				}
-				catch (err) {
-					console.error(err);
-				}
-			}
 		}
 		// the new vc has no humans
 		if (newState.channel.members.filter(m => !m.user.bot).size < 1) {
