@@ -26,14 +26,7 @@ module.exports = {
 		const options = !!interaction.options.getBoolean('options');
 		const animated = user.avatar?.startsWith('a_');
 		if (!user.avatar && options) {
-			await interaction.reply({
-				embeds: [
-					new MessageEmbed()
-						.setDescription(getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'CMD_AVATAR_NO_AVATAR', user.id))
-						.setColor(defaultColor),
-				],
-				ephemeral: true,
-			});
+			await interaction.replyHandler.localeError('CMD_AVATAR_NO_AVATAR', {}, user.id);
 			return;
 		}
 		const author = {

@@ -1,7 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
 const { checks } = require('../enums.js');
-const { defaultColor, defaultLocale } = require('../settings.json');
+const { defaultLocale } = require('../settings.json');
 const { getLocale } = require('../functions.js');
 const { guildData } = require('../data.js');
 
@@ -26,22 +25,10 @@ module.exports = {
 		const type = interaction.options.getString('type');
 		if (type === 'none') {
 			guildData.del(`${interaction.guildId}.tts.prepend`);
-			await interaction.reply({
-				embeds: [
-					new MessageEmbed()
-						.setDescription(getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'CMD_PREPEND_DISABLED'))
-						.setColor(defaultColor),
-				],
-			});
+			await interaction.replyHandler.locale('CMD_PREPEND_DISABLED');
 			return;
 		}
 		guildData.set(`${interaction.guildId}.tts.prepend`, type);
-		await interaction.reply({
-			embeds: [
-				new MessageEmbed()
-					.setDescription(getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'CMD_PREPEND_ENABLED', type))
-					.setColor(defaultColor),
-			],
-		});
+		await interaction.replyHandler.locale('CMD_PREPEND_ENABLED', {}, type);
 	},
 };

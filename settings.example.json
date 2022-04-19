@@ -2,7 +2,7 @@
   "token": "Paste token here",
   "applicationId": "Paste application ID here",
   "defaultColor": "#2518a0",
-  "defaultLocale": "en-US",
+  "defaultLocale": "en",
   "managers": [
     "Paste your user ID here"
   ],
@@ -10,6 +10,10 @@
     "host": "localhost",
     "port": 12345,
     "password": "youshallnotpass",
-    "secure": false
+    "secure": false,
+    "reconnect": {
+      "delay": 3000,
+      "tries": 5
+    }
   }
 }

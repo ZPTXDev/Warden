@@ -1,0 +1,22 @@
+{
+	"SETTING_TIMEOUT": "Setting timeout",
+	"SETTING_TIMEOUT_PAUSE": "Setting pause timeout",
+	"INACTIVITY": "Disconnecting (inactivity)",
+	"ALONE": "Disconnecting (alone)",
+	"STARTING_TRACK": "Starting track",
+	"RESTARTING": "Disconnecting (restarting)",
+	"LAVALINK_CONNECTED": "Connected to Lavalink!",
+	"DISCORD_CONNECTED": "Connected to Discord! Logged in as %1.",
+	"STARTUP": "Running version %1. For help, see https://github.com/ZapSquared/Warden/issues.",
+	"SHUTDOWN": "Shutting down...",
+	"DISCONNECTING": "Disconnecting from all guilds...",
+	"CONNECTION_LOST": "Lost connection to Discord. Attempting to resume sessions now.",
+	"CMD_PROCESSING": "Processing command %1",
+	"CMD_FAILED": "Command %1 failed %2 checks",
+	"CMD_EXECUTING": "Executing command %1",
+	"CMD_ERROR": "Encountered error with command %1",
+	"ERROR": "Logging additional output to error.log.",
+	"ERROR_FAIL": "Encountered error while writing to error.log:",
+	"GUILD_JOINED": "Joined %1",
+	"GUILD_LEFT": "Left %1"  
+}

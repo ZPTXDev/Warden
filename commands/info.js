@@ -1,9 +1,8 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed, Permissions } = require('discord.js');
+const { Permissions } = require('discord.js');
 const { version } = require('../package.json');
-const { defaultColor, defaultLocale } = require('../settings.json');
+const { defaultLocale } = require('../settings.json');
 const { getLocale } = require('../functions.js');
-const { guildData } = require('../data.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -15,14 +14,6 @@ module.exports = {
 		bot: [],
 	},
 	async execute(interaction) {
-		await interaction.reply({
-			embeds: [
-				new MessageEmbed()
-					.setTitle('Warden')
-					.setDescription(getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'CMD_INFO_DETAIL', interaction.client.generateInvite({ permissions: [Permissions.FLAGS.ADMINISTRATOR], scopes: ['bot', 'applications.commands'] }), version))
-					.setColor(defaultColor)
-					.setThumbnail(interaction.client.user.avatarURL({ format: 'png' })),
-			],
-		});
+		await interaction.replyHandler.locale('CMD_INFO_DETAIL', { title: 'Warden', thumbnail: interaction.client.user.avatarURL({ format: 'png' }) }, interaction.client.generateInvite({ permissions: [Permissions.FLAGS.ADMINISTRATOR], scopes: ['bot', 'applications.commands'] }), version);
 	},
 };

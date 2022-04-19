@@ -1,9 +1,9 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const { checks } = require('../enums.js');
-const { defaultColor, defaultLocale } = require('../settings.json');
+const { defaultLocale } = require('../settings.json');
 const { roundTo, getLocale, checkLocaleCompletion } = require('../functions.js');
-const { guildData } = require('../data.js');
+const { guildData } = require('../shared.js');
 const fs = require('fs');
 const path = require('path');
 
@@ -13,31 +13,29 @@ module.exports = {
 		.setDescription(getLocale(defaultLocale, 'CMD_LOCALE_DESCRIPTION'))
 		.addStringOption(option =>
 			option
-				.setName('locale')
+				.setName('new_locale')
 				.setDescription(getLocale(defaultLocale, 'CMD_LOCALE_OPTION_LOCALE'))
 				.setRequired(true)
-				.addChoices(fs.readdirSync(path.resolve(__dirname, '../locales')).filter(file => file.endsWith('.json')).map(file => {return [file.slice(0, -5), file.slice(0, -5)];}))),
+				.addChoices(fs.readdirSync(path.resolve(__dirname, '../locales')).map(file => [file, file]))),
 	checks: [checks.GUILD_ONLY],
 	permissions: {
+		// TODO: https://msciotti.notion.site/msciotti/Command-Permissions-V2-4d113cb49090409f998f3bd80a06c3bd (when it gets released)
 		user: ['MANAGE_GUILD'],
 		bot: [],
 	},
 	async execute(interaction) {
-		const locale = interaction.options.getString('locale');
-		guildData.set(`${interaction.guildId}.locale`, locale);
+		const locale = interaction.options.getString('new_locale');
 		const localeCompletion = checkLocaleCompletion(locale);
+		if (localeCompletion === 'LOCALE_MISSING') {
+			await interaction.replyHandler.error('That locale does not exist.');
+			return;
+		}
+		guildData.set(`${interaction.guildId}.locale`, locale);
 		const additionalEmbed = localeCompletion.completion !== 100 ? [
 			new MessageEmbed()
 				.setDescription(`This locale is incomplete. Completion: \`${roundTo(localeCompletion.completion, 2)}%\`\nMissing strings:\n\`\`\`\n${localeCompletion.missing.join('\n')}\`\`\``)
 				.setColor('DARK_RED'),
 		] : [];
-		await interaction.reply({
-			embeds: [
-				new MessageEmbed()
-					.setDescription(getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'CMD_LOCALE_SUCCESS', interaction.guild.name, locale))
-					.setColor(defaultColor),
-				...additionalEmbed,
-			],
-		});
+		await interaction.replyHandler.locale('CMD_LOCALE_SUCCESS', { additionalEmbeds: additionalEmbed }, interaction.guild.name, locale);
 	},
 };

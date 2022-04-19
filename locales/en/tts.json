@@ -1,0 +1,7 @@
+{
+	"ALONE": "Disconnected as everyone left.",
+	"INACTIVITY": "Disconnected from inactivity.",
+	"RESTART": "Warden is restarting and will disconnect.",
+	"RESTART_CRASH": "Warden has crashed and will disconnect.",
+	"RESTART_SORRY": "Sorry for the inconvenience caused."
+}

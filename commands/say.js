@@ -5,6 +5,7 @@ const { defaultColor, defaultLocale } = require('../settings.json');
 const { getLocale } = require('../functions.js');
 const { guildData } = require('../data.js');
 const googleTTS = require('google-tts-api');
+const TTSHandler = require('../classes/TTSHandler.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -23,14 +24,7 @@ module.exports = {
 	async execute(interaction) {
 		// check for connect, speak permission for channel
 		if (!interaction.member.voice.channel.permissionsFor(interaction.client.user.id).has(['CONNECT', 'SPEAK'])) {
-			await interaction.reply({
-				embeds: [
-					new MessageEmbed()
-						.setDescription(getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'DISCORD_BOT_MISSING_PERMISSIONS_BASIC'))
-						.setColor('DARK_RED'),
-				],
-				ephemeral: true,
-			});
+			await interaction.replyHandler.localeError('DISCORD_BOT_MISSING_PERMISSIONS_BASIC');
 			return;
 		}
 
@@ -59,29 +53,18 @@ module.exports = {
 			}
 		}
 		if (errored) {
-			await interaction.editReply({
-				embeds: [
-					new MessageEmbed()
-						.setDescription(getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'CMD_SAY_LOAD_FAIL'))
-						.setColor('DARK_RED'),
-				],
-			});
+			await interaction.replyHandler.localeError('CMD_SAY_LOAD_FAIL');
 			return;
 		}
 		let player = interaction.client.music.players.get(interaction.guildId);
 		if (!player?.connected) {
 			player = interaction.client.music.createPlayer(interaction.guildId);
+			player.ttsHandler = new TTSHandler(player);
 			player.queue.channel = interaction.channel;
 			await player.connect(interaction.member.voice.channelId, { deafened: true });
 		}
 		if (player.playing) {
-			await interaction.editReply({
-				embeds: [
-					new MessageEmbed()
-						.setDescription(getLocale(guildData.get(`${interaction.guildId}.locale`) ?? defaultLocale, 'CMD_SAY_IN_PROGRESS'))
-						.setColor('DARK_RED'),
-				],
-			});
+			await interaction.replyHandler.localeError('CMD_SAY_IN_PROGRESS');
 			return;
 		}
 		player.queue.add(tracks, { requester: interaction.user.id });
