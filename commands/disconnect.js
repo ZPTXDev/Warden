@@ -14,7 +14,6 @@ module.exports = {
 	},
 	async execute(interaction) {
 		const player = interaction.client.music.players.get(interaction.guildId);
-		clearTimeout(player.timeout);
 		player.ttsHandler.disconnect();
 		await interaction.replyHandler.locale('CMD_DISCONNECT_SUCCESS');
 	},
