@@ -3,7 +3,7 @@ const { MessageEmbed } = require('discord.js');
 const { checks } = require('../enums.js');
 const { defaultColor, defaultLocale } = require('../settings.json');
 const { getLocale } = require('../functions.js');
-const { guildData } = require('../data.js');
+const { guildData } = require('../shared.js');
 const googleTTS = require('google-tts-api');
 const TTSHandler = require('../classes/TTSHandler.js');
 
