@@ -22,7 +22,7 @@ rl.on('line', line => {
 				console.log('Warden is not initialized yet.');
 				break;
 			}
-			console.log(`There are currently ${bot.music.players.size} active session(s).`);
+			console.log(`There are currently ${bot.tts.players.size} active session(s).`);
 			break;
 		case 'stats': {
 			const uptime = msToTime(bot.uptime);
@@ -39,7 +39,7 @@ rl.on('close', () => shuttingDown('SIGINT'));
 
 const bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_PRESENCES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES] });
 bot.commands = new Collection();
-bot.music = new Node({
+bot.tts = new Node({
 	connection: {
 		host: lavalink.host,
 		port: lavalink.port,
@@ -52,8 +52,8 @@ bot.music = new Node({
 	},
 	sendGatewayPayload: (id, payload) => bot.guilds.cache.get(id)?.shard?.send(payload),
 });
-bot.ws.on('VOICE_SERVER_UPDATE', data => bot.music.handleVoiceUpdate(data));
-bot.ws.on('VOICE_STATE_UPDATE', data => bot.music.handleVoiceUpdate(data));
+bot.ws.on('VOICE_SERVER_UPDATE', data => bot.tts.handleVoiceUpdate(data));
+bot.ws.on('VOICE_STATE_UPDATE', data => bot.tts.handleVoiceUpdate(data));
 module.exports.bot = bot;
 
 let inProgress = false;
@@ -63,7 +63,7 @@ async function shuttingDown(eventType, err) {
 	logger.info({ message: 'Shutting down...', label: 'Warden' });
 	if (module.exports.startup) {
 		logger.info({ message: 'Disconnecting from all guilds...', label: 'Warden' });
-		for (const pair of bot.music.players) {
+		for (const pair of bot.tts.players) {
 			const player = pair[1];
 			logger.info({ message: `[G ${player.guildId}] Disconnecting (restarting)`, label: 'Warden' });
 			await player.ttsHandler.locale(['exit', 'SIGINT'].includes(eventType) ? 'TTS_RESTART' : 'TTS_RESTART_CRASH', { footer: getLocale(guildData.get(`${player.guildId}.locale`) ?? defaultLocale, 'TTS_RESTART_SORRY') });
@@ -110,10 +110,10 @@ const ttsEventFiles = fs.readdirSync('./events/tts').filter(file => file.endsWit
 for (const file of ttsEventFiles) {
 	const event = require(`./events/tts/${file}`);
 	if (event.once) {
-		bot.music.once(event.name, (...args) => event.execute(...args));
+		bot.tts.once(event.name, (...args) => event.execute(...args));
 	}
 	else {
-		bot.music.on(event.name, (...args) => event.execute(...args));
+		bot.tts.on(event.name, (...args) => event.execute(...args));
 	}
 }
 
@@ -127,4 +127,3 @@ module.exports.startup = false;
 module.exports.updateStartup = () => {
 	module.exports.startup = true;
 };
-

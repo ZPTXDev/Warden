@@ -12,13 +12,13 @@ module.exports = {
 			if (version.includes('-')) {
 				logger.warn({ message: 'You are running an unstable version of Warden. Please report bugs using the link above, and note that features may change or be removed entirely prior to release.', label: 'Warden' });
 			}
-			client.music.connect(client.user.id);
+			client.tts.connect(client.user.id);
 			updateStartup();
 		}
 		else {
 			logger.info({ message: 'Reconnected.', label: 'Discord' });
 			logger.warn({ message: 'Attempting to resume sessions.', label: 'Warden' });
-			for (const pair of client.music.players) {
+			for (const pair of client.tts.players) {
 				const player = pair[1];
 				await player.resume();
 			}
