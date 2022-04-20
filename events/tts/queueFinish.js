@@ -4,12 +4,12 @@ module.exports = {
 	name: 'queueFinish',
 	once: false,
 	execute(queue) {
-		logger.info({ message: `[G ${queue.player.guildId}] Setting timeout`, label: 'Quaver' });
+		logger.info({ message: `[G ${queue.player.guildId}] Setting timeout`, label: 'Warden' });
 		if (queue.player.timeout) {
 			clearTimeout(queue.player.timeout);
 		}
 		queue.player.timeout = setTimeout(p => {
-			logger.info({ message: `[G ${p.guildId}] Disconnecting (inactivity)`, label: 'Quaver' });
+			logger.info({ message: `[G ${p.guildId}] Disconnecting (inactivity)`, label: 'Warden' });
 			p.ttsHandler.locale('TTS_INACTIVITY');
 			p.ttsHandler.disconnect();
 		}, 1800000, queue.player);
