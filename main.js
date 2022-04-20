@@ -66,7 +66,6 @@ async function shuttingDown(eventType, err) {
 		for (const pair of bot.music.players) {
 			const player = pair[1];
 			logger.info({ message: `[G ${player.guildId}] Disconnecting (restarting)`, label: 'Warden' });
-			await player.ttsHandler.locale(['exit', 'SIGINT'].includes(eventType) ? 'TTS_RESTART' : 'TTS_RESTART_CRASH', { footer: getLocale(guildData.get(`${player.guildId}.locale`) ?? defaultLocale, 'TTS_RESTART_SORRY') });
 			await player.ttsHandler.disconnect();
 			const botChannelPerms = bot.guilds.cache.get(player.guildId).channels.cache.get(player.queue.channel.id).permissionsFor(bot.user.id);
 			if (!botChannelPerms.has(['VIEW_CHANNEL', 'SEND_MESSAGES'])) { continue; }
@@ -127,4 +126,3 @@ module.exports.startup = false;
 module.exports.updateStartup = () => {
 	module.exports.startup = true;
 };
-
