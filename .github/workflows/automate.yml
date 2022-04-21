@@ -15,7 +15,7 @@ permissions:
 jobs:
   commitlint:
     name: lint / CommitLint
-    if: github.actor != 'dependabot[bot]' && github.event_name == 'pull_request'
+    if: github.actor != 'dependabot[bot]' && github.event_name != 'pull_request_target'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -37,7 +37,6 @@ jobs:
           reporter: github-pr-review
   request-review:
     name: pr / Request Review
-    needs: [ commitlint, eslint ]
     if: github.actor != 'dependabot[bot]' && github.event_name == 'pull_request_target' && contains(fromJson('["opened", "ready_for_review", "reopened"]'), github.event.action)
     runs-on: ubuntu-latest
     steps:
