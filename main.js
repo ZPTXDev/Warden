@@ -12,8 +12,8 @@ const rl = readline.createInterface({
 	input: process.stdin,
 	output: process.stdout,
 });
-rl.on('line', line => {
-	switch (line.split(' ')[0].toLowerCase()) {
+rl.on('line', input => {
+	switch (input.split(' ')[0].toLowerCase()) {
 		case 'exit':
 			shuttingDown('exit');
 			break;
@@ -127,4 +127,3 @@ module.exports.startup = false;
 module.exports.updateStartup = () => {
 	module.exports.startup = true;
 };
-
