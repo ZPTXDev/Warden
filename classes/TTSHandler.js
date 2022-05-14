@@ -13,11 +13,10 @@ module.exports = class TTSHandler {
 	 * Disconnects and cleans up the player.
 	 */
 	async disconnect() {
-		const { bot } = require('../main.js');
 		clearTimeout(this.player.timeout);
 		clearTimeout(this.player.pauseTimeout);
 		this.player.disconnect();
-		bot.music.destroyPlayer(this.player.guildId);
+		this.client.music.destroyPlayer(this.player.guildId);
 	}
 
 	/**
@@ -51,11 +50,10 @@ module.exports = class TTSHandler {
 	 * @returns {Message|APIMessage|boolean} - The message that was sent.
 	 */
 	async send(data, embedExtras, error) {
-		const { bot } = require('../main.js');
 		const sendData = this.sendDataConstructor(data, embedExtras, error);
 		const channel = this.player.queue.channel;
-		if (!channel.permissionsFor(bot.user.id).has(['VIEW_CHANNEL', 'SEND_MESSAGES'])) return false;
-		if (bot.guilds.cache.get(this.player.guildId).members.cache.get(bot.user.id).isCommunicationDisabled()) return false;
+		if (!channel.permissionsFor(this.client.user.id).has(['VIEW_CHANNEL', 'SEND_MESSAGES'])) return false;
+		if (this.client.guilds.cache.get(this.player.guildId).members.cache.get(this.client.user.id).isCommunicationDisabled()) return false;
 		try {
 			return await channel.send(sendData);
 		}
