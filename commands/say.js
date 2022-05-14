@@ -59,7 +59,7 @@ module.exports = {
 		let player = interaction.client.music.players.get(interaction.guildId);
 		if (!player?.connected) {
 			player = interaction.client.music.createPlayer(interaction.guildId);
-			player.ttsHandler = new TTSHandler(player);
+			player.ttsHandler = new TTSHandler(interaction.client, player);
 			player.queue.channel = interaction.channel;
 			await player.connect(interaction.member.voice.channelId, { deafened: true });
 		}
