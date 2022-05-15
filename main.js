@@ -127,4 +127,3 @@ module.exports.startup = false;
 module.exports.updateStartup = () => {
 	module.exports.startup = true;
 };
-
