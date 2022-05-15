@@ -6,7 +6,7 @@ module.exports = {
 	execute(guild) {
 		const { bot } = require('../main.js');
 		logger.info({ message: `[G ${guild.id}] Left guild ${guild.name}`, label: 'Discord' });
-		const player = bot.music.players.get(guild.id);
+		const player = bot.tts.players.get(guild.id);
 		if (player) player.ttsHandler.disconnect();
 	},
 };

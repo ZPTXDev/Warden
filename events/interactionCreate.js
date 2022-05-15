@@ -22,7 +22,7 @@ module.exports = {
 						break;
 					// Must have an active session
 					case checks.ACTIVE_SESSION: {
-						const player = interaction.client.music.players.get(interaction.guildId);
+						const player = interaction.client.tts.players.get(interaction.guildId);
 						if (!player) {
 							failedChecks.push(check);
 						}
@@ -36,7 +36,7 @@ module.exports = {
 						break;
 					// Must be in the same voice channel (will not fail if the bot is not in a voice channel)
 					case checks.IN_SESSION_VOICE: {
-						const player = interaction.client.music.players.get(interaction.guildId);
+						const player = interaction.client.tts.players.get(interaction.guildId);
 						if (player && interaction.member?.voice.channelId !== player.channelId) {
 							failedChecks.push(check);
 						}

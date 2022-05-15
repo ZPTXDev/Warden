@@ -13,10 +13,10 @@ module.exports = {
 		bot: [],
 	},
 	async execute(interaction) {
-		const player = interaction.client.music.players.get(interaction.guildId);
+		const player = interaction.client.tts.players.get(interaction.guildId);
 		clearTimeout(player.timeout);
 		player.disconnect();
-		interaction.client.music.destroyPlayer(interaction.guildId);
+		interaction.client.tts.destroyPlayer(interaction.guildId);
 		await interaction.replyHandler.locale('CMD_DISCONNECT_SUCCESS');
 	},
 };

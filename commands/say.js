@@ -43,7 +43,7 @@ module.exports = {
 			console.error(error);
 		}
 		for (const url of urls) {
-			const result = await interaction.client.music.rest.loadTracks(url.url);
+			const result = await interaction.client.tts.rest.loadTracks(url.url);
 			if (result.loadType === 'TRACK_LOADED') {
 				tracks.push(result.tracks[0]);
 			}
@@ -56,9 +56,9 @@ module.exports = {
 			await interaction.replyHandler.localeError('CMD_SAY_LOAD_FAIL');
 			return;
 		}
-		let player = interaction.client.music.players.get(interaction.guildId);
+		let player = interaction.client.tts.players.get(interaction.guildId);
 		if (!player?.connected) {
-			player = interaction.client.music.createPlayer(interaction.guildId);
+			player = interaction.client.tts.createPlayer(interaction.guildId);
 			player.ttsHandler = new TTSHandler(player);
 			player.queue.channel = interaction.channel;
 			await player.connect(interaction.member.voice.channelId, { deafened: true });

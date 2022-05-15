@@ -16,7 +16,7 @@ module.exports = class TTSHandler {
 		clearTimeout(this.player.timeout);
 		clearTimeout(this.player.pauseTimeout);
 		this.player.disconnect();
-		bot.music.destroyPlayer(this.player.guildId);
+		bot.tts.destroyPlayer(this.player.guildId);
 	}
 
 	/**

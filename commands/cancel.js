@@ -13,7 +13,7 @@ module.exports = {
 		bot: [],
 	},
 	async execute(interaction) {
-		const player = interaction.client.music.players.get(interaction.guildId);
+		const player = interaction.client.tts.players.get(interaction.guildId);
 		if (!player?.connected || !player?.playing) {
 			await interaction.replyHandler.localeError('CMD_CANCEL_NOT_PLAYING');
 			return;
