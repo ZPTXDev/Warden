@@ -20,6 +20,16 @@ module.exports = {
 		bot: ['CONNECT', 'SPEAK'],
 	},
 	async execute(interaction) {
+		if (interaction.channel.type !== 'GUILD_TEXT') {
+			await interaction.reply({
+				embeds: [
+					new MessageEmbed()
+						.setDescription('I cannot start a session in this channel type.')
+						.setColor('DARK_RED'),
+				],
+			});
+			return;
+		}
 		await interaction.deferReply();
 		const prepend = guildData.get(`${interaction.guildId}.tts.prepend`);
 		const rawMessage = interaction.options.getString('message');
