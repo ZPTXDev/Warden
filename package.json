@@ -5,18 +5,18 @@
     "node": ">=16.9.0"
   },
   "dependencies": {
-    "@discordjs/builders": "^0.13.0",
-    "@discordjs/rest": "^0.4.1",
+    "@discordjs/builders": "^0.15.0",
+    "@discordjs/rest": "^0.5.0",
     "@lavaclient/queue": "^2.0.6",
-    "discord-api-types": "^0.33.2",
-    "discord.js": "^13.7.0",
+    "discord-api-types": "^0.33.5",
+    "discord.js": "^13.8.0",
     "lavaclient": "^4.0.8",
     "data-store": "^4.0.3",
     "google-tts-api": "^2.0.2",
     "winston": "^3.7.2"
   },
   "devDependencies": {
-    "eslint": "^8.16.0"
+    "eslint": "^8.17.0"
   },
   "main": "main.js",
   "release": {
