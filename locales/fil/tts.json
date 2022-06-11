@@ -1,0 +1,7 @@
+{
+	"ALONE": "Nadiskonekta nang umalis ang lahat.",
+	"INACTIVITY": "Nadiskonekta mula sa kawalan ng aktibidad.",
+	"RESTART": "Nagre-restart si Warden at madidiskonekta.",
+	"RESTART_CRASH": "Si Warden ay nagcrash at madidiskonekta.",
+	"RESTART_SORRY": "Paumanhin para sa abalang naidulot."
+}

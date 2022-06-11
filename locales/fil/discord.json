@@ -1,0 +1,8 @@
+{
+	"USER_MISSING_PERMISSIONS": "Nakulangan ka ng mga permission: %1",
+	"BOT_MISSING_PERMISSIONS": "Nakulangan ako ng mga permission: %1",
+	"BOT_MISSING_PERMISSIONS_BASIC": "Kailangan kong makakonekta at makapagsalita sa voice channel.",
+	"CMD_ERROR": "Nagkaroon ng error habang naghahandle ng command.",
+	"INTERACTION_WRONG_USER": "Hindi iyon ang iyong interaksyon.",
+	"INTERACTION_CANCELED": "Ang interaksyon na ito ay kinansela ni <@%1>."
+}
