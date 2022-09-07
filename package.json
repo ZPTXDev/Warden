@@ -13,7 +13,7 @@
     "lavaclient": "^4.1.1",
     "data-store": "^4.0.3",
     "google-tts-api": "^2.0.2",
-    "winston": "^3.8.1"
+    "winston": "^3.8.2"
   },
   "devDependencies": {
     "eslint": "^8.23.0"
