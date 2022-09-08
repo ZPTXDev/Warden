@@ -8,7 +8,7 @@
     "@discordjs/builders": "^0.15.0",
     "@discordjs/rest": "^0.5.0",
     "@lavaclient/queue": "^2.1.1",
-    "discord-api-types": "^0.37.7",
+    "discord-api-types": "^0.37.8",
     "discord.js": "^13.8.1",
     "lavaclient": "^4.1.1",
     "data-store": "^4.0.3",
