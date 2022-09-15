@@ -6,7 +6,7 @@
   },
   "dependencies": {
     "@discordjs/builders": "^0.15.0",
-    "@discordjs/rest": "^0.5.0",
+    "@discordjs/rest": "^1.1.0",
     "@lavaclient/queue": "^2.1.1",
     "discord-api-types": "^0.37.10",
     "discord.js": "^13.8.1",
