@@ -9,7 +9,7 @@
     "@discordjs/rest": "^0.5.0",
     "@lavaclient/queue": "^2.1.1",
     "discord-api-types": "^0.37.12",
-    "discord.js": "^13.8.1",
+    "discord.js": "^14.6.0",
     "lavaclient": "^4.1.1",
     "data-store": "^4.0.3",
     "google-tts-api": "^2.0.2",
