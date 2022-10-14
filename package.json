@@ -1,24 +1,46 @@
 {
   "name": "warden",
-  "version": "2.0.0-next.3",
+  "version": "2.0.0-next.5",
+  "type": "module",
   "engines": {
     "node": ">=16.9.0"
   },
   "dependencies": {
-    "@discordjs/builders": "^0.15.0",
-    "@discordjs/rest": "^0.5.0",
-    "@lavaclient/queue": "^2.0.6",
-    "discord-api-types": "^0.33.5",
-    "discord.js": "^13.8.0",
-    "lavaclient": "^4.0.8",
-    "data-store": "^4.0.3",
+    "@discordjs/rest": "^1.1.0",
+    "@keyv/sqlite": "^3.6.1",
+    "@lavaclient/queue": "^2.1.1",
+    "discord-api-types": "^0.37.12",
+    "discord.js": "^14.6.0",
+    "genversion": "^3.1.1",
     "google-tts-api": "^2.0.2",
-    "winston": "^3.7.2"
+    "keyv": "^4.5.0",
+    "lavaclient": "^4.1.1",
+    "lodash-es": "^4.17.21",
+    "winston": "^3.8.2"
   },
   "devDependencies": {
-    "eslint": "^8.17.0"
+    "@types/lodash-es": "^4.17.6",
+    "@types/node": "^18.8.5",
+    "@typescript-eslint/eslint-plugin": "^5.40.0",
+    "@typescript-eslint/parser": "^5.40.0",
+    "eslint": "^8.25.0",
+    "rimraf": "^3.0.2",
+    "tsc-alias": "^1.7.0",
+    "tsconfig-paths": "^4.1.0",
+    "typescript": "^4.8.4"
   },
-  "main": "main.js",
+  "main": "dist/main.js",
+  "scripts": {
+    "slash-deploy": "node scripts/deploy-commands.js",
+    "slash-delete": "node scripts/delete-commands.js",
+    "build": "rimraf dist/ && genversion --es6 --semi src/lib/util/version.ts && tsc && tsc-alias",
+    "build-start": "npm run build && npm start",
+    "start": "node .",
+    "lint": "eslint . --ext .ts"
+  },
+  "imports": {
+    "#src/*": "./src/*"
+  },
   "release": {
     "tagFormat": "${version}",
     "plugins": [
@@ -37,7 +59,7 @@
             "package.json",
             "package-lock.json"
           ],
-          "message": "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}"
+          "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
         }
       ],
       "@semantic-release/github"

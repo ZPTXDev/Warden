@@ -1,0 +1,30 @@
+name: "Auto Merge"
+on:
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - edited
+      - labeled
+      - unlabeled
+      - ready_for_review
+  workflow_dispatch:
+    inputs:
+      pull-request:
+        description: Pull Request Number
+        required: false
+
+jobs:
+  auto-merge:
+    name: Auto Merge
+    runs-on: ubuntu-latest
+    steps:
+      - uses: reitermarkus/automerge@v2
+        with:
+          token: ${{ secrets.PUSH_TO_PROTECTED_BRANCH }}
+          merge-method: squash
+          squash-commit-title: ${pull_request.title} (#${pull_request.number})
+          do-not-merge-labels: 'status:proposed,status:hold'
+          required-labels: 'status:confirmed,status:tested'
+          pull-request: ${{ github.event.inputs.pull-request }}

@@ -1,66 +1,65 @@
 # Configuration
-This aims to explain the settings in the [`settings.json`](settings.json) file.
 
-The file structure is as follows:
 ```json
 {
-  "token": "Paste token here",
-  "applicationId": "Paste application ID here",
-  "defaultColor": "#2518a0",
-  "defaultLocale": "en",
-  "managers": [
-    "Paste your user ID here"
-  ],
-  "lavalink": {
-    "host": "localhost",
-    "port": 12345,
-    "password": "youshallnotpass",
-    "secure": false,
-    "reconnect": {
-      "delay": 3000,
-      "tries": 5
+    "token": "Paste token here",
+    "applicationId": "Paste application ID here",
+    "colors": {
+        "success": "DarkGreen",
+        "neutral": "#2518a0",
+        "warning": "Orange",
+        "error": "DarkRed"
+    },
+    "defaultLocaleCode": "en",
+    "disableAd": false,
+    "managers": [
+        "Paste your user ID here"
+    ],
+    "database": {
+        "protocol": "sqlite",
+        "path": "../database.sqlite"
+    },
+    "lavalink": {
+        "host": "localhost",
+        "port": 12345,
+        "password": "youshallnotpass",
+        "secure": false,
+        "reconnect": {
+            "delay": 3000,
+            "tries": 5
+        }
     }
-  }
 }
 ```
 
-`token`
-> The Discord token for your bot. Get it from [here](https://discord.com/developers/applications).
+`token` - Your bot token. You can get it from the [Discord Developer Portal](https://discord.com/developers/applications).
 
-`applicationId`
-> The Discord application ID for your bot. Usually the same as your bot's user ID. You can also get this from [here](https://discord.com/developers/applications).
+`applicationId` - Your application ID. Typically the same as your [bot's user ID](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-). You can get it from the [Discord Developer Portal](https://discord.com/developers/applications).
 
-`defaultColor`
-> A [`ColorResolvable`](https://discord.js.org/#/docs/main/stable/typedef/ColorResolvable) color. Used in every non-error message embed from Warden.
+`clientSecret` - Your client secret. You can get it from the [Discord Developer Portal](https://discord.com/developers/applications) under `OAuth2 > General`.
 
-`defaultLocale`
-> Any locale from [locales](locales) without the file extension. Warden will not start if an invalid locale is selected.
+`colors` - The colors used for embeds. Valid values are available [here](https://discord.js.org/#/docs/discord.js/main/typedef/ColorResolvable).
 
-> This locale is also used for all logs, slash command descriptions, and for all guilds that don't specify a locale.
+`defaultLocaleCode` - The default locale code. Valid values are available in the `locales` folder.
+> **Note:** This is used for all logs, slash command descriptions (at the time of deployment), and for all guilds without a language specified.
 
-> If changing default locale, re-deploy commands for it to take effect in slash command descriptions.
+`disableAd` - Whether to disable the ad in the `info` command (Sponsor Us button).
+> **Note:** Please do not disable the ad unless you really need to. Sponsors help keep the development of ZPTXDev projects going. Consider sponsoring us if you need to disable the ad!
 
-`managers`
-> An array of user IDs that are given manager-level permission on Warden. For now, it only affects the `volume` command.
+`managers` - The [user IDs](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-) that are given manager-level permissions on Warden.
 
-`lavalink.host`
-> The host IP of the Lavalink instance.
+`database.protocol` - The database protocol.
 
-`lavalink.port`
-> The port that Lavalink is listening on.
+`database.path` - The database path. This is relative to the `dist` folder.
 
-> Defined in `application.yml` (`server.port`)
+`lavalink.host` - The Lavalink instance host address.
 
-`lavalink.password`
-> The password configured for the Lavalink instance.
+`lavalink.port` - The Lavalink instance port.
 
-> Defined in `application.yml` (`lavalink.server.password`)
+`lavalink.password` - The Lavalink instance password.
 
-`lavalink.secure`
-> Whether or not the Lavalink instance is secure. Defaults to `false` if unspecified.
+`lavalink.secure` - Whether or not the Lavalink instance uses a secure connection.
 
-`lavalink.reconnect.delay`
-> The delay between reconnect attempts. Defaults to `3000` if unspecified.
+`lavalink.reconnect.delay` - The delay in milliseconds between Lavalink reconnect attempts.
 
-`lavalink.reconnect.tries`
-> The number of reconnect attempts before giving up. Defaults to `5` if unspecified.
+`lavalink.reconnect.tries` - The number of times to attempt to reconnect to Lavalink.

@@ -1,19 +1,29 @@
 {
-  "token": "Paste token here",
-  "applicationId": "Paste application ID here",
-  "defaultColor": "#2518a0",
-  "defaultLocale": "en",
-  "managers": [
-    "Paste your user ID here"
-  ],
-  "lavalink": {
-    "host": "localhost",
-    "port": 12345,
-    "password": "youshallnotpass",
-    "secure": false,
-    "reconnect": {
-      "delay": 3000,
-      "tries": 5
+    "token": "Paste token here",
+    "applicationId": "Paste application ID here",
+    "colors": {
+        "success": "DarkGreen",
+        "neutral": "#2518a0",
+        "warning": "Orange",
+        "error": "DarkRed"
+    },
+    "defaultLocaleCode": "en",
+    "disableAd": false,
+    "managers": [
+        "Paste your user ID here"
+    ],
+    "database": {
+        "protocol": "sqlite",
+        "path": "../database.sqlite"
+    },
+    "lavalink": {
+        "host": "localhost",
+        "port": 12345,
+        "password": "youshallnotpass",
+        "secure": false,
+        "reconnect": {
+            "delay": 3000,
+            "tries": 5
+        }
     }
-  }
 }

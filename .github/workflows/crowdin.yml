@@ -2,28 +2,31 @@ name: Crowdin
 on:
   push:
     branches: next
+  workflow_dispatch:
 
 jobs:
   crowdin:
-    name: Crowdin
+    name: Sync translations
     runs-on: ubuntu-latest
-    if: github.repository_owner == 'ZapSquared'
+    if: github.repository_owner == 'ZPTXDev'
     steps:
-    - uses: actions/checkout@v2
-    - uses: crowdin/github-action@1.4.8
+    - uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.PUSH_TO_PROTECTED_BRANCH }}
+    - uses: crowdin/github-action@1.4.14
       with:
         download_translations: true
-        skip_untranslated_strings: true
+        skip_untranslated_files: true
         export_only_approved: true
         commit_message: 'chore(locales): new Crowdin translations'
         localization_branch_name: 'l10n_next'
         crowdin_branch_name: 'next'
         create_pull_request: true
         pull_request_title: 'chore(locales): new Crowdin translations'
-        pull_request_labels: 'affects:locale, priority:p2'
+        pull_request_labels: 'affects:locale, priority:p2, status:proposed, type:enhancement'
         pull_request_base_branch_name: next
         base_url: 'https://zapsquared.crowdin.com'
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.PUSH_TO_PROTECTED_BRANCH }}
         CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
         CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
