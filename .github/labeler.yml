@@ -1,0 +1,30 @@
+'priority:p0':
+  - '- \[x] Critical'
+'priority:p1':
+  - '- \[x] High'
+'priority:p2':
+  - '- \[x] Medium'
+'priority:p3':
+  - '- \[x] Low'
+'pr:type:feat':
+  - '(feat:|- \[x] Feature)'
+'pr:type:fix':
+  - '(fix:|- \[x] Bug fix)'
+'type:bug':
+  - '- \[x] Bug fix'
+'type:enhancement':
+  - '(- \[x] Feature|- \[x] Other)'
+'affects:documentation':
+  - '(- \[x] Documentation only|\bdoc[s]\b|\bdocumentation[s]\b)'
+'affects:functionality':
+  - '\bfunctionalit(?:y|ies)\b'
+'affects:locale':
+  - '(\blocale[s]?\b|\blocali(?:s|z)(?:e[d]?|ation)\b)'
+'affects:permissions':
+  - '\bpermission[s]?\b'
+'status:proposed':
+  - '.*'
+'branch:stable':
+  - '- \[x] Stable'
+'branch:next':
+  - '- \[x] Next'
