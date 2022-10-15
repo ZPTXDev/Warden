@@ -14,7 +14,7 @@ export default {
             label: 'Discord',
         });
         logger.info({
-            message: `Running version ${version}. For help, see https://github.com/ZapSquared/Warden/issues.`,
+            message: `Running version ${version}. For help, see https://github.com/ZPTXDev/Warden/issues.`,
             label: 'Warden',
         });
         if (version.includes('-')) {
