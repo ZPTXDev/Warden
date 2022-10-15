@@ -8,5 +8,5 @@ export type GuildSettingsObject = {
 };
 
 export type TTSSettingObject = {
-	prepend: 'username' | 'nickname' | 'none';
+    prepend: 'username' | 'nickname' | 'none';
 };
