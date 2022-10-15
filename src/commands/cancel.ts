@@ -14,7 +14,12 @@ export default {
                 'CMD.CANCEL.DESCRIPTION',
             ),
         ),
-    checks: [checks.GUILD_ONLY, checks.IN_VOICE, checks.IN_SESSION_VOICE],
+    checks: [
+        checks.GUILD_ONLY,
+        checks.ACTIVE_SESSION,
+        checks.IN_VOICE,
+        checks.IN_SESSION_VOICE,
+    ],
     permissions: {
         user: [],
         bot: [],
