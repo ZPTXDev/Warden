@@ -115,8 +115,9 @@ export default {
                 'webp',
             ];
             const enabledAvatarFormats: AvatarFormats[] = ['png'];
-            if (reference.avatar?.startsWith('a_'))
+            if (reference.avatar?.startsWith('a_')) {
                 enabledAvatarFormats.push('gif');
+            }
             if (reference.avatar) enabledAvatarFormats.push('jpg', 'webp');
             return avatarFormats.map(
                 (format): ButtonBuilder =>

@@ -255,8 +255,10 @@ for await (const folder of componentsFolders) {
                 ]).toString()
             );
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        if (!(bot as Record<string, any>)[folder])
+        if (!(bot as Record<string, any>)[folder]) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (bot as Record<string, any>)[folder] = new Collection();
+        }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (bot as Record<string, any>)[folder].set(
             component.default.name,
@@ -291,16 +293,16 @@ for await (const file of ttsEventFiles) {
         getAbsoluteFileURL(import.meta.url, ['events', 'tts', file]).toString()
     );
     if (event.default.once) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         bot.tts.once(
             event.default.name as keyof NodeEvents,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (...args: any[]): void | Promise<void> =>
                 event.default.execute(...args),
         );
     } else {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         bot.tts.on(
             event.default.name as keyof NodeEvents,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (...args: any[]): void | Promise<void> =>
                 event.default.execute(...args),
         );

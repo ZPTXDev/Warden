@@ -65,14 +65,16 @@ export default class PlayerHandler {
                         PermissionsBitField.Flags.SendMessages,
                     ]),
                 )
-        )
+        ) {
             return undefined;
+        }
         if (
             this.client.guilds.cache
                 .get(this.player.guildId)
                 .members.me.isCommunicationDisabled()
-        )
+        ) {
             return undefined;
+        }
         try {
             return await channel.send(sendMsgOpts);
         } catch (error) {

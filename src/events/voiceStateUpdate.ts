@@ -18,8 +18,9 @@ export default {
                 (oldState.serverMute !== newState.serverMute ||
                     oldState.serverDeaf !== newState.serverDeaf) &&
                 oldState.channelId === newState.channelId
-            )
+            ) {
                 return;
+            }
             /** Checks for when Warden leaves */
             // Disconnected
             if (!newState.channelId) {
@@ -93,8 +94,9 @@ export default {
         if (
             oldState.channel.members.filter((m): boolean => !m.user.bot).size >=
             1
-        )
+        ) {
             return;
+        }
         logger.info({
             message: `[G ${player.guildId}] Disconnecting (alone)`,
             label: 'Warden',
