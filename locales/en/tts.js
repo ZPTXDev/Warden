@@ -16,6 +16,9 @@ export default {
 			DEFAULT: 'Warden is restarting and will disconnect.',
 			CRASHED: 'Warden has crashed and will disconnect.',
 			APOLOGY: 'Sorry for the inconvenience caused.'
+		},
+		PLAYING: {
+			NOTHING: 'There is nothing playing right now.'
 		}
 	}
 }
