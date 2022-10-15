@@ -73,7 +73,7 @@ export default {
 		}
 		catch (error) {
 			errored = true;
-			logger.error(error);
+			logger.error({ message: error, label: 'Warden' });
 		}
 		for (const url of urls) {
 			const result = await interaction.client.tts.rest.loadTracks(url.url);
