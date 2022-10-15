@@ -48,7 +48,7 @@ export default {
 	PING: {
 		DESCRIPTION: 'Check Warden\'s latency and uptime.',
 		RESPONSE: {
-			SUCCESS: 'Pong!'
+			SUCCESS: 'Pong!%1'
 		},
 		MISC: {
 			UPTIME: 'Uptime:'
