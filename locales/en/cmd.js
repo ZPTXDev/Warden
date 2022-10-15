@@ -35,9 +35,9 @@ export default {
 		}
 	},
 	INFO: {
-		DESCRIPTION: 'Show information about Quaver.',
+		DESCRIPTION: 'Show information about Warden.',
 		RESPONSE: {
-			SUCCESS: 'Open-source music bot for small communities.\nRunning version `%1`.'
+			SUCCESS: 'Open-source moderation and utility bot for small communities.\nRunning version `%1`.'
 		},
 		MISC: {
 			SOURCE_CODE: 'Source Code',

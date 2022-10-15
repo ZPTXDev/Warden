@@ -30,7 +30,7 @@ export default {
                 });
                 player.channelId = null;
                 await player.handler.locale(
-                    'MUSIC.SESSION_ENDED.FORCED.DISCONNECTED',
+                    'TTS.SESSION_ENDED.FORCED.DISCONNECTED',
                     { type: 'warning' },
                 );
                 return player.handler.disconnect();

@@ -11,6 +11,11 @@ export default {
 		},
 		CHANNEL_UNSUPPORTED: 'Disconnected as the target channel type is not supported.'
 	},
+	SESSION_ENDED: {
+		FORCED: {
+			DISCONNECTED: 'Session ended as I was disconnected.'
+		}
+	},
 	PLAYER: {
 		RESTARTING: {
 			DEFAULT: 'Warden is restarting and will disconnect.',
