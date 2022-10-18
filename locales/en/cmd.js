@@ -35,9 +35,9 @@ export default {
 		}
 	},
 	INFO: {
-		DESCRIPTION: 'Show information about Quaver.',
+		DESCRIPTION: 'Show information about Warden.',
 		RESPONSE: {
-			SUCCESS: 'Open-source music bot for small communities.\nRunning version `%1`.'
+			SUCCESS: 'Open-source moderation and utility bot for small communities.\nRunning version `%1`.'
 		},
 		MISC: {
 			SOURCE_CODE: 'Source Code',
@@ -48,7 +48,7 @@ export default {
 	PING: {
 		DESCRIPTION: 'Check Warden\'s latency and uptime.',
 		RESPONSE: {
-			SUCCESS: 'Pong!'
+			SUCCESS: 'Pong!%1'
 		},
 		MISC: {
 			UPTIME: 'Uptime:'
