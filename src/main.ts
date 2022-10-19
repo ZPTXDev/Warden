@@ -26,6 +26,7 @@ import { writeFile } from 'fs/promises';
 import type { NodeEvents } from 'lavaclient';
 import { Node } from 'lavaclient';
 import { createInterface } from 'readline';
+import { inspect } from 'util';
 import type { WardenEvent, WardenTTSEvent } from './main.d.js';
 
 export const startup = { started: false };
@@ -54,6 +55,26 @@ rl.on('line', async (input): Promise<void> => {
             console.log(
                 `Statistics:\nGuilds: ${bot.guilds.cache.size}\nUptime: ${uptimeString}`,
             );
+            break;
+        }
+        case 'eval': {
+            if (!settings.developerMode) {
+                console.log('Developer mode is not enabled.');
+                break;
+            }
+            if (!input.substring(5)) {
+                console.log('No input provided.');
+                break;
+            }
+            let output: string;
+            try {
+                output = await eval(input.substring(5));
+                if (typeof output !== 'string') output = inspect(output);
+            } catch (error) {
+                output = error;
+            }
+            if (!output) output = '[no output]';
+            console.log(output);
             break;
         }
         default:
