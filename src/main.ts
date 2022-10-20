@@ -41,7 +41,7 @@ rl.on('line', async (input): Promise<void> => {
             await shuttingDown('exit');
             break;
         case 'sessions':
-            if (!module.exports.startup) {
+            if (!startup.started) {
                 console.log('Warden is not initialized yet.');
                 break;
             }
