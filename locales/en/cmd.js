@@ -76,7 +76,7 @@ export default {
 			},
 			PREPEND: {
 				NAME: 'Prepend',
-				DESCRIPTION: 'What to prepend before text-to-speech messages.',
+				DESCRIPTION: 'What to prepend to text-to-speech messages.',
 				EXAMPLE_DESCRIPTION: 'Warden will say:',
 				EXAMPLE: {
 					NONE: 'This is a text-to-speech message.',
