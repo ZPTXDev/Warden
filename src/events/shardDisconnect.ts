@@ -1,9 +1,9 @@
 import { logger } from '#src/lib/util/common.js';
 
 export default {
-    name: 'connect',
+    name: 'shardDisconnect',
     once: false,
     execute(): void {
-        logger.info({ message: 'Connected.', label: 'Lavalink' });
+        logger.warn({ message: 'Disconnected.', label: 'Discord' });
     },
 };

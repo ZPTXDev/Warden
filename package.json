@@ -1,15 +1,15 @@
 {
   "name": "warden",
-  "version": "2.0.0-next.5",
+  "version": "2.2.0-next.3",
   "type": "module",
   "engines": {
     "node": ">=16.9.0"
   },
   "dependencies": {
     "@discordjs/rest": "^1.1.0",
-    "@keyv/sqlite": "^3.6.1",
+    "@keyv/sqlite": "^3.6.2",
     "@lavaclient/queue": "^2.1.1",
-    "discord-api-types": "^0.37.12",
+    "discord-api-types": "^0.37.14",
     "discord.js": "^14.6.0",
     "genversion": "^3.1.1",
     "google-tts-api": "^2.0.2",
@@ -20,9 +20,9 @@
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.6",
-    "@types/node": "^18.8.5",
-    "@typescript-eslint/eslint-plugin": "^5.40.0",
-    "@typescript-eslint/parser": "^5.40.0",
+    "@types/node": "^18.11.3",
+    "@typescript-eslint/eslint-plugin": "^5.40.1",
+    "@typescript-eslint/parser": "^5.40.1",
     "eslint": "^8.25.0",
     "rimraf": "^3.0.2",
     "tsc-alias": "^1.7.0",
