@@ -370,7 +370,7 @@ export async function buildSettingsPage(
                 )) ?? 'none';
             actionRow.addComponents(
                 new ButtonBuilder()
-                    .setCustomId('prepend_none')
+                    .setCustomId('prepend:none')
                     .setLabel(
                         getLocaleString(
                             guildLocaleCode,
@@ -384,7 +384,7 @@ export async function buildSettingsPage(
                     )
                     .setDisabled(current === 'none'),
                 new ButtonBuilder()
-                    .setCustomId('prepend_username')
+                    .setCustomId('prepend:username')
                     .setLabel(
                         getLocaleString(
                             guildLocaleCode,
@@ -398,7 +398,7 @@ export async function buildSettingsPage(
                     )
                     .setDisabled(current === 'username'),
                 new ButtonBuilder()
-                    .setCustomId('prepend_nickname')
+                    .setCustomId('prepend:nickname')
                     .setLabel(
                         getLocaleString(
                             guildLocaleCode,
