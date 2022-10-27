@@ -13,7 +13,7 @@ export default {
         const player = guild.client.tts.players.get(guild.id) as WardenPlayer;
         if (player) {
             logger.info({
-                message: `[G ${guild.id}] Cleaning up`,
+                message: `[G ${guild.id}] Cleaning up (left guild)`,
                 label: 'Warden',
             });
             player.channelId = null;
