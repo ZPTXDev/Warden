@@ -92,8 +92,8 @@ export default {
         /** Checks for when a user leaves */
         // Channel still has humans
         if (
-            oldState.channel.members.filter((m): boolean => !m.user.bot).size >=
-            1
+            oldState.channel?.members.filter((m): boolean => !m.user.bot)
+                .size >= 1
         ) {
             return;
         }
