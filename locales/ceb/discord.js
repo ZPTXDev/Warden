@@ -3,7 +3,8 @@ export default {
 		USER: 'Nakulangan ka og (mga) permission: %1',
 		BOT: {
 			DEFAULT: 'Nakulangan ko og (mga) permission: %1',
-			BASIC: 'Kailangan ko maka konek og maka tabi sa voice channel.',
+			VIEW: 'Kinihanglan nako ang **View Channel** ug **Send Messages** nga mga permission niini nga channel.',
+			BASIC: 'Kinihanglan nako ang **Connect** ug **Speak** nga mga permission sa voice channel.',
 			TIMED_OUT: 'Na-time out pa ko karon.'
 		}
 	},
