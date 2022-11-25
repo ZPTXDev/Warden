@@ -8,10 +8,10 @@ export default {
 			TIMED_OUT: 'Na-time out pa ko karon.'
 		}
 	},
-	CHANNEL_UNSUPPORTED: 'Dili ko makasugod og usa ka session sa ingani na channel type.',
+	CHANNEL_UNSUPPORTED: 'Dili ko makasugod og usa ka session sa ing-ani na channel type.',
 	GENERIC_ERROR: 'There was an error while processing your request.',
 	INTERACTION: {
-		USER_MISMATCH: 'Dili na interaksiyon nimo.',
+		USER_MISMATCH: 'Kana kay dili imohang interaksyon.',
 		CANCELED: 'Kaning interaksiyon kay gikansel ni <@%1>.',
 		EXPIRED: 'Kini nga interaksyon kay na-expire na.'
 	}

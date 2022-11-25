@@ -16,6 +16,6 @@ export default {
 			CRASHED: 'Si Warden ay nagcrash at madidiskonekta.',
 			APOLOGY: 'Paumanhin para sa abalang naidulot.'
 		},
-		PLAYING: { NOTHING: 'Walang nang nagpatugtug ngayon.' }
+		PLAYING: { NOTHING: 'Walang nang nagpatugtog ngayon.' }
 	}
 };
