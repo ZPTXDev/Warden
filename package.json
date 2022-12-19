@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "@discordjs/rest": "^1.5.0",
-    "@keyv/sqlite": "^3.6.3",
+    "@keyv/sqlite": "^3.6.4",
     "@lavaclient/queue": "^2.1.1",
     "discord-api-types": "^0.37.23",
     "discord.js": "^14.7.1",
