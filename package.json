@@ -22,7 +22,7 @@
     "@types/lodash-es": "^4.17.6",
     "@types/node": "^18.11.18",
     "@typescript-eslint/eslint-plugin": "^5.48.1",
-    "@typescript-eslint/parser": "^5.48.0",
+    "@typescript-eslint/parser": "^5.48.1",
     "eslint": "^8.31.0",
     "rimraf": "^3.0.2",
     "tsc-alias": "^1.8.2",
