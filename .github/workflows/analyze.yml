@@ -66,7 +66,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: creyD/prettier_action@v4.2
+      - uses: creyD/prettier_action@v4.3
         with:
           commit_message: 'refactor: prettify'
 
