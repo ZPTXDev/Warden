@@ -39,24 +39,28 @@ jobs:
           configFile: '.github/commitlint.config.cjs'
   eslint:
     name: ESLint
-    if: github.event_name == 'pull_request'
+    if: contains(fromJson('["push", "pull_request"]'), github.event_name)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.9.1'
+          node-version: 18
       - run: yarn install
       - uses: reviewdog/action-eslint@v1
         with:
-          reporter: github-pr-review
+          reporter: github-check
   tsc:
     name: TSC
-    if: github.event_name == 'pull_request'
+    if: contains(fromJson('["push", "pull_request"]'), github.event_name)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - run: cp settings.example.json settings.json
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm i -g npm@8 && npm i && npx genversion --es6 --semi src/lib/util/version.ts
       - uses: EPMatt/reviewdog-action-tsc@v1.4.0
         with:
           reporter: github-pr-review
@@ -66,7 +70,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: creyD/prettier_action@v4.2
+      - uses: creyD/prettier_action@v4.3
         with:
           commit_message: 'refactor: prettify'
+          prettier_options: --write **/*.ts
 
