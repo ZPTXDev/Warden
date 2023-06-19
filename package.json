@@ -9,7 +9,7 @@
     "@discordjs/rest": "^1.5.0",
     "@keyv/sqlite": "^3.6.5",
     "@lavaclient/queue": "^2.1.1",
-    "discord-api-types": "^0.37.45",
+    "discord-api-types": "^0.37.46",
     "discord.js": "^14.11.0",
     "genversion": "^3.1.1",
     "google-tts-api": "^2.0.2",
